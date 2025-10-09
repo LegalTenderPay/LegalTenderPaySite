@@ -1,4 +1,4 @@
-
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -49,3 +49,216 @@
   }
 
   .hero-left{flex:1}
+  h1{
+    font-size:42px;
+    margin:0 0 12px;
+    line-height:1;
+    font-weight:800;
+  }
+  .sub{
+    font-size:17px;
+    margin:0 0 12px;
+    font-weight:600;
+    color:#1b1b1b;
+    line-height:1.3;
+  }
+  .sub .pct{color:var(--accent)}
+
+  .logo-under{
+    text-align:center;
+    margin-top:14px;
+  }
+  .logo-under img{
+    width:80px;
+    height:auto;
+  }
+
+  .panel{
+    background:#fff;
+    border-radius:14px;
+    padding:18px;
+    box-shadow:0 4px 10px rgba(15,20,25,0.04);
+    margin-top:18px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin-bottom:18px;
+  }
+
+  .card{
+    background:var(--card-bg);
+    border-radius:10px;
+    padding:18px;
+    text-align:center;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.4);
+    cursor:pointer;
+  }
+
+  .card .top{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    justify-content:center;
+  }
+
+  .coin-icon{width:28px;height:28px}
+  .amount{font-weight:800;font-size:20px;margin-top:8px}
+  .small{color:var(--muted);margin-top:6px;font-size:14px}
+  a{text-decoration:none;}
+
+  .bigbtn{
+    display:block;
+    width:100%;
+    background:var(--accent);
+    color:#fff;
+    padding:16px;
+    border-radius:12px;
+    font-weight:800;
+    border:none;
+    font-size:18px;
+    cursor:pointer;
+    letter-spacing:0.3px;
+    box-shadow:0 3px 6px rgba(255,44,85,0.25);
+    transition:background 0.2s ease;
+  }
+
+  .bigbtn:hover{background:#e6244b;}
+
+  .invite{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:16px;
+    border-radius:12px;
+    margin-top:18px;
+    background:var(--card-bg);
+    border:1px solid #cfd2d6;
+  }
+
+  .invite .em{
+    width:44px;
+    height:44px;
+    border-radius:9px;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .invite h4{margin:0;font-size:18px}
+  .invite p{margin:4px 0 0;color:var(--muted)}
+
+  .watermark{
+    opacity:0.3;
+    text-align:center;
+    margin-top:20px;
+    color:#bfc6cc;
+    font-weight:700;
+  }
+
+  .footer-logo{
+    display:block;
+    margin:12px auto 36px;
+    width:92px;
+    opacity:0.9;
+  }
+
+  @media (max-width:640px){
+    h1{font-size:38px}
+    .grid{grid-template-columns:repeat(3,1fr);gap:10px}
+    .hero{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <span>Secure Payment via LegalTenderPay</span>
+  </div>
+
+  <div class="container">
+
+    <section class="hero">
+      <div class="hero-left">
+        <h1>Get Coins</h1>
+        <p class="sub">
+          Save around <span class="pct">25%</span> with a lower<br>
+          third-party service fee.
+        </p>
+        <div class="logo-under">
+          <img src="3609AA12-4CE4-421E-85FD-0C1ABA7C7740.jpeg" alt="TikTok Logo">
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="grid">
+        <div class="card" onclick="onPick(70, 'NGN 1,200')">
+          <div class="top"><img class="coin-icon" src="coin.png" alt="Coin"></div>
+          <div class="amount">70</div>
+          <div class="small">NGN 1,200</div>
+        </div>
+
+        <div class="card" onclick="onPick(350, 'NGN 6,200')">
+          <div class="top"><img class="coin-icon" src="coin.png" alt="Coin"></div>
+          <div class="amount">350</div>
+          <div class="small">NGN 6,200</div>
+        </div>
+
+        <div class="card" onclick="onPick(700, 'NGN 12,400')">
+          <div class="top"><img class="coin-icon" src="coin.png" alt="Coin"></div>
+          <div class="amount">700</div>
+          <div class="small">NGN 12,400</div>
+        </div>
+
+        <div class="card" onclick="onPick(1400, 'NGN 24,700')">
+          <div class="top"><img class="coin-icon" src="coin.png" alt="Coin"></div>
+          <div class="amount">1,400</div>
+          <div class="small">NGN 24,700</div>
+        </div>
+
+        <div class="card" onclick="onPick(3500, 'NGN 61,600')">
+          <div class="top"><img class="coin-icon" src="coin.png" alt="Coin"></div>
+          <div class="amount">3,500</div>
+          <div class="small">NGN 61,600</div>
+        </div>
+
+        <div class="card" onclick="onCustom()">
+          <div class="amount">Custom</div>
+          <div class="small">Enter your amount</div>
+        </div>
+      </div>
+
+      <a id="pay-link" href="#" target="_blank">
+        <button class="bigbtn">Log in to get Coins</button>
+      </a>
+
+      <div class="invite">
+        <div class="em">🎁</div>
+        <div>
+          <h4>Invite & Earn</h4>
+          <p>Share LegalTenderPay and earn bonuses.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="watermark">LegalTenderPay</div>
+    <img src="legal-logo.png" alt="LegalTenderPay Logo" class="footer-logo">
+
+  </div>
+
+<script>
+function onPick(coins, price){
+  alert(`You selected ${coins} coins for ${price}`);
+}
+function onCustom(){
+  const amount = prompt('Enter your custom coin amount:');
+  if(amount) alert(`Custom amount: ${amount} coins`);
+}
+</script>
+
+</body>
+</html>
