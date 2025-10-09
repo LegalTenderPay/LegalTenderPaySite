@@ -43,30 +43,34 @@
   }
 
   .hero{
-    text-align:center;
+    display:flex;
+    align-items:flex-start;
+    gap:20px;
   }
 
+  .hero-left{flex:1}
   h1{
     font-size:42px;
     margin:0 0 12px;
     line-height:1;
     font-weight:800;
   }
-
   .sub{
     font-size:17px;
-    margin:0 0 10px;
+    margin:0 0 12px;
     font-weight:600;
     color:#1b1b1b;
     line-height:1.3;
   }
-
   .sub .pct{color:var(--accent)}
 
-  .hero-logo{
-    width:60px;
+  .logo-under{
+    text-align:center;
+    margin-top:14px;
+  }
+  .logo-under img{
+    width:80px;
     height:auto;
-    margin-top:6px;
   }
 
   .panel{
@@ -165,6 +169,7 @@
   @media (max-width:640px){
     h1{font-size:38px}
     .grid{grid-template-columns:repeat(3,1fr);gap:10px}
+    .hero{flex-direction:column}
   }
 </style>
 </head>
@@ -177,12 +182,16 @@
   <div class="container">
 
     <section class="hero">
-      <h1>Get Coins</h1>
-      <p class="sub">
-        Save around <span class="pct">25%</span> with a lower<br>
-        third-party service fee.
-      </p>
-      <img src="tiktok-logo.jpeg" alt="TikTok Logo" class="hero-logo">
+      <div class="hero-left">
+        <h1>Get Coins</h1>
+        <p class="sub">
+          Save around <span class="pct">25%</span> with a lower<br>
+          third-party service fee.
+        </p>
+        <div class="logo-under">
+          <img src="3609AA12-4CE4-421E-85FD-0C1ABA7C7740.jpeg" alt="TikTok Logo">
+        </div>
+      </div>
     </section>
 
     <section class="panel">
