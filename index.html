@@ -61,14 +61,12 @@
         <p class="sub">Save around <span class="pct">25%</span> with a lower third-party service fee.</p>
       </div>
       <div class="hero-right">
-        <!-- top-right TikTok logo -->
         <img src="tiktok.png" alt="tiktok logo">
       </div>
     </section>
 
     <section class="panel">
       <div class="grid">
-        <!-- card template: change hrefs as needed -->
         <div class="card" onclick="onPick(30, 'NGN530')">
           <div class="top"><img class="coin-icon" src="coin.png" alt="coin"></div>
           <div class="amount">30</div>
@@ -104,10 +102,9 @@
         </div>
       </div>
 
-      <!-- big red button that opens TikTok coin page in full screen -->
       <a id="tiktok-login" href="https://www.tiktok.com/coin/VGYvTsB?lang=en-GB&enable_one_tap=1&is_coin_home_screen=0&enter_from=live_recharge&device_platform=mobile_h5&send_itp_flag=1&redirect_url=https%3A%2F%2Fwww.tiktok.com%2Fcoin%2FVGYvTsB&back_on_close=1&coin_spa=true&login_path=%2Flogin"
          target="_blank" rel="noopener noreferrer">
-        <button class="bigbtn" onclick="/* link handled by anchor */">Log in to get Coins</button>
+        <button class="bigbtn">Log in to get coins</button>
       </a>
 
       <div class="invite">
@@ -128,16 +125,12 @@
 
 <script>
   function onPick(coins, price){
-    // Example: you could store selection or open a modal — currently just console/log and then go to login.
     console.log('Selected', coins, price);
-    // open login directly (same behavior as the main button)
     window.open(document.getElementById('tiktok-login').href, '_blank');
   }
   function onCustom(){
-    // prompt for custom amount then open login:
     let amt = prompt('Enter custom coin amount (e.g. 500):');
     if(!amt) return;
-    // you could attach amt to URL if required
     window.open(document.getElementById('tiktok-login').href, '_blank');
   }
 </script>
