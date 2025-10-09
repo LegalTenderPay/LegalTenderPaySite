@@ -32,7 +32,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px; /* Reduced space below Get Coins */
+      margin-bottom: 6px; /* reduced from 10px to lift sub-text closer */
     }
 
     .header h1 {
@@ -46,19 +46,19 @@
       height: auto;
     }
 
-    /* Updated subtext style */
+    /* Subtext closer and slightly bolder */
     .sub-text {
-      font-size: 15px;
-      color: #222; /* Deeper text color than before (#555 → #222) */
-      margin-top: 0;
-      margin-bottom: 18px;
+      font-size: 17px; 
+      color: #333; /* darker shade */
+      font-weight: 600; /* make it bolder */
+      margin-top: -2px; /* lift closer to Get Coins */
+      margin-bottom: 20px;
       line-height: 1.4;
-      font-weight: 500; /* Slightly heavier but not bold */
     }
 
     .sub-text span {
       color: #ff355e;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .coins-grid {
@@ -172,7 +172,7 @@
       <img src="tiktok-logo.png" alt="TikTok Logo">
     </div>
 
-    <!-- Adjusted position and color for better visual balance -->
+    <!-- Subtext lifted and darker -->
     <p class="sub-text">
       Save around <span>25%</span> with a lower<br>
       third-party service fee.
