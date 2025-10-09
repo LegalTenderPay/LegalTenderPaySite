@@ -32,7 +32,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 5px; /* Reduced from 10px to bring text closer */
     }
 
     .header h1 {
@@ -47,10 +47,12 @@
     }
 
     .sub-text {
-      font-size: 16px;
-      color: #555;
-      margin-bottom: 20px;
+      font-size: 15px;
+      color: #333; /* Slightly darker than before (#555 → #333) */
+      margin-top: 0; /* Pulls it closer to the title */
+      margin-bottom: 18px;
       line-height: 1.4;
+      font-weight: 500; /* Slightly stronger than normal but not bold */
     }
 
     .sub-text span {
@@ -169,7 +171,7 @@
       <img src="tiktok-logo.png" alt="TikTok Logo">
     </div>
 
-    <!-- Split text into two lines -->
+    <!-- Adjusted text position and color -->
     <p class="sub-text">
       Save around <span>25%</span> with a lower<br>
       third-party service fee.
