@@ -3,248 +3,264 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Get Coins — LegalTenderPay</title>
+<title>LegalTenderPay — Get Coins</title>
 <style>
-  /* Basic reset */
   :root{
-    --green:#1e8b4b;
-    --red:#e53e3e;
-    --muted:#f3f4f6;
-    --card-bg:#ffffff;
-    --text:#111827;
-    --sub:#6b7280;
-    --shadow: 0 8px 24px rgba(16,24,40,0.08);
-    --radius:14px;
-    --coin-size:36px;
+    --bg:#f6f7f8;
+    --card:#ffffff;
+    --muted:#9aa0a6;
+    --accent:#2aa05a; /* green accent used for secure bar */
+    --red:#ff3b6d;
+    --btn-red:#ff476a;
+    --card-shadow: 0 6px 18px rgba(18,22,26,0.06);
+    --rounded:14px;
     font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   }
-  *{box-sizing:border-box}
-  html,body{height:100%;}
-  body{
-    margin:0; background:linear-gradient(#fbfdff,#fff); color:var(--text);
-    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    display:flex; align-items:flex-start; justify-content:center; padding:30px 16px;
+  html,body{height:100%;margin:0;background:var(--bg);color:#111;}
+  .page{
+    max-width:920px;
+    margin:28px auto;
+    padding:20px;
   }
 
-  .page {
-    width:100%;
-    max-width:760px;
+  /* top secure bar */
+  .secure{
+    background:#e9f7f0;
+    border-radius:8px;
+    padding:10px 18px;
+    display:flex;
+    align-items:center;
+    color:var(--accent);
+    font-weight:600;
+    justify-content:center;
+    gap:10px;
+    box-shadow:0 1px 0 rgba(0,0,0,0.03);
+  }
+  .secure .shield{font-size:18px;margin-right:6px;}
+
+  /* hero */
+  .hero{
+    display:flex;
+    gap:20px;
+    align-items:flex-start;
+    padding:28px 10px;
+  }
+  .hero-left{flex:1}
+  .hero-right{width:140px;display:flex;align-items:center;justify-content:center}
+  h1{
+    margin:0 0 12px 0;
+    font-size:48px;
+    line-height:1;
+    font-weight:800;
+  }
+  p.lead{
+    margin:0;
+    font-size:22px;
+    color:#111;
+    font-weight:700;
+  }
+  p.lead .pct{color:var(--red);}
+
+  /* card area */
+  .white-card{
+    background:var(--card);
+    border-radius:14px;
+    padding:18px;
+    margin-top:18px;
+    box-shadow:var(--card-shadow);
   }
 
-  /* Top "secure payment" thin bar */
-  .secure-bar{
-    display:flex; align-items:center; justify-content:center;
-    gap:10px; background:#eaf8f0; color:var(--green); padding:8px 12px; border-radius:8px;
-    font-weight:600; margin-bottom:18px;
-  }
-  .secure-bar img { height:18px; width:auto; filter:brightness(.9); }
-
-  /* Header area with faint tiktok + your big logo beneath */
-  .brand-area{ text-align:center; margin-bottom:18px; position:relative; }
-  .tiktok-faint{
-    opacity:.12; transform:translateY(-2px); margin-bottom:14px;
-    display:inline-block;
-  }
-  .ltp-logo{
-    display:inline-flex; align-items:center; gap:12px; margin-top:6px;
-  }
-  .ltp-logo img.logo{ height:54px; width:auto; }
-  .ltp-name{ font-size:28px; color:var(--green); font-weight:800; letter-spacing:-0.02em; }
-
-  /* Main hero card */
-  .hero {
-    background:var(--card-bg); border-radius:18px; box-shadow:var(--shadow);
-    padding:28px; text-align:center; margin-bottom:22px;
-  }
-  .hero h1{ margin:0; font-size:30px; color:#0f5132; font-weight:800; }
-  .hero p.lead{ margin:10px 0 18px; color:var(--sub); font-size:15px; }
-  .hero .cta-row{ display:flex; gap:12px; flex-direction:column; align-items:center; }
-  .hero input[type="text"], .hero input[type="number"]{
-    width:100%; max-width:420px; padding:12px 14px; border-radius:8px; border:1px solid #e6e7eb;
-    font-size:15px; outline:none;
-  }
-  .hero button.pay{
-    margin-top:10px; background:var(--green); color:#fff; border:none; padding:12px 26px;
-    border-radius:10px; font-weight:700; font-size:16px; cursor:pointer;
-  }
-
-  /* Coin grid */
-  .coin-grid {
+  .grid{
     display:grid;
-    grid-template-columns: repeat(3,1fr);
-    gap:12px;
-    margin:18px 0 14px;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    margin:12px 0 18px 0;
   }
-  @media (max-width:520px){ .coin-grid{grid-template-columns:repeat(2,1fr);} }
-
   .coin-card{
-    background:linear-gradient(180deg,#ffffff,#fbfbfc); border-radius:12px; padding:14px;
-    text-align:center; box-shadow:0 6px 16px rgba(16,24,40,0.06); cursor:pointer; border:1px solid #f1f2f4;
-    display:flex; flex-direction:column; align-items:center; gap:8px;
-    transition:transform .12s, box-shadow .12s, border-color .12s;
+    background:#f5f6f7;
+    border-radius:10px;
+    padding:18px;
+    text-align:center;
+    cursor:pointer;
+    transition:transform .12s ease,box-shadow .12s;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
   }
-  .coin-card:hover{ transform:translateY(-4px); box-shadow:0 12px 28px rgba(16,24,40,0.09); border-color:#e6f1ea }
-  .coin-card.selected{ outline:3px solid rgba(30,139,75,0.08); border-color:rgba(30,139,75,0.12) }
-  .coin-top{ display:flex; gap:10px; align-items:center; font-weight:800; font-size:18px; color:#111827; }
-  .coin-top img{ width:var(--coin-size); height:var(--coin-size); object-fit:contain; border-radius:999px; }
-  .coin-sub{ color:var(--sub); font-size:13px; margin-top:2px; }
+  .coin-card:hover{transform:translateY(-6px);box-shadow:0 10px 24px rgba(2,6,23,0.08);}
+  .coin-icon{width:36px;height:36px;display:inline-block;}
+  .coin-value{font-weight:800;font-size:20px;}
+  .coin-sub{font-size:14px;color:var(--muted);}
 
-  .login-btn{
-    display:inline-block; margin:16px auto 10px; background:var(--red); color:#fff;
-    padding:12px 22px; border-radius:12px; font-weight:700; border:none; cursor:pointer;
-    box-shadow:0 6px 18px rgba(229,62,62,0.14);
+  .big-btn{
+    display:block;
+    width:100%;
+    background:var(--btn-red);
+    color:#fff;
+    padding:16px;
+    border-radius:10px;
+    border:none;
+    font-size:18px;
+    font-weight:700;
+    text-align:center;
+    cursor:pointer;
+    text-decoration:none;
   }
 
-  /* Invite box */
+  /* invite row */
   .invite{
-    background:#fff; padding:14px; border-radius:12px; box-shadow:var(--shadow);
-    display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:14px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:#fff;
+    border-radius:12px;
+    padding:14px;
+    margin-top:18px;
+    box-shadow:var(--card-shadow);
   }
-  .invite .left{ display:flex; gap:12px; align-items:center; }
-  .invite .title{ font-weight:700; }
-  .invite .sub{ color:var(--sub); font-size:13px; }
-  .invite .arrow{ font-size:22px; color:#c7cdd6 }
+  .invite-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#fff;}
+  .invite h4{margin:0;font-size:18px;}
+  .invite p{margin:0;color:var(--muted);}
 
-  /* footer small tiktok area */
-  .footer-logos{ text-align:center; margin-top:16px; color:#d1d5db; font-weight:600; opacity:.7; }
+  /* footer small tiktok watermark */
+  .watermark{
+    margin-top:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#e0e0e0;
+    font-weight:700;
+    font-size:20px;
+    opacity:0.45;
+  }
 
-  /* small helper */
-  .small-muted{ color:var(--sub); font-size:13px; }
+  /* bottom logos row */
+  .logos{
+    display:flex;
+    justify-content:center;
+    gap:24px;
+    align-items:center;
+    margin-top:8px;
+    opacity:.95;
+  }
+  .lt-logo{height:56px;}
 
-  /* red highlight percentage */
-  .percent{ color:var(--red); font-weight:800; }
-
-  /* layout tweak */
-  .center{ text-align:center; }
+  /* responsiveness */
+  @media (max-width:780px){
+    .hero{flex-direction:column;align-items:flex-start}
+    h1{font-size:40px}
+    .hero-right{width:120px}
+    .grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:420px){
+    .grid{grid-template-columns:repeat(1,1fr);}
+    h1{font-size:34px}
+  }
 </style>
 </head>
 <body>
   <div class="page">
-    <!-- Secure bar -->
-    <div class="secure-bar" role="note" aria-label="Secure payment">
-      <img src="assets/secure-icon.png" alt="" onerror="this.style.display='none'"/>
-      Secure payment &nbsp; <span style="opacity:.8">›</span>
+    <div class="secure" role="banner" onclick="onSecureClick()" style="cursor:pointer;">
+      <span class="shield">🔒</span>
+      <span>Secure payment ▸</span>
     </div>
 
-    <!-- Brand area -->
-    <div class="brand-area">
-      <!-- faint tiktok image -->
-      <img src="assets/tiktok-logo.png" alt="TikTok" class="tiktok-faint" style="height:26px;" onerror="this.style.display='none'"/>
-      <!-- your logo + name -->
-      <div class="ltp-logo" aria-hidden="false">
-        <img src="assets/ltp-logo.png" class="logo" alt="LegalTenderPay logo" onerror="this.style.display='none'"/>
-        <div class="ltp-name">LegalTenderPay</div>
+    <div class="hero" style="margin-top:18px;">
+      <div class="hero-left">
+        <h1>Get Coins</h1>
+        <p class="lead">Save around <span class="pct">25%</span> with a lower third-party service fee.</p>
+      </div>
+      <div class="hero-right">
+        <!-- big TikTok logo at right -->
+        <img src="tiktok-logo.png" alt="tiktok" style="width:120px;height:auto;display:block;">
       </div>
     </div>
 
-    <!-- Main content card -->
-    <div class="hero" role="main" aria-labelledby="hero-title">
-      <h1 id="hero-title">Get Coins</h1>
-      <p class="lead">Save around <span class="percent">25%</span> with a lower third-party service fee.</p>
-
-      <!-- coin tiles -->
-      <div class="coin-grid" id="coinGrid">
-        <!-- each card -->
-        <div class="coin-card" data-value="30" data-price="NGN530" onclick="selectCard(event)">
-          <div class="coin-top"><img src="assets/coin.png" alt="coin"> <span>30</span></div>
+    <div class="white-card" role="main">
+      <div class="grid">
+        <div class="coin-card" data-amount="30" onclick="onCardClick(30,530)">
+          <img class="coin-icon" src="coin.png" alt="coin">
+          <div class="coin-value">30</div>
           <div class="coin-sub">NGN530</div>
         </div>
 
-        <div class="coin-card" data-value="350" data-price="NGN6,200" onclick="selectCard(event)">
-          <div class="coin-top"><img src="assets/coin.png" alt="coin"> <span>350</span></div>
+        <div class="coin-card" data-amount="350" onclick="onCardClick(350,6200)">
+          <img class="coin-icon" src="coin.png" alt="coin">
+          <div class="coin-value">350</div>
           <div class="coin-sub">NGN6,200</div>
         </div>
 
-        <div class="coin-card" data-value="700" data-price="NGN12,400" onclick="selectCard(event)">
-          <div class="coin-top"><img src="assets/coin.png" alt="coin"> <span>700</span></div>
+        <div class="coin-card" data-amount="700" onclick="onCardClick(700,12400)">
+          <img class="coin-icon" src="coin.png" alt="coin">
+          <div class="coin-value">700</div>
           <div class="coin-sub">NGN12,400</div>
         </div>
 
-        <div class="coin-card" data-value="1400" data-price="NGN24,700" onclick="selectCard(event)">
-          <div class="coin-top"><img src="assets/coin.png" alt="coin"> <span>1,400</span></div>
+        <div class="coin-card" data-amount="1400" onclick="onCardClick(1400,24700)">
+          <img class="coin-icon" src="coin.png" alt="coin">
+          <div class="coin-value">1,400</div>
           <div class="coin-sub">NGN24,700</div>
         </div>
 
-        <div class="coin-card" data-value="3500" data-price="NGN61,600" onclick="selectCard(event)">
-          <div class="coin-top"><img src="assets/coin.png" alt="coin"> <span>3,500</span></div>
+        <div class="coin-card" data-amount="3500" onclick="onCardClick(3500,61600)">
+          <img class="coin-icon" src="coin.png" alt="coin">
+          <div class="coin-value">3,500</div>
           <div class="coin-sub">NGN61,600</div>
         </div>
 
-        <div class="coin-card" data-value="custom" onclick="selectCard(event)">
-          <div class="coin-top"><img src="assets/coin.png" alt="coin"> <span>Custom</span></div>
-          <div class="coin-sub">Choose amount</div>
+        <div class="coin-card" data-amount="custom" onclick="onCardClick('custom')">
+          <div style="font-weight:800;font-size:20px;">Custom</div>
         </div>
       </div>
 
-      <!-- log in / buy CTA -->
-      <div class="center">
-        <button class="login-btn" id="loginBtn" onclick="goToTikTok()">Log in to get Coins</button>
-      </div>
+      <a class="big-btn" href="#" id="loginBtn" onclick="onLoginClick(event)">Log in to get Coins</a>
 
-      <!-- Invite box -->
-      <div class="invite" role="region" aria-label="Invite and get rewards">
-        <div class="left">
-          <div>
-            <div class="title">Invite &amp; Get Rewards</div>
-            <div class="sub">Check out this new feature!</div>
-          </div>
+      <div class="invite" role="button" onclick="onInviteClick()" style="cursor:pointer">
+        <div class="invite-icon">👏</div>
+        <div style="flex:1">
+          <h4>Invite & Get Rewards</h4>
+          <p>Check out this new feature!</p>
         </div>
-        <div class="arrow">›</div>
+        <div style="font-size:22px;color:#bdbdbd;">▸</div>
       </div>
 
-      <!-- small tiktok footer -->
-      <div class="footer-logos">
-        <img src="assets/tiktok-logo.png" style="height:18px;opacity:.6;vertical-align:middle;" alt="TikTok logo" onerror="this.style.display='none'"/> &nbsp; TikTok
-      </div>
     </div>
 
-    <!-- bottom small footer text -->
-    <div style="text-align:center; margin-top:12px;" class="small-muted">© <strong>LegalTenderPay</strong></div>
+    <div class="watermark">
+      <img src="tiktok-logo.png" alt="tiktok" style="width:34px;margin-right:8px;filter:grayscale(100%);opacity:.4;">
+      <img src="legalTenderPay-logo.png" alt="LegalTenderPay" class="lt-logo" style="height:36px; margin-left:14px; opacity:.6;">
+    </div>
   </div>
 
 <script>
-  // Basic selection logic and redirect behaviour.
-  const TIKTOK_URL = "https://www.tiktok.com/coin/VGYvTsB"; // your TikTok coin page
-  let selectedCard = null;
-  function selectCard(e){
-    // get card node
-    const card = e.currentTarget || e.target.closest('.coin-card');
-    if(!card) return;
-    // clear previous selection
-    document.querySelectorAll('.coin-card').forEach(c=>c.classList.remove('selected'));
-    card.classList.add('selected');
-    selectedCard = card.dataset.value || null;
-
-    // if custom chosen prompt user for amount
-    if(selectedCard === 'custom'){
-      const custom = prompt('Enter desired coin amount (e.g. 500):');
-      if(custom) {
-        card.querySelector('.coin-top span').textContent = custom;
-        card.querySelector('.coin-sub').textContent = 'Custom selection';
-        selectedCard = custom;
-      }
-    }
+  function onSecureClick(){
+    // example action for secure payment bar
+    window.location.href = "#secure";
   }
 
-  function goToTikTok(){
-    // If a coin is selected, include it in query string
-    if(selectedCard){
-      // Add small message (optional) — open tiktok
-      // We'll just redirect to the TikTok coin page. If you want server-side linking, we can modify later.
-      window.location.href = TIKTOK_URL;
-    } else {
-      // If nothing selected, still allow user to go login / coin page
-      if(confirm('No coin selected. Continue to TikTok coin page?')) {
-        window.location.href = TIKTOK_URL;
-      }
+  function onCardClick(amount, ngn){
+    if(amount === 'custom'){
+      const c = prompt('Enter custom number of coins you want:');
+      if(!c) return;
+      alert('Custom purchase selected: ' + c + ' coins');
+      return;
     }
+    // replace href with your real checkout/login URL
+    alert('You clicked '+ amount + ' coins (NGN ' + (ngn||'') + ').\n\nReplace this alert with a real checkout or login flow.');
   }
 
-  // Mobile friendly: ensure first coin is default selected
-  document.addEventListener('DOMContentLoaded', ()=> {
-    const first = document.querySelector('.coin-card');
-    if(first) first.classList.add('selected'), selectedCard = first.dataset.value;
-  });
+  function onLoginClick(e){
+    e.preventDefault();
+    // replace with your login page or flow
+    alert('Login flow — replace with your login URL.');
+  }
+
+  function onInviteClick(){
+    // demo navigation
+    alert('Invite & Get Rewards — replace with your feature URL.');
+  }
 </script>
 </body>
 </html>
