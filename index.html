@@ -7,15 +7,16 @@
 <title>Get Coins — LegalTenderPay</title>
 <style>
   :root{
-    --mint:#e6fbf2;    /* secure payment bar */
-    --accent:#e94a6e;  /* red/pink used for button and 25% */
-    --panel:#f2f3f5;   /* card background */
-    --card-bg:#f6f6f8; /* coin buttons background */
+    --mint:#e6fbf2;
+    --accent:#e94a6e;
+    --panel:#f2f3f5;
+    --card-bg:#f6f6f8;
     --text:#111827;
     --muted:#898f98;
     font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   }
-  html,body{height:100%; margin:0; color:var(--text); background:#fff;}
+
+  html,body{height:100%;margin:0;color:var(--text);background:#fff;}
   .topbar{
     background:var(--mint);
     padding:10px 0;
@@ -29,43 +30,45 @@
   }
   .container{max-width:760px;margin:24px auto;padding:0 18px;}
 
-  /* Updated hero layout */
+  /* Hero section */
   .hero{
     display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
+    flex-direction:column;
+    align-items:flex-start;
+    text-align:left;
   }
-  .hero-text h1{
+  .hero h1{
     font-size:48px;
-    margin:0;
+    margin:0 0 8px;
     line-height:1;
     font-weight:800;
   }
-  .hero-text .sub{
-    font-size:15px; /* smaller subtitle */
-    margin-top:8px;
+  .hero .sub{
+    font-size:18px;
+    margin:0;
     font-weight:600;
   }
-  .hero-text .pct{color:var(--accent);}
+  .hero .pct{color:var(--accent);}
   .hero-logo{
-    width:68px;
+    width:92px;
     height:auto;
-    flex-shrink:0;
+    align-self:flex-end;
+    margin-top:10px;
   }
 
+  /* Panel and cards */
   .panel{
     background:#fff;
     border-radius:14px;
     padding:18px;
     box-shadow:0 4px 10px rgba(15,20,25,0.04);
-    margin-top:18px
+    margin-top:18px;
   }
   .grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:14px;
-    margin-bottom:18px
+    margin-bottom:18px;
   }
   .card{
     background:var(--card-bg);
@@ -73,13 +76,13 @@
     padding:18px;
     text-align:center;
     box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);
-    cursor:pointer
+    cursor:pointer;
   }
-  .card .top{display:flex;align-items:center;gap:10px;justify-content:center}
-  .coin-icon{width:28px;height:28px}
-  .amount{font-weight:800;font-size:20px;margin-top:8px}
-  .small{color:var(--muted);margin-top:6px;font-size:14px}
-  a{text-decoration:none;} /* remove underline */
+  .card .top{display:flex;align-items:center;gap:10px;justify-content:center;}
+  .coin-icon{width:28px;height:28px;}
+  .amount{font-weight:800;font-size:20px;margin-top:8px;}
+  .small{color:var(--muted);margin-top:6px;font-size:14px;}
+  a{text-decoration:none;}
   .bigbtn{
     display:block;
     width:100%;
@@ -90,7 +93,7 @@
     font-weight:700;
     border:none;
     font-size:18px;
-    cursor:pointer
+    cursor:pointer;
   }
   .invite{
     display:flex;
@@ -100,25 +103,26 @@
     border-radius:12px;
     margin-top:18px;
     background:#fff;
-    border:1px solid #f0f0f0
+    border:1px solid #f0f0f0;
   }
   .invite .em{
-    width:44px;
-    height:44px;
-    border-radius:9px;
-    background:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center
+    width:44px;height:44px;border-radius:9px;background:#fff;
+    display:flex;align-items:center;justify-content:center;
   }
-  .invite h4{margin:0;font-size:18px}
-  .invite p{margin:4px 0 0;color:var(--muted)}
-  .watermark{opacity:0.3;text-align:center;margin-top:20px;color:#bfc6cc;font-weight:700}
-  .footer-logo{display:block;margin:12px auto 36px;width:92px;opacity:0.9}
+  .invite h4{margin:0;font-size:18px;}
+  .invite p{margin:4px 0 0;color:var(--muted);}
+  .watermark{
+    opacity:0.3;text-align:center;margin-top:20px;color:#bfc6cc;font-weight:700;
+  }
+  .footer-logo{
+    display:block;margin:12px auto 36px;width:92px;opacity:0.9;
+  }
+
+  /* responsive */
   @media (max-width:640px){
-    .hero{flex-direction:column;align-items:flex-start}
-    .hero-logo{width:76px;margin-top:8px}
-    h1{font-size:44px}
+    .hero h1{font-size:42px;}
+    .hero .sub{font-size:16px;}
+    .hero-logo{width:76px;}
   }
 </style>
 </head>
@@ -127,16 +131,14 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M12 2a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-3zM5 8a1 1 0 0 0-1 1v2.5A6.5 6.5 0 0 0 10.5 18H13a1 1 0 1 0 0-2H10.5A4.5 4.5 0 0 1 6 12.5V9a1 1 0 0 0-1-1z" fill="#0b7a5a"/>
     </svg>
-    <span>Secure Payment</span>
+    <span>Secure payment</span>
     <span style="margin-left:6px;color:#0b7a5a;font-weight:700;">›</span>
   </div>
 
   <main class="container">
     <section class="hero">
-      <div class="hero-text">
-        <h1>Get Coins</h1>
-        <p class="sub">Save around <span class="pct">25%</span> with a lower third-party service fee.</p>
-      </div>
+      <h1>Get Coins</h1>
+      <p class="sub">Save around <span class="pct">25%</span> with a lower third-party service fee.</p>
       <img class="hero-logo" src="tiktok.png" alt="TikTok logo">
     </section>
 
