@@ -1,144 +1,265 @@
-<!-- index.html -->
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Get Coins — LegalTenderPay</title>
+<title>LegalTenderPay — Get Coins</title>
 <style>
   :root{
-    --mint:#e6fbf2;    /* secure payment bar */
-    --accent:#e94a6e;  /* red/pink used for button and 25% */
-    --panel:#f2f3f5;   /* card background */
-    --card-bg:#f6f6f8; /* coin buttons background */
-    --text:#111827;
-    --muted:#898f98;
+    --bg:#f6f7f8;
+    --card:#ffffff;
+    --muted:#9aa0a6;
+    --accent:#2aa05a; /* green accent used for secure bar */
+    --red:#ff3b6d;
+    --btn-red:#ff476a;
+    --card-shadow: 0 6px 18px rgba(18,22,26,0.06);
+    --rounded:14px;
     font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   }
-  html,body{height:100%; margin:0; color:var(--text); background:#fff;}
-  .topbar{background:var(--mint); padding:10px 0; text-align:center; font-weight:600; color:#0b7a5a; display:flex; align-items:center; justify-content:center; gap:8px;}
-  .container{max-width:760px;margin:24px auto;padding:0 18px;}
-  .hero{display:flex;align-items:flex-start;gap:20px;}
+  html,body{height:100%;margin:0;background:var(--bg);color:#111;}
+  .page{
+    max-width:920px;
+    margin:28px auto;
+    padding:20px;
+  }
+
+  /* top secure bar */
+  .secure{
+    background:#e9f7f0;
+    border-radius:8px;
+    padding:10px 18px;
+    display:flex;
+    align-items:center;
+    color:var(--accent);
+    font-weight:600;
+    justify-content:center;
+    gap:10px;
+    box-shadow:0 1px 0 rgba(0,0,0,0.03);
+  }
+  .secure .shield{font-size:18px;margin-right:6px;}
+
+  /* hero */
+  .hero{
+    display:flex;
+    gap:20px;
+    align-items:flex-start;
+    padding:28px 10px;
+  }
   .hero-left{flex:1}
-  h1{font-size:48px;margin:0 0 12px;line-height:1;font-weight:800}
-  .sub{font-size:20px;margin:0 0 18px; font-weight:700}
-  .sub .pct{color:var(--accent)}
-  .hero-right img{width:92px;height:auto;display:block}
-  .panel{background:#fff;border-radius:14px;padding:18px;box-shadow:0 4px 10px rgba(15,20,25,0.04);margin-top:18px}
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
-  .card{background:var(--card-bg);border-radius:10px;padding:18px;text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);cursor:pointer}
-  .card .top{display:flex;align-items:center;gap:10px;justify-content:center}
-  .coin-icon{width:28px;height:28px}
-  .amount{font-weight:800;font-size:20px;margin-top:8px}
-  .small{color:var(--muted);margin-top:6px;font-size:14px}
-  .bigbtn{display:block;width:100%;background:var(--accent);color:#fff;padding:14px;border-radius:12px;font-weight:700;border:none;font-size:18px;cursor:pointer}
-  .invite{display:flex;align-items:center;gap:14px;padding:16px;border-radius:12px;margin-top:18px;background:#fff;border:1px solid #f0f0f0}
-  .invite .em{width:44px;height:44px;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center}
-  .invite h4{margin:0;font-size:18px}
-  .invite p{margin:4px 0 0;color:var(--muted)}
-  .watermark{opacity:0.3;text-align:center;margin-top:20px;color:#bfc6cc;font-weight:700}
-  .footer-logo{display:block;margin:12px auto 36px;width:92px;opacity:0.9}
-  /* responsive */
-  @media (max-width:640px){
-    h1{font-size:44px}
-    .grid{grid-template-columns:repeat(3,1fr);gap:10px}
-    .hero{flex-direction:column}
-    .hero-right img{width:76px}
+  .hero-right{width:140px;display:flex;align-items:center;justify-content:center}
+  h1{
+    margin:0 0 12px 0;
+    font-size:48px;
+    line-height:1;
+    font-weight:800;
+  }
+  p.lead{
+    margin:0;
+    font-size:22px;
+    color:#111;
+    font-weight:700;
+  }
+  p.lead .pct{color:var(--red);}
+
+  /* card area */
+  .white-card{
+    background:var(--card);
+    border-radius:14px;
+    padding:18px;
+    margin-top:18px;
+    box-shadow:var(--card-shadow);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    margin:12px 0 18px 0;
+  }
+  .coin-card{
+    background:#f5f6f7;
+    border-radius:10px;
+    padding:18px;
+    text-align:center;
+    cursor:pointer;
+    transition:transform .12s ease,box-shadow .12s;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  .coin-card:hover{transform:translateY(-6px);box-shadow:0 10px 24px rgba(2,6,23,0.08);}
+  .coin-icon{width:36px;height:36px;display:inline-block;}
+  .coin-value{font-weight:800;font-size:20px;}
+  .coin-sub{font-size:14px;color:var(--muted);}
+
+  .big-btn{
+    display:block;
+    width:100%;
+    background:var(--btn-red);
+    color:#fff;
+    padding:16px;
+    border-radius:10px;
+    border:none;
+    font-size:18px;
+    font-weight:700;
+    text-align:center;
+    cursor:pointer;
+    text-decoration:none;
+  }
+
+  /* invite row */
+  .invite{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:#fff;
+    border-radius:12px;
+    padding:14px;
+    margin-top:18px;
+    box-shadow:var(--card-shadow);
+  }
+  .invite-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#fff;}
+  .invite h4{margin:0;font-size:18px;}
+  .invite p{margin:0;color:var(--muted);}
+
+  /* footer small tiktok watermark */
+  .watermark{
+    margin-top:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#e0e0e0;
+    font-weight:700;
+    font-size:20px;
+    opacity:0.45;
+  }
+
+  /* bottom logos row */
+  .logos{
+    display:flex;
+    justify-content:center;
+    gap:24px;
+    align-items:center;
+    margin-top:8px;
+    opacity:.95;
+  }
+  .lt-logo{height:56px;}
+
+  /* responsiveness */
+  @media (max-width:780px){
+    .hero{flex-direction:column;align-items:flex-start}
+    h1{font-size:40px}
+    .hero-right{width:120px}
+    .grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:420px){
+    .grid{grid-template-columns:repeat(1,1fr);}
+    h1{font-size:34px}
   }
 </style>
 </head>
 <body>
-  <div class="topbar" role="banner">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-3zM5 8a1 1 0 0 0-1 1v2.5A6.5 6.5 0 0 0 10.5 18H13a1 1 0 1 0 0-2H10.5A4.5 4.5 0 0 1 6 12.5V9a1 1 0 0 0-1-1z" fill="#0b7a5a"/></svg>
-    <span>Secure payment</span>
-    <span style="margin-left:6px;color:#0b7a5a;font-weight:700;">›</span>
-  </div>
+  <div class="page">
+    <div class="secure" role="banner" onclick="onSecureClick()" style="cursor:pointer;">
+      <span class="shield">🔒</span>
+      <span>Secure payment ▸</span>
+    </div>
 
-  <main class="container">
-    <section class="hero">
+    <div class="hero" style="margin-top:18px;">
       <div class="hero-left">
         <h1>Get Coins</h1>
-        <p class="sub">Save around <span class="pct">25%</span> with a lower third-party service fee.</p>
+        <p class="lead">Save around <span class="pct">25%</span> with a lower third-party service fee.</p>
       </div>
       <div class="hero-right">
-        <!-- top-right TikTok logo -->
-        <img src="tiktok.png" alt="tiktok logo">
+        <!-- big TikTok logo at right -->
+        <img src="tiktok-logo.png" alt="tiktok" style="width:120px;height:auto;display:block;">
       </div>
-    </section>
+    </div>
 
-    <section class="panel">
+    <div class="white-card" role="main">
       <div class="grid">
-        <!-- card template: change hrefs as needed -->
-        <div class="card" onclick="onPick(30, 'NGN530')">
-          <div class="top"><img class="coin-icon" src="coin.png" alt="coin"></div>
-          <div class="amount">30</div>
-          <div class="small">NGN530</div>
+        <div class="coin-card" data-amount="30" onclick="onCardClick(30,530)">
+          <img class="coin-icon" src="coin.png" alt="coin">
+          <div class="coin-value">30</div>
+          <div class="coin-sub">NGN530</div>
         </div>
 
-        <div class="card" onclick="onPick(350, 'NGN6,200')">
-          <div class="top"><img class="coin-icon" src="coin.png" alt="coin"></div>
-          <div class="amount">350</div>
-          <div class="small">NGN6,200</div>
+        <div class="coin-card" data-amount="350" onclick="onCardClick(350,6200)">
+          <img class="coin-icon" src="coin.png" alt="coin">
+          <div class="coin-value">350</div>
+          <div class="coin-sub">NGN6,200</div>
         </div>
 
-        <div class="card" onclick="onPick(700, 'NGN12,400')">
-          <div class="top"><img class="coin-icon" src="coin.png" alt="coin"></div>
-          <div class="amount">700</div>
-          <div class="small">NGN12,400</div>
+        <div class="coin-card" data-amount="700" onclick="onCardClick(700,12400)">
+          <img class="coin-icon" src="coin.png" alt="coin">
+          <div class="coin-value">700</div>
+          <div class="coin-sub">NGN12,400</div>
         </div>
 
-        <div class="card" onclick="onPick(1400, 'NGN24,700')">
-          <div class="top"><img class="coin-icon" src="coin.png" alt="coin"></div>
-          <div class="amount">1,400</div>
-          <div class="small">NGN24,700</div>
+        <div class="coin-card" data-amount="1400" onclick="onCardClick(1400,24700)">
+          <img class="coin-icon" src="coin.png" alt="coin">
+          <div class="coin-value">1,400</div>
+          <div class="coin-sub">NGN24,700</div>
         </div>
 
-        <div class="card" onclick="onPick(3500, 'NGN61,600')">
-          <div class="top"><img class="coin-icon" src="coin.png" alt="coin"></div>
-          <div class="amount">3,500</div>
-          <div class="small">NGN61,600</div>
+        <div class="coin-card" data-amount="3500" onclick="onCardClick(3500,61600)">
+          <img class="coin-icon" src="coin.png" alt="coin">
+          <div class="coin-value">3,500</div>
+          <div class="coin-sub">NGN61,600</div>
         </div>
 
-        <div class="card" onclick="onCustom()" title="Custom amount">
-          <div class="amount">Custom</div>
+        <div class="coin-card" data-amount="custom" onclick="onCardClick('custom')">
+          <div style="font-weight:800;font-size:20px;">Custom</div>
         </div>
       </div>
 
-      <!-- big red button that opens TikTok coin page in full screen -->
-      <a id="tiktok-login" href="https://www.tiktok.com/coin/VGYvTsB?lang=en-GB&enable_one_tap=1&is_coin_home_screen=0&enter_from=live_recharge&device_platform=mobile_h5&send_itp_flag=1&redirect_url=https%3A%2F%2Fwww.tiktok.com%2Fcoin%2FVGYvTsB&back_on_close=1&coin_spa=true&login_path=%2Flogin"
-         target="_blank" rel="noopener noreferrer">
-        <button class="bigbtn" onclick="/* link handled by anchor */">Log in to get Coins</button>
-      </a>
+      <a class="big-btn" href="#" id="loginBtn" onclick="onLoginClick(event)">Log in to get Coins</a>
 
-      <div class="invite">
-        <div class="em">🙌</div>
-        <div>
-          <h4>Invite &amp; Get Rewards</h4>
+      <div class="invite" role="button" onclick="onInviteClick()" style="cursor:pointer">
+        <div class="invite-icon">👏</div>
+        <div style="flex:1">
+          <h4>Invite & Get Rewards</h4>
           <p>Check out this new feature!</p>
         </div>
-        <div style="margin-left:auto;color:#aaa;">›</div>
+        <div style="font-size:22px;color:#bdbdbd;">▸</div>
       </div>
-    </section>
+
+    </div>
 
     <div class="watermark">
-      <img src="tiktok.png" alt="tiktok" style="width:36px;opacity:0.18;display:block;margin:8px auto;">
-      <img src="legal-logo.png" alt="LegalTenderPay logo" class="footer-logo">
+      <img src="tiktok-logo.png" alt="tiktok" style="width:34px;margin-right:8px;filter:grayscale(100%);opacity:.4;">
+      <img src="legalTenderPay-logo.png" alt="LegalTenderPay" class="lt-logo" style="height:36px; margin-left:14px; opacity:.6;">
     </div>
-  </main>
+  </div>
 
 <script>
-  function onPick(coins, price){
-    // Example: you could store selection or open a modal — currently just console/log and then go to login.
-    console.log('Selected', coins, price);
-    // open login directly (same behavior as the main button)
-    window.open(document.getElementById('tiktok-login').href, '_blank');
+  function onSecureClick(){
+    // example action for secure payment bar
+    window.location.href = "#secure";
   }
-  function onCustom(){
-    // prompt for custom amount then open login:
-    let amt = prompt('Enter custom coin amount (e.g. 500):');
-    if(!amt) return;
-    // you could attach amt to URL if required
-    window.open(document.getElementById('tiktok-login').href, '_blank');
+
+  function onCardClick(amount, ngn){
+    if(amount === 'custom'){
+      const c = prompt('Enter custom number of coins you want:');
+      if(!c) return;
+      alert('Custom purchase selected: ' + c + ' coins');
+      return;
+    }
+    // replace href with your real checkout/login URL
+    alert('You clicked '+ amount + ' coins (NGN ' + (ngn||'') + ').\n\nReplace this alert with a real checkout or login flow.');
+  }
+
+  function onLoginClick(e){
+    e.preventDefault();
+    // replace with your login page or flow
+    alert('Login flow — replace with your login URL.');
+  }
+
+  function onInviteClick(){
+    // demo navigation
+    alert('Invite & Get Rewards — replace with your feature URL.');
   }
 </script>
 </body>
