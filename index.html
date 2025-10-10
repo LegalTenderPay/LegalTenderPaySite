@@ -13,7 +13,6 @@ body {
   color: #000;
 }
 
-/* Secure payment bar */
 .secure-payment {
   background-color: #e8f8ed;
   text-align: center;
@@ -23,51 +22,25 @@ body {
   font-weight: 500;
 }
 
-/* Main container */
 .container {
   max-width: 420px;
   margin: 0 auto;
   padding: 20px;
-  position: relative;
 }
 
-/* TikTok logo — fixed, clean version */
-.tiktok-logo {
-  position: absolute;
-  top: 20px;
-  right: 15px;
-  width: 55px;
-  height: 55px;
-  border-radius: 15px;
-  background: #000;
+.header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  overflow: hidden;
+  margin-bottom: 10px;
 }
 
-.tiktok-logo img {
-  width: 80%;
-  height: 80%;
-  object-fit: contain;
-  filter: drop-shadow(0px 1px 2px rgba(0,0,0,0.5));
-  transition: transform 0.2s ease;
-}
-
-.tiktok-logo:hover img {
-  transform: scale(1.1);
-}
-
-/* Header */
 .header h1 {
   font-size: 32px;
   font-weight: 800;
   margin: 0;
-  margin-bottom: 10px;
 }
 
-/* Subtext */
 .sub-text {
   font-size: 17px;
   color: #333;
@@ -82,7 +55,6 @@ body {
   font-weight: 700;
 }
 
-/* Coin grid */
 .coins-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -107,6 +79,9 @@ body {
 .coin-amount {
   font-weight: 700;
   font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .coin-price {
@@ -115,7 +90,6 @@ body {
   margin-top: 3px;
 }
 
-/* Login button */
 .login-btn {
   background-color: #ff375f;
   color: white;
@@ -129,7 +103,6 @@ body {
   margin-bottom: 25px;
 }
 
-/* Invite box */
 .invite-box {
   background-color: #fff;
   border-radius: 10px;
@@ -160,7 +133,6 @@ body {
   font-size: 13px;
 }
 
-/* Footer */
 .footer {
   text-align: center;
   margin-top: 50px;
@@ -181,11 +153,6 @@ body {
 </div>
 
 <div class="container">
-  <!-- Working TikTok logo with shadow and correct image -->
-  <div class="tiktok-logo">
-    <img src="https://i.ibb.co/4VjPx8v/tiktok-logo.png" alt="TikTok Logo">
-  </div>
-
   <div class="header">
     <h1>Get Coins</h1>
   </div>
