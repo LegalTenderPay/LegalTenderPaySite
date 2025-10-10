@@ -31,38 +31,40 @@ body {
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px;
+  align-items: flex-end; /* lowers the TikTok circle slightly */
+  margin-bottom: 0;
 }
 
 .header h1 {
   font-size: 32px;
   font-weight: 800;
   margin: 0;
+  line-height: 1.1;
 }
 
-/* TikTok text with bold single circle */
+/* TikTok text with lighter single circle */
 .tiktok-logo {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-weight: 1000;
-  font-size: 26px;
+  font-weight: 900;
+  font-size: 25px;
   color: #000;
-  border: 4px solid #000; /* smaller circle */
+  border: 3px solid #000; /* slightly less bold */
   border-radius: 50%;
   width: 75px;
   height: 75px;
   margin-left: 10px;
+  margin-bottom: -5px; /* moves circle slightly down */
 }
 
 .sub-text {
   font-size: 16px;
   color: #333;
   font-weight: 600;
-  margin-top: 2px; /* shifted up */
+  margin-top: -2px; /* lifted up closer to title */
   margin-bottom: 18px;
   line-height: 1.5;
 }
