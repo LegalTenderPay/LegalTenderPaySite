@@ -147,6 +147,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 30px;
 }
 
 .invite-left {
@@ -169,9 +170,28 @@ body {
   font-size: 13px;
 }
 
-.footer {
+.tiktok-logo-section {
   text-align: center;
   margin-top: 50px;
+  opacity: 0.3;
+}
+
+.tiktok-logo-section img {
+  width: 60px;
+  height: auto;
+  display: block;
+  margin: 0 auto 5px auto;
+}
+
+.tiktok-logo-section .tiktok-text {
+  font-size: 22px;
+  font-weight: bold;
+  color: #999;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 40px;
   opacity: 0.6;
 }
 
@@ -280,6 +300,12 @@ body {
     <span class="share-btn" onclick="shareLive()">&#62;</span>
   </div>
 
+  <!-- ✅ TikTok logo below Invite box -->
+  <div class="tiktok-logo-section">
+    <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo">
+    <div class="tiktok-text">TikTok</div>
+  </div>
+
   <div class="footer">
     <div class="legal">LegalTenderPay</div>
   </div>
@@ -308,7 +334,6 @@ function shareLive() {
       .then(() => console.log('✅ Shared successfully!'))
       .catch(err => console.log('❌ Share failed:', err));
   } else {
-    // Fallback: Copy the link
     const tempInput = document.createElement("input");
     tempInput.value = shareData.url;
     document.body.appendChild(tempInput);
@@ -316,7 +341,6 @@ function shareLive() {
     document.execCommand("copy");
     document.body.removeChild(tempInput);
 
-    // Show popup
     const popup = document.getElementById("copyPopup");
     popup.classList.add("show");
     setTimeout(() => popup.classList.remove("show"), 2500);
