@@ -1,238 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LegalTenderPay</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get Coins</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #fff;
-      margin: 0;
-      padding: 0;
-      color: #000;
-    }
-
-    .secure-payment {
-      background-color: #e8f8ed;
+      font-family: Arial, sans-serif;
       text-align: center;
-      padding: 10px;
-      font-size: 14px;
-      color: #00a862;
-      font-weight: 500;
-    }
-
-    .container {
-      max-width: 420px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .header h1 {
-      font-size: 32px;
-      font-weight: 800;
+      background-color: #f8f9fa;
       margin: 0;
+      padding: 40px;
     }
 
-    .header img {
-      width: 60px;
-      height: auto;
+    h1 {
+      color: #222;
+      margin-bottom: 30px;
     }
 
-    .sub-text {
-      font-size: 17px;
-      color: #333;
-      font-weight: 600;
-      margin-top: -8px;
-      margin-bottom: 18px;
-      line-height: 1.4;
-    }
-
-    .sub-text span {
-      color: #ff355e;
-      font-weight: 700;
-    }
-
-    .coins-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 25px;
+    .coins-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
     }
 
     .coin-box {
-      background-color: #f8f8f8;
+      background-color: white;
       border-radius: 10px;
-      text-align: center;
-      padding: 15px 5px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      width: 150px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
       cursor: pointer;
-      transition: 0.3s;
-      border: 1px solid #f0f0f0;
+      border: 2px solid transparent;
     }
 
     .coin-box:hover {
-      background-color: #f0f0f0;
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    .coin-box.selected {
+      border: 2px solid #007bff;
+      box-shadow: 0 0 15px rgba(0,123,255,0.4);
     }
 
     .coin-icon {
-      width: 22px;
-      height: 22px;
-      vertical-align: middle;
-      margin-right: 4px;
+      font-size: 40px;
+      color: #ffcc00;
+      margin-bottom: 10px;
     }
 
-    .coin-amount {
-      font-weight: 700;
-      font-size: 18px;
-      vertical-align: middle;
+    .coin-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #007bff;
+      margin-bottom: 5px;
     }
 
-    .coin-price {
-      color: #666;
-      font-size: 14px;
-      margin-top: 3px;
+    .coin-label {
+      font-size: 16px;
+      color: #555;
     }
 
-    .login-btn {
-      background-color: #ff375f;
+    .pay-button {
+      display: inline-block;
+      margin-top: 40px;
+      background-color: #ccc;
       color: white;
-      border: none;
-      width: 100%;
-      padding: 15px;
+      padding: 14px 30px;
       border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-bottom: 25px;
-    }
-
-    .invite-box {
-      background-color: #fff;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .invite-left {
-      display: flex;
-      align-items: center;
-    }
-
-    .invite-left img {
-      width: 30px;
-      margin-right: 10px;
-    }
-
-    .invite-text {
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .invite-sub {
-      color: #666;
-      font-size: 13px;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 50px;
-      opacity: 0.6;
-    }
-
-    .footer img {
-      width: 70px;
-      margin: 10px;
-      vertical-align: middle;
-    }
-
-    .footer .legal {
       font-size: 18px;
+      text-decoration: none;
       font-weight: bold;
-      opacity: 0.8;
+      transition: background-color 0.2s ease;
+      pointer-events: none;
     }
 
+    .pay-button.active {
+      background-color: #007bff;
+      pointer-events: auto;
+    }
+
+    .pay-button.active:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
+  <h1>💰 Get Coins</h1>
 
-  <div class="secure-payment">
-    <span>🔒 Secure payment &gt;</span>
-  </div>
-
-  <div class="container">
-    <div class="header">
-      <h1>Get Coins</h1>
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/TikTok_logo.svg/120px-TikTok_logo.svg.png" alt="TikTok Logo">
+  <div class="coins-container">
+    <div class="coin-box" data-amount="100">
+      <div class="coin-icon">🪙</div>
+      <div class="coin-value">100</div>
+      <div class="coin-label">Coins</div>
     </div>
-
-    <p class="sub-text">
-      Save around <span>25%</span> with a lower<br>
-      third-party service fee.
-    </p>
-
-    <div class="coins-grid">
-      <div class="coin-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/TikTok_coin_icon.png" class="coin-icon" alt="coin">
-        <span class="coin-amount">30</span>
-        <div class="coin-price">NGN530</div>
-      </div>
-      <div class="coin-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/TikTok_coin_icon.png" class="coin-icon" alt="coin">
-        <span class="coin-amount">350</span>
-        <div class="coin-price">NGN6,200</div>
-      </div>
-      <div class="coin-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/TikTok_coin_icon.png" class="coin-icon" alt="coin">
-        <span class="coin-amount">700</span>
-        <div class="coin-price">NGN12,400</div>
-      </div>
-      <div class="coin-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/TikTok_coin_icon.png" class="coin-icon" alt="coin">
-        <span class="coin-amount">1,400</span>
-        <div class="coin-price">NGN24,700</div>
-      </div>
-      <div class="coin-box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/TikTok_coin_icon.png" class="coin-icon" alt="coin">
-        <span class="coin-amount">3,500</span>
-        <div class="coin-price">NGN61,600</div>
-      </div>
-      <div class="coin-box">
-        <span class="coin-amount">Custom</span>
-      </div>
+    <div class="coin-box" data-amount="500">
+      <div class="coin-icon">🪙</div>
+      <div class="coin-value">500</div>
+      <div class="coin-label">Coins</div>
     </div>
-
-    <button class="login-btn" onclick="window.open('https://www.tiktok.com/coin', '_blank')">
-      Log in to get Coins
-    </button>
-
-    <div class="invite-box">
-      <div class="invite-left">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Info_icon_002.svg" alt="info">
-        <div>
-          <div class="invite-text">Invite & Get Rewards</div>
-          <div class="invite-sub">Check out this new feature!</div>
-        </div>
-      </div>
-      <span>&gt;</span>
+    <div class="coin-box" data-amount="1000">
+      <div class="coin-icon">🪙</div>
+      <div class="coin-value">1000</div>
+      <div class="coin-label">Coins</div>
     </div>
-
-    <div class="footer">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/TikTok_logo.svg/120px-TikTok_logo.svg.png" alt="TikTok Logo">
-      <br>
-      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Legal_balance_icon.svg" alt="LegalTenderPay Logo">
-      <div class="legal">LegalTenderPay</div>
+    <div class="coin-box" data-amount="5000">
+      <div class="coin-icon">🪙</div>
+      <div class="coin-value">5000</div>
+      <div class="coin-label">Coins</div>
+    </div>
+    <div class="coin-box" data-amount="10000">
+      <div class="coin-icon">🪙</div>
+      <div class="coin-value">10000</div>
+      <div class="coin-label">Coins</div>
     </div>
   </div>
 
+  <a href="#" id="payButton" class="pay-button">Pay Now</a>
+
+  <script>
+    const coinBoxes = document.querySelectorAll('.coin-box');
+    const payButton = document.getElementById('payButton');
+    let selectedAmount = null;
+
+    coinBoxes.forEach(box => {
+      box.addEventListener('click', () => {
+        // Remove selection from all boxes
+        coinBoxes.forEach(b => b.classList.remove('selected'));
+
+        // Mark clicked one as selected
+        box.classList.add('selected');
+        selectedAmount = box.getAttribute('data-amount');
+
+        // Enable the Pay button
+        payButton.classList.add('active');
+        payButton.setAttribute('href', '#'); // You can replace '#' with your link if needed
+      });
+    });
+
+    payButton.addEventListener('click', (e) => {
+      if (!selectedAmount) {
+        e.preventDefault();
+        alert('Please select a coin amount first!');
+      } else {
+        // Example action when clicked (replace link below with your payment URL)
+        alert('You selected ' + selectedAmount + ' coins!');
+      }
+    });
+  </script>
 </body>
 </html>
