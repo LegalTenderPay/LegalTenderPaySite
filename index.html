@@ -40,16 +40,17 @@ body {
   margin-bottom: 15px;
 }
 
-/* ====== Make TikTok logo top-right 3× bigger and more right ====== */
+/* ====== Make TikTok logo top-right 3× bigger, more right, and slightly lower ====== */
 .header-right {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-right: -180px; /* ✅ Shifted more to the right */
+  margin-right: -180px; /* right offset */
+  margin-top: 25px;     /* ✅ lowered slightly */
 }
 
 .tiktok-mini-logo {
-  width: 270px;        /* ✅ 3× larger */
+  width: 270px;        /* 3× larger */
   height: auto;
   opacity: 0.95;
   transition: 0.3s ease;
