@@ -41,20 +41,19 @@ body {
   margin: 0;
 }
 
-/* Updated TikTok text style */
 .tiktok-text {
-  font-size: 32px;        /* Bigger size */
-  font-weight: 900;       /* Extra bold */
+  font-size: 32px;
+  font-weight: 900;
   color: #000;
-  margin-right: -5px;     /* Slightly shifted to the left */
-  letter-spacing: 0.5px;  /* Makes it look stronger and cleaner */
+  margin-right: -5px;
+  letter-spacing: 0.5px;
 }
 
 .sub-text {
   font-size: 17px;
   color: #333;
   font-weight: 600;
-  margin-top: 10px; /* shifted down from Get Coins */
+  margin-top: 10px;
   margin-bottom: 20px;
   line-height: 1.5;
 }
@@ -85,6 +84,12 @@ body {
 
 .coin-box:hover {
   background-color: #f0f0f0;
+}
+
+/* Active state styling */
+.coin-box.active {
+  border: 2px solid #ffadc4;
+  background-color: #fff6f9;
 }
 
 .coin-amount {
@@ -175,29 +180,29 @@ body {
   </p>
 
   <div class="coins-grid">
-    <a href="#" class="coin-box">
+    <div class="coin-box" onclick="selectBox(this)">
       <div class="coin-amount">30</div>
       <div class="coin-price">NGN530</div>
-    </a>
-    <a href="#" class="coin-box">
+    </div>
+    <div class="coin-box" onclick="selectBox(this)">
       <div class="coin-amount">350</div>
       <div class="coin-price">NGN6,200</div>
-    </a>
-    <a href="#" class="coin-box">
+    </div>
+    <div class="coin-box" onclick="selectBox(this)">
       <div class="coin-amount">700</div>
       <div class="coin-price">NGN12,400</div>
-    </a>
-    <a href="#" class="coin-box">
+    </div>
+    <div class="coin-box" onclick="selectBox(this)">
       <div class="coin-amount">1,400</div>
       <div class="coin-price">NGN24,700</div>
-    </a>
-    <a href="#" class="coin-box">
+    </div>
+    <div class="coin-box" onclick="selectBox(this)">
       <div class="coin-amount">3,500</div>
       <div class="coin-price">NGN61,600</div>
-    </a>
-    <a href="#" class="coin-box">
+    </div>
+    <div class="coin-box" onclick="selectBox(this)">
       <span class="coin-amount">Custom</span>
-    </a>
+    </div>
   </div>
 
   <button class="login-btn">
@@ -219,6 +224,14 @@ body {
     <div class="legal">LegalTenderPay</div>
   </div>
 </div>
+
+<script>
+function selectBox(element) {
+  const boxes = document.querySelectorAll('.coin-box');
+  boxes.forEach(box => box.classList.remove('active'));
+  element.classList.add('active');
+}
+</script>
 
 </body>
 </html>
