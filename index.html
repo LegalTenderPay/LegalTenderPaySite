@@ -41,18 +41,19 @@ body {
   margin: 0;
 }
 
-.tiktok-logo {
-  width: 45px;
-  height: 45px;
+.tiktok-text {
+  font-size: 26px;
+  font-weight: 800;
+  color: #000;
 }
 
 .sub-text {
   font-size: 17px;
   color: #333;
   font-weight: 600;
-  margin-top: -8px;
-  margin-bottom: 18px;
-  line-height: 1.4;
+  margin-top: 10px; /* shifted down from Get Coins */
+  margin-bottom: 20px;
+  line-height: 1.5;
 }
 
 .sub-text span {
@@ -75,6 +76,8 @@ body {
   cursor: pointer;
   transition: 0.3s;
   border: 1px solid #f0f0f0;
+  text-decoration: none;
+  color: inherit;
 }
 
 .coin-box:hover {
@@ -160,7 +163,7 @@ body {
 <div class="container">
   <div class="header">
     <h1>Get Coins</h1>
-    <img class="tiktok-logo" src="https://upload.wikimedia.org/wikipedia/en/0/0a/TikTok_logo.svg" alt="TikTok Logo">
+    <div class="tiktok-text">TikTok</div>
   </div>
 
   <p class="sub-text">
@@ -169,29 +172,29 @@ body {
   </p>
 
   <div class="coins-grid">
-    <div class="coin-box">
+    <a href="#" class="coin-box">
       <div class="coin-amount">30</div>
       <div class="coin-price">NGN530</div>
-    </div>
-    <div class="coin-box">
+    </a>
+    <a href="#" class="coin-box">
       <div class="coin-amount">350</div>
       <div class="coin-price">NGN6,200</div>
-    </div>
-    <div class="coin-box">
+    </a>
+    <a href="#" class="coin-box">
       <div class="coin-amount">700</div>
       <div class="coin-price">NGN12,400</div>
-    </div>
-    <div class="coin-box">
+    </a>
+    <a href="#" class="coin-box">
       <div class="coin-amount">1,400</div>
       <div class="coin-price">NGN24,700</div>
-    </div>
-    <div class="coin-box">
+    </a>
+    <a href="#" class="coin-box">
       <div class="coin-amount">3,500</div>
       <div class="coin-price">NGN61,600</div>
-    </div>
-    <div class="coin-box">
+    </a>
+    <a href="#" class="coin-box">
       <span class="coin-amount">Custom</span>
-    </div>
+    </a>
   </div>
 
   <button class="login-btn">
