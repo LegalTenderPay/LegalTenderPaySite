@@ -82,6 +82,13 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
+}
+
+.coin-amount img {
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
 }
 
 .coin-price {
@@ -144,6 +151,12 @@ body {
   font-weight: bold;
   opacity: 0.8;
 }
+
+@media (max-width: 480px) {
+  .coins-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 </style>
 </head>
 <body>
@@ -164,25 +177,40 @@ body {
 
   <div class="coins-grid">
     <div class="coin-box">
-      <div class="coin-amount">30</div>
+      <div class="coin-amount">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/28/TikTok_coin_logo.png" alt="coin">30
+      </div>
       <div class="coin-price">NGN530</div>
     </div>
+
     <div class="coin-box">
-      <div class="coin-amount">350</div>
+      <div class="coin-amount">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/28/TikTok_coin_logo.png" alt="coin">350
+      </div>
       <div class="coin-price">NGN6,200</div>
     </div>
+
     <div class="coin-box">
-      <div class="coin-amount">700</div>
+      <div class="coin-amount">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/28/TikTok_coin_logo.png" alt="coin">700
+      </div>
       <div class="coin-price">NGN12,400</div>
     </div>
+
     <div class="coin-box">
-      <div class="coin-amount">1,400</div>
+      <div class="coin-amount">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/28/TikTok_coin_logo.png" alt="coin">1,400
+      </div>
       <div class="coin-price">NGN24,700</div>
     </div>
+
     <div class="coin-box">
-      <div class="coin-amount">3,500</div>
+      <div class="coin-amount">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/28/TikTok_coin_logo.png" alt="coin">3,500
+      </div>
       <div class="coin-price">NGN61,600</div>
     </div>
+
     <div class="coin-box">
       <span class="coin-amount">Custom</span>
     </div>
@@ -194,7 +222,7 @@ body {
 
   <div class="invite-box">
     <div class="invite-left">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Coin_icon.png" alt="reward">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/28/TikTok_coin_logo.png" alt="reward">
       <div>
         <div class="invite-text">Invite & Get Rewards</div>
         <div class="invite-sub">Check out this new feature!</div>
