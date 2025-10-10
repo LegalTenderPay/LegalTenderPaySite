@@ -393,7 +393,7 @@ body {
         <div class="invite-sub">Check out this new feature!</div>
       </div>
     </div>
-    <span class="share-btn" onclick="shareLive()">&#62;</span>
+    <span class="share-btn" onclick="doShare()">&#62;</span>
   </div>
 
   <!-- LegalTenderPay Coin Image -->
@@ -443,8 +443,8 @@ function closePopup() {
 
 function doShare() {
   const shareData = {
-    title: "Join My Live on LegalTenderPay 🎉",
-    text: "🎥 Come check out my live stream and earn rewards together!",
+    title: "LegalTenderPay 🏆",
+    text: "🏆🥇Come and Buy TikTok & Crypto coins and earn rewards together!",
     url: "https://legaltenderpay.github.io/live"
   };
 
@@ -454,7 +454,7 @@ function doShare() {
       .catch(err => console.log('❌ Share failed:', err));
   } else {
     const tempInput = document.createElement("input");
-    tempInput.value = shareData.url;
+    tempInput.value = shareData.text + " " + shareData.url;
     document.body.appendChild(tempInput);
     tempInput.select();
     document.execCommand("copy");
