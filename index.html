@@ -13,6 +13,7 @@ body {
   color: #000;
 }
 
+/* Secure payment bar */
 .secure-payment {
   background-color: #e8f8ed;
   text-align: center;
@@ -22,25 +23,42 @@ body {
   font-weight: 500;
 }
 
+/* Container */
 .container {
   max-width: 420px;
   margin: 0 auto;
   padding: 20px;
+  position: relative;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
+/* TikTok logo with 3D shadow effect */
+.tiktok-logo {
+  position: absolute;
+  top: 25px;
+  right: 20px;
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  background-color: #000;
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3),
+              inset 0px -2px 6px rgba(255, 255, 255, 0.1);
+  transition: transform 0.2s ease;
+}
+.tiktok-logo:hover {
+  transform: scale(1.05);
 }
 
+/* Header */
 .header h1 {
   font-size: 32px;
   font-weight: 800;
   margin: 0;
+  margin-bottom: 10px;
 }
 
+/* Subtext under header */
 .sub-text {
   font-size: 17px;
   color: #333;
@@ -55,6 +73,7 @@ body {
   font-weight: 700;
 }
 
+/* Coin grid */
 .coins-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -90,6 +109,7 @@ body {
   margin-top: 3px;
 }
 
+/* Login button */
 .login-btn {
   background-color: #ff375f;
   color: white;
@@ -103,6 +123,7 @@ body {
   margin-bottom: 25px;
 }
 
+/* Invite box */
 .invite-box {
   background-color: #fff;
   border-radius: 10px;
@@ -133,6 +154,7 @@ body {
   font-size: 13px;
 }
 
+/* Footer */
 .footer {
   text-align: center;
   margin-top: 50px;
@@ -153,6 +175,9 @@ body {
 </div>
 
 <div class="container">
+  <!-- TikTok logo at top-right with 3D effect -->
+  <img class="tiktok-logo" src="https://upload.wikimedia.org/wikipedia/commons/a/a9/TikTok_logo.svg" alt="TikTok Logo">
+
   <div class="header">
     <h1>Get Coins</h1>
   </div>
