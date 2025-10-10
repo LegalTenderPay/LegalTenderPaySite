@@ -6,7 +6,6 @@
 <title>LegalTenderPay</title>
 
 <style>
-/* ====== General Page Style ====== */
 body {
   font-family: 'Arial', sans-serif;
   background-color: #fff;
@@ -15,7 +14,7 @@ body {
   color: #000;
 }
 
-/* ====== Secure payment banner ====== */
+/* Secure payment */
 .secure-payment {
   background-color: #e8f8ed;
   text-align: center;
@@ -25,20 +24,20 @@ body {
   font-weight: 600;
 }
 
-/* ====== Layout ====== */
+/* Layout */
 .container {
   max-width: 420px;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* ====== Header ====== */
+/* Header */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px; /* moved header slightly closer to sub-text */
-  margin-top: -10px;  /* shifts “Get Coins” a little bit up */
+  margin-bottom: 0; /* tighten spacing */
+  margin-top: -10px; /* move “Get Coins” up */
 }
 
 .header h1 {
@@ -47,7 +46,7 @@ body {
   font-weight: bold;
 }
 
-/* ====== TikTok logo top-right ====== */
+/* TikTok logo */
 .header-right {
   display: flex;
   justify-content: flex-end;
@@ -67,12 +66,12 @@ body {
   transform: scale(1.08);
 }
 
-/* ====== Sub text (closer to title) ====== */
+/* Sub text — now very close to “Get Coins” */
 .sub-text {
   font-size: 17px;
   color: #333;
   font-weight: 600;
-  margin-top: -10px;   /* moved up to sit closer under “Get Coins” */
+  margin-top: -18px;   /* pulled much closer under “Get Coins” */
   margin-bottom: 20px;
   line-height: 1.3;
   text-align: left;
@@ -83,7 +82,7 @@ body {
   font-weight: 700;
 }
 
-/* ====== Coin grid ====== */
+/* Coin grid */
 .coins-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -132,7 +131,7 @@ body {
   margin-top: 3px;
 }
 
-/* ====== Button ====== */
+/* Button */
 .login-btn {
   background-color: #ff375f;
   color: white;
@@ -146,7 +145,7 @@ body {
   margin-bottom: 25px;
 }
 
-/* ====== Invite & Share Section ====== */
+/* Invite & Share */
 .invite-box {
   background-color: #fff;
   border-radius: 10px;
@@ -178,7 +177,6 @@ body {
   font-size: 13px;
 }
 
-/* Share button */
 .share-btn {
   font-size: 22px;
   color: #999;
@@ -191,7 +189,7 @@ body {
   transform: scale(1.1);
 }
 
-/* ====== TikTok logo bottom section ====== */
+/* TikTok logo bottom */
 .tiktok-logo-section {
   text-align: center;
   margin-top: 50px;
@@ -211,7 +209,7 @@ body {
   color: #999;
 }
 
-/* ====== Footer ====== */
+/* Footer */
 .footer {
   text-align: center;
   margin-top: 40px;
@@ -224,7 +222,7 @@ body {
   opacity: 0.8;
 }
 
-/* ====== Fallback popup ====== */
+/* Popup */
 .copy-popup {
   position: fixed;
   bottom: 25px;
@@ -308,7 +306,6 @@ body {
 
   <button class="login-btn">Log in to get Coins</button>
 
-  <!-- Invite and Share -->
   <div class="invite-box">
     <div class="invite-left">
       <img src="https://cdn-icons-png.flaticon.com/512/12749/12749038.png" alt="invite">
@@ -320,7 +317,6 @@ body {
     <span class="share-btn" onclick="shareLive()">&#62;</span>
   </div>
 
-  <!-- TikTok logo bottom -->
   <div class="tiktok-logo-section">
     <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo">
     <div class="tiktok-text">TikTok</div>
@@ -331,7 +327,6 @@ body {
   </div>
 </div>
 
-<!-- Popup -->
 <div class="copy-popup" id="copyPopup">Link copied! Share it manually 💬</div>
 
 <script>
@@ -341,7 +336,6 @@ function selectBox(element) {
   element.classList.add('active');
 }
 
-// Share with fallback
 function shareLive() {
   const shareData = {
     title: "Join My Live on LegalTenderPay 🎉",
