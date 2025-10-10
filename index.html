@@ -249,6 +249,77 @@ body {
 .copy-popup.show {
   opacity: 0.9;
 }
+
+/* Share Popup */
+.share-popup {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.share-popup-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+  max-width: 320px;
+  width: 80%;
+  position: relative;
+  animation: popupFade 0.3s ease;
+}
+
+.popup-logo {
+  width: 90px;
+  height: auto;
+  margin-bottom: 12px;
+  animation: logoBounce 1.5s infinite ease-in-out;
+}
+
+.share-popup-content h3 {
+  margin-bottom: 5px;
+}
+
+.share-popup-content p {
+  color: #555;
+  font-size: 14px;
+}
+
+.share-popup-content button {
+  background-color: #ff375f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.close-popup {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 18px;
+  cursor: pointer;
+  color: #999;
+}
+
+@keyframes popupFade {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes logoBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
 </style>
 </head>
 
@@ -341,6 +412,18 @@ body {
   </div>
 </div>
 
+<!-- Share Popup -->
+<div id="sharePopup" class="share-popup">
+  <div class="share-popup-content">
+    <img src="https://raw.githubusercontent.com/LegalTenderPay/LegalTenderPaySite/refs/heads/main/70a854a7-f718-447f-9176-6ea7a74ff63e.jpeg" 
+         alt="LegalTenderPay Logo" class="popup-logo">
+    <h3>Share LegalTenderPay</h3>
+    <p>Invite your friends to join and earn rewards 💰</p>
+    <button onclick="doShare()">Share Now</button>
+    <span class="close-popup" onclick="closePopup()">✖</span>
+  </div>
+</div>
+
 <div class="copy-popup" id="copyPopup">Link copied! Share it manually 💬</div>
 
 <script>
@@ -351,6 +434,14 @@ function selectBox(element) {
 }
 
 function shareLive() {
+  document.getElementById("sharePopup").style.display = "flex";
+}
+
+function closePopup() {
+  document.getElementById("sharePopup").style.display = "none";
+}
+
+function doShare() {
   const shareData = {
     title: "Join My Live on LegalTenderPay 🎉",
     text: "🎥 Come check out my live stream and earn rewards together!",
@@ -373,6 +464,8 @@ function shareLive() {
     popup.classList.add("show");
     setTimeout(() => popup.classList.remove("show"), 2500);
   }
+
+  closePopup();
 }
 </script>
 
