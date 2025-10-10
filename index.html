@@ -86,18 +86,26 @@ body {
   background-color: #f0f0f0;
 }
 
-/* Active state styling */
+/* Selected coin effect */
 .coin-box.active {
   border: 2px solid #ffadc4;
   background-color: #fff6f9;
 }
 
+/* Coin number with gold icon */
 .coin-amount {
   font-weight: 700;
   font-size: 18px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 5px;
+}
+
+.coin-amount img {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
 }
 
 .coin-price {
@@ -181,25 +189,45 @@ body {
 
   <div class="coins-grid">
     <div class="coin-box" onclick="selectBox(this)">
-      <div class="coin-amount">30</div>
+      <div class="coin-amount">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Coin_icon.png" alt="coin">
+        30
+      </div>
       <div class="coin-price">NGN530</div>
     </div>
+
     <div class="coin-box" onclick="selectBox(this)">
-      <div class="coin-amount">350</div>
+      <div class="coin-amount">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Coin_icon.png" alt="coin">
+        350
+      </div>
       <div class="coin-price">NGN6,200</div>
     </div>
+
     <div class="coin-box" onclick="selectBox(this)">
-      <div class="coin-amount">700</div>
+      <div class="coin-amount">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Coin_icon.png" alt="coin">
+        700
+      </div>
       <div class="coin-price">NGN12,400</div>
     </div>
+
     <div class="coin-box" onclick="selectBox(this)">
-      <div class="coin-amount">1,400</div>
+      <div class="coin-amount">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Coin_icon.png" alt="coin">
+        1,400
+      </div>
       <div class="coin-price">NGN24,700</div>
     </div>
+
     <div class="coin-box" onclick="selectBox(this)">
-      <div class="coin-amount">3,500</div>
+      <div class="coin-amount">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Coin_icon.png" alt="coin">
+        3,500
+      </div>
       <div class="coin-price">NGN61,600</div>
     </div>
+
     <div class="coin-box" onclick="selectBox(this)">
       <span class="coin-amount">Custom</span>
     </div>
