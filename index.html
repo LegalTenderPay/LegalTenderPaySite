@@ -40,24 +40,18 @@ body {
   margin-bottom: 15px;
 }
 
-.header h1 {
-  font-size: 32px;
-  font-weight: 800;
-  margin: 0;
-}
-
-/* TikTok logo top right (larger & more to the edge) */
+/* ====== Make TikTok logo top-right 3× bigger ====== */
 .header-right {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-right: -25px; /* ✅ Moves logo closer to the page edge */
+  margin-right: -60px; /* ✅ Push logo closer to the right edge */
 }
 
 .tiktok-mini-logo {
-  width: 90px;        /* ✅ Slightly larger */
+  width: 270px;        /* ✅ 3× larger */
   height: auto;
-  opacity: 0.9;
+  opacity: 0.95;
   transition: 0.3s ease;
 }
 
@@ -65,7 +59,7 @@ body {
   transform: scale(1.08);
 }
 
-/* ====== Sub text below header ====== */
+/* ====== Sub text ====== */
 .sub-text {
   font-size: 17px;
   color: #333;
