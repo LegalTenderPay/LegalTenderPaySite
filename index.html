@@ -45,7 +45,7 @@ body {
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 10px;
 }
 
@@ -55,25 +55,18 @@ body {
   margin: 0;
 }
 
-/* TikTok text + small logo on top right */
+/* TikTok logo on top right */
 .header-right {
   text-align: right;
 }
 
-.tiktok-text {
-  font-size: 32px;
-  font-weight: 900;
-  color: #000;
-  letter-spacing: 0.5px;
-  margin-bottom: 2px;
-}
-
 .tiktok-mini-logo {
-  width: 30px;
+  width: 40px;
   height: auto;
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
+/* Text below the header */
 .sub-text {
   font-size: 17px;
   color: #333;
@@ -88,6 +81,7 @@ body {
   font-weight: 700;
 }
 
+/* Coin grid */
 .coins-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -137,6 +131,7 @@ body {
   margin-top: 3px;
 }
 
+/* Buttons */
 .login-btn {
   background-color: #ff375f;
   color: white;
@@ -150,6 +145,7 @@ body {
   margin-bottom: 25px;
 }
 
+/* Invite and share box */
 .invite-box {
   background-color: #fff;
   border-radius: 10px;
@@ -181,6 +177,7 @@ body {
   font-size: 13px;
 }
 
+/* Bottom TikTok logo */
 .tiktok-logo-section {
   text-align: center;
   margin-top: 50px;
@@ -200,6 +197,7 @@ body {
   color: #999;
 }
 
+/* Footer */
 .footer {
   text-align: center;
   margin-top: 40px;
@@ -244,10 +242,9 @@ body {
   <div class="header">
     <h1>Get Coins</h1>
 
-    <!-- ✅ Top Right: TikTok text + mini logo below -->
+    <!-- ✅ Top Right: Only TikTok logo -->
     <div class="header-right">
-      <div class="tiktok-text">TikTok</div>
-      <img class="tiktok-mini-logo" src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok small logo">
+      <img class="tiktok-mini-logo" src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo">
     </div>
   </div>
 
