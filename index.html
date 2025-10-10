@@ -12,6 +12,9 @@ body {
   margin: 0;
   padding: 0;
   color: #000;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Secure payment */
@@ -28,7 +31,8 @@ body {
 .container {
   max-width: 420px;
   margin: 0 auto;
-  padding: 15px 20px 20px 20px;
+  padding: 15px 20px 80px 20px; /* extra bottom space for footer */
+  flex: 1;
 }
 
 /* Header */
@@ -203,20 +207,25 @@ body {
 /* Footer */
 .footer {
   text-align: center;
-  margin-top: 100px;
-  opacity: 0.6;
+  padding: 10px 0;
+  background: #fff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0.7;
 }
 
 .footer .legal {
   font-size: 18px;
   font-weight: bold;
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 /* Popup */
 .copy-popup {
   position: fixed;
-  bottom: 25px;
+  bottom: 70px;
   left: 50%;
   transform: translateX(-50%);
   background: #000;
@@ -312,11 +321,11 @@ body {
   <div class="tiktok-logo-section">
     <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo">
   </div>
+</div>
 
-  <!-- LegalTenderPay at bottom center -->
-  <div class="footer">
-    <div class="legal">LegalTenderPay</div>
-  </div>
+<!-- Fixed footer at bottom -->
+<div class="footer">
+  <div class="legal">LegalTenderPay</div>
 </div>
 
 <div class="copy-popup" id="copyPopup">Link copied! Share it manually 💬</div>
