@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>LegalTenderPay</title>
 
 <style>
@@ -14,13 +14,137 @@ body {
   color: #000;
 }
 
+/* Secure payment */
+.secure-payment {
+  background-color: #e8f8ed;
+  text-align: center;
+  padding: 12px;
+  font-size: 15px;
+  color: #006b3f;
+  font-weight: 600;
+}
+
+/* Layout */
 .container {
   max-width: 420px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 15px 20px 20px 20px;
 }
 
-/* Invite & Get Rewards box */
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+  margin-top: -15px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* TikTok logo on header */
+.header-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: -160px;
+  margin-top: 20px;
+}
+
+.tiktok-mini-logo {
+  width: 230px;
+  height: auto;
+  opacity: 0.95;
+  transition: 0.3s ease;
+}
+
+.tiktok-mini-logo:hover {
+  transform: scale(1.08);
+}
+
+/* Sub text */
+.sub-text {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+  margin-top: -12px;
+  margin-bottom: 18px;
+  line-height: 1.3;
+}
+
+.sub-text span {
+  color: #ff355e;
+  font-weight: 700;
+}
+
+/* Coin grid */
+.coins-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.coin-box {
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  text-align: center;
+  padding: 15px 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 1px solid #f0f0f0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.coin-box:hover {
+  background-color: #f0f0f0;
+}
+
+.coin-box.active {
+  border: 2px solid #ffadc4;
+  background-color: #fff6f9;
+}
+
+.coin-amount {
+  font-weight: 700;
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.coin-amount img {
+  width: 20px;
+  height: 20px;
+}
+
+.coin-price {
+  color: #666;
+  font-size: 14px;
+  margin-top: 3px;
+}
+
+/* Button */
+.login-btn {
+  background-color: #ff375f;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 25px;
+}
+
+/* Invite & Share */
 .invite-box {
   background-color: #fff;
   border-radius: 10px;
@@ -29,6 +153,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 15px;
 }
 
 .invite-left {
@@ -43,7 +168,7 @@ body {
 
 .invite-text {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .invite-sub {
@@ -63,37 +188,114 @@ body {
   transform: scale(1.1);
 }
 
-/* TikTok logo centered under box */
-.tiktok-logo {
+/* TikTok logo centered below Invite box */
+.tiktok-logo-section {
   text-align: center;
   margin-top: 10px;
-  opacity: 0.7;
+  opacity: 0.3;
 }
 
-.tiktok-logo img {
+.tiktok-logo-section img {
   width: 60px;
   height: auto;
 }
 
-/* Footer LegalTenderPay text at bottom center */
+/* Footer */
 .footer {
   text-align: center;
-  position: fixed;
-  bottom: 25px;
-  left: 0;
-  width: 100%;
+  margin-top: 100px;
   opacity: 0.6;
 }
 
 .footer .legal {
   font-size: 18px;
   font-weight: bold;
+  opacity: 0.8;
+}
+
+/* Popup */
+.copy-popup {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #000;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 999;
+}
+
+.copy-popup.show {
+  opacity: 0.9;
 }
 </style>
 </head>
+
 <body>
 
+<div class="secure-payment">
+  Secure Payment via LegalTenderPay
+</div>
+
 <div class="container">
+  <div class="header">
+    <h1>Get Coins</h1>
+    <div class="header-right">
+      <img class="tiktok-mini-logo" src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo">
+    </div>
+  </div>
+
+  <p class="sub-text">
+    Save around <span>25%</span> with a lower<br>
+    third-party service fee.
+  </p>
+
+  <div class="coins-grid">
+    <div class="coin-box" onclick="selectBox(this)">
+      <div class="coin-amount">
+        <img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin"> 30
+      </div>
+      <div class="coin-price">NGN530</div>
+    </div>
+
+    <div class="coin-box" onclick="selectBox(this)">
+      <div class="coin-amount">
+        <img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin"> 350
+      </div>
+      <div class="coin-price">NGN6,200</div>
+    </div>
+
+    <div class="coin-box" onclick="selectBox(this)">
+      <div class="coin-amount">
+        <img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin"> 700
+      </div>
+      <div class="coin-price">NGN12,400</div>
+    </div>
+
+    <div class="coin-box" onclick="selectBox(this)">
+      <div class="coin-amount">
+        <img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin"> 1,400
+      </div>
+      <div class="coin-price">NGN24,700</div>
+    </div>
+
+    <div class="coin-box" onclick="selectBox(this)">
+      <div class="coin-amount">
+        <img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin"> 3,500
+      </div>
+      <div class="coin-price">NGN61,600</div>
+    </div>
+
+    <div class="coin-box" onclick="selectBox(this)">
+      <span class="coin-amount">Custom</span>
+    </div>
+  </div>
+
+  <button class="login-btn">Log in to get Coins</button>
 
   <div class="invite-box">
     <div class="invite-left">
@@ -103,20 +305,54 @@ body {
         <div class="invite-sub">Check out this new feature!</div>
       </div>
     </div>
-    <span class="share-btn">&#62;</span>
+    <span class="share-btn" onclick="shareLive()">&#62;</span>
   </div>
 
-  <!-- TikTok logo centered below -->
-  <div class="tiktok-logo">
+  <!-- TikTok logo centered -->
+  <div class="tiktok-logo-section">
     <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo">
   </div>
 
+  <!-- LegalTenderPay at bottom center -->
+  <div class="footer">
+    <div class="legal">LegalTenderPay</div>
+  </div>
 </div>
 
-<!-- LegalTenderPay footer -->
-<div class="footer">
-  <div class="legal">LegalTenderPay</div>
-</div>
+<div class="copy-popup" id="copyPopup">Link copied! Share it manually 💬</div>
+
+<script>
+function selectBox(element) {
+  const boxes = document.querySelectorAll('.coin-box');
+  boxes.forEach(box => box.classList.remove('active'));
+  element.classList.add('active');
+}
+
+function shareLive() {
+  const shareData = {
+    title: "Join My Live on LegalTenderPay 🎉",
+    text: "🎥 Come check out my live stream and earn rewards together!",
+    url: "https://legaltenderpay.github.io/live"
+  };
+
+  if (navigator.share) {
+    navigator.share(shareData)
+      .then(() => console.log('✅ Shared successfully!'))
+      .catch(err => console.log('❌ Share failed:', err));
+  } else {
+    const tempInput = document.createElement("input");
+    tempInput.value = shareData.url;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+
+    const popup = document.getElementById("copyPopup");
+    popup.classList.add("show");
+    setTimeout(() => popup.classList.remove("show"), 2500);
+  }
+}
+</script>
 
 </body>
 </html>
