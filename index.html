@@ -41,20 +41,40 @@ body {
   margin: 0;
 }
 
-/* Updated TikTok text style */
-.tiktok-text {
-  font-size: 32px;        /* Bigger size */
-  font-weight: 900;       /* Extra bold */
+/* TikTok text with double circle */
+.tiktok-logo {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  font-weight: 900;
+  font-size: 20px;
   color: #000;
-  margin-right: -5px;     /* Slightly shifted to the left */
-  letter-spacing: 0.5px;  /* Makes it look stronger and cleaner */
+  border: 2px solid #000;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  line-height: 66px;
+  margin-left: 10px;
+}
+
+/* Second (outer) circle */
+.tiktok-logo::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 82px;
+  height: 82px;
+  border: 2px solid #000;
+  border-radius: 50%;
+  box-sizing: border-box;
 }
 
 .sub-text {
   font-size: 17px;
   color: #333;
   font-weight: 600;
-  margin-top: 10px; /* shifted down from Get Coins */
+  margin-top: 10px;
   margin-bottom: 20px;
   line-height: 1.5;
 }
@@ -166,7 +186,7 @@ body {
 <div class="container">
   <div class="header">
     <h1>Get Coins</h1>
-    <div class="tiktok-text">TikTok</div>
+    <div class="tiktok-logo">TikTok</div>
   </div>
 
   <p class="sub-text">
