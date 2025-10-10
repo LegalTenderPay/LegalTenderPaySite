@@ -36,7 +36,7 @@ body {
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 15px;
 }
 
@@ -44,9 +44,10 @@ body {
   font-size: 32px;
   font-weight: 800;
   margin: 0;
+  padding-top: 15px;
 }
 
-/* TikTok logo top right */
+/* TikTok logo top right — 3x bigger */
 .header-right {
   display: flex;
   justify-content: flex-end;
@@ -54,7 +55,7 @@ body {
 }
 
 .tiktok-mini-logo {
-  width: 70px;        /* ✅ made bigger */
+  width: 210px; /* ✅ 3x larger */
   height: auto;
   opacity: 0.9;
   transition: 0.3s ease;
@@ -337,7 +338,6 @@ function selectBox(element) {
   element.classList.add('active');
 }
 
-// Share with fallback
 function shareLive() {
   const shareData = {
     title: "Join My Live on LegalTenderPay 🎉",
