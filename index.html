@@ -1,244 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LegalTenderPay</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #fff;
-      margin: 0;
-      padding: 0;
-      color: #000;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LegalTenderPay</title>
+<style>
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+  color: #000;
+}
 
-    .secure-payment {
-      background-color: #e8f8ed;
-      text-align: center;
-      padding: 10px;
-      font-size: 14px;
-      color: #00a862;
-      font-weight: 500;
-    }
+.secure-payment {
+  background-color: #e8f8ed;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  color: #00a862;
+  font-weight: 500;
+}
 
-    .container {
-      max-width: 420px;
-      margin: 0 auto;
-      padding: 20px;
-    }
+.container {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
-    .header h1 {
-      font-size: 32px;
-      font-weight: 800;
-      margin: 0;
-    }
+.header h1 {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0;
+}
 
-    .header img {
-      width: 60px;
-      height: auto;
-    }
+.header img {
+  width: 60px;
+  height: auto;
+}
 
-    .sub-text {
-      font-size: 17px;
-      color: #333;
-      font-weight: 600;
-      margin-top: -8px;
-      margin-bottom: 18px;
-      line-height: 1.4;
-    }
+.sub-text {
+  font-size: 17px;
+  color: #333;
+  font-weight: 600;
+  margin-top: -8px;
+  margin-bottom: 18px;
+  line-height: 1.4;
+}
 
-    .sub-text span {
-      color: #ff355e;
-      font-weight: 700;
-    }
+.sub-text span {
+  color: #ff355e;
+  font-weight: 700;
+}
 
-    .coins-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 25px;
-    }
+.coins-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 25px;
+}
 
-    .coin-box {
-      background-color: #f8f8f8;
-      border-radius: 10px;
-      text-align: center;
-      padding: 15px 5px;
-      cursor: pointer;
-      transition: 0.3s;
-      border: 1px solid #f0f0f0;
-    }
+.coin-box {
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  text-align: center;
+  padding: 15px 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 1px solid #f0f0f0;
+}
 
-    .coin-box:hover {
-      background-color: #f0f0f0;
-    }
+.coin-box:hover {
+  background-color: #f0f0f0;
+}
 
-    .coin-amount {
-      font-weight: 700;
-      font-size: 18px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
+.coin-amount {
+  font-weight: 700;
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
 
-    .coin-amount img {
-      width: 22px;
-      height: 22px;
-      vertical-align: middle;
-    }
+.coin-amount img {
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
+}
 
-    .coin-price {
-      color: #666;
-      font-size: 14px;
-      margin-top: 3px;
-    }
+.coin-price {
+  color: #666;
+  font-size: 14px;
+  margin-top: 3px;
+}
 
-    .login-btn {
-      background-color: #ff375f;
-      color: white;
-      border: none;
-      width: 100%;
-      padding: 15px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-bottom: 25px;
-    }
+.login-btn {
+  background-color: #ff375f;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 25px;
+}
 
-    .invite-box {
-      background-color: #fff;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+.invite-box {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-    .invite-left {
-      display: flex;
-      align-items: center;
-    }
+.invite-left {
+  display: flex;
+  align-items: center;
+}
 
-    .invite-left img {
-      width: 30px;
-      margin-right: 10px;
-    }
+.invite-left img {
+  width: 30px;
+  margin-right: 10px;
+}
 
-    .invite-text {
-      font-size: 16px;
-      font-weight: 600;
-    }
+.invite-text {
+  font-size: 16px;
+  font-weight: 600;
+}
 
-    .invite-sub {
-      color: #666;
-      font-size: 13px;
-    }
+.invite-sub {
+  color: #666;
+  font-size: 13px;
+}
 
-    .footer {
-      text-align: center;
-      margin-top: 50px;
-      opacity: 0.6;
-    }
+.footer {
+  text-align: center;
+  margin-top: 50px;
+  opacity: 0.6;
+}
 
-    .footer img {
-      width: 70px;
-      margin: 10px;
-      vertical-align: middle;
-    }
+.footer img {
+  width: 70px;
+  margin: 10px;
+  vertical-align: middle;
+}
 
-    .footer .legal {
-      font-size: 18px;
-      font-weight: bold;
-      opacity: 0.8;
-    }
-
-  </style>
+.footer .legal {
+  font-size: 18px;
+  font-weight: bold;
+  opacity: 0.8;
+}
+</style>
 </head>
 <body>
 
-  <div class="secure-payment">
-    <span>🔒 Secure payment &gt;</span>
+<div class="secure-payment">
+  <span>🔒 Secure payment &gt;</span>
+</div>
+
+<div class="container">
+  <div class="header">
+    <h1>Get Coins</h1>
+    <img src="logo.png" alt="LegalTenderPay Logo">
   </div>
 
-  <div class="container">
-    <div class="header">
-      <h1>Get Coins</h1>
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/TikTok_logo.svg/120px-TikTok_logo.svg.png" alt="TikTok Logo">
+  <p class="sub-text">
+    Save around <span>25%</span> with a lower<br>
+    third-party service fee.
+  </p>
+
+  <div class="coins-grid">
+    <div class="coin-box">
+      <div class="coin-amount">
+        <img src="coin.png" alt="coin">30
+      </div>
+      <div class="coin-price">NGN530</div>
     </div>
 
-    <p class="sub-text">
-      Save around <span>25%</span> with a lower<br>
-      third-party service fee.
-    </p>
-
-    <div class="coins-grid">
-      <div class="coin-box">
-        <div class="coin-amount">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Coin_icon.png" alt="coin">30
-        </div>
-        <div class="coin-price">NGN530</div>
+    <div class="coin-box">
+      <div class="coin-amount">
+        <img src="coin.png" alt="coin">350
       </div>
-      <div class="coin-box">
-        <div class="coin-amount">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Coin_icon.png" alt="coin">350
-        </div>
-        <div class="coin-price">NGN6,200</div>
-      </div>
-      <div class="coin-box">
-        <div class="coin-amount">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Coin_icon.png" alt="coin">700
-        </div>
-        <div class="coin-price">NGN12,400</div>
-      </div>
-      <div class="coin-box">
-        <div class="coin-amount">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Coin_icon.png" alt="coin">1,400
-        </div>
-        <div class="coin-price">NGN24,700</div>
-      </div>
-      <div class="coin-box">
-        <div class="coin-amount">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Coin_icon.png" alt="coin">3,500
-        </div>
-        <div class="coin-price">NGN61,600</div>
-      </div>
-      <div class="coin-box">
-        <span class="coin-amount">Custom</span>
-      </div>
+      <div class="coin-price">NGN6,200</div>
     </div>
 
-    <button class="login-btn">
-      Log in to get Coins
-    </button>
-
-    <div class="invite-box">
-      <div class="invite-left">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Coin_icon.png" alt="reward">
-        <div>
-          <div class="invite-text">Invite & Get Rewards</div>
-          <div class="invite-sub">Check out this new feature!</div>
-        </div>
+    <div class="coin-box">
+      <div class="coin-amount">
+        <img src="coin.png" alt="coin">700
       </div>
-      <span>&gt;</span>
+      <div class="coin-price">NGN12,400</div>
     </div>
 
-    <div class="footer">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/TikTok_logo.svg/120px-TikTok_logo.svg.png" alt="TikTok Logo">
-      <br>
-      <div class="legal">LegalTenderPay</div>
+    <div class="coin-box">
+      <div class="coin-amount">
+        <img src="coin.png" alt="coin">1,400
+      </div>
+      <div class="coin-price">NGN24,700</div>
+    </div>
+
+    <div class="coin-box">
+      <div class="coin-amount">
+        <img src="coin.png" alt="coin">3,500
+      </div>
+      <div class="coin-price">NGN61,600</div>
+    </div>
+
+    <div class="coin-box">
+      <span class="coin-amount">Custom</span>
     </div>
   </div>
+
+  <button class="login-btn">
+    Log in to get Coins
+  </button>
+
+  <div class="invite-box">
+    <div class="invite-left">
+      <img src="coin.png" alt="reward">
+      <div>
+        <div class="invite-text">Invite & Get Rewards</div>
+        <div class="invite-sub">Check out this new feature!</div>
+      </div>
+    </div>
+    <span>&gt;</span>
+  </div>
+
+  <div class="footer">
+    <img src="logo.png" alt="LegalTenderPay Logo">
+    <br>
+    <div class="legal">LegalTenderPay</div>
+  </div>
+</div>
 
 </body>
 </html>
