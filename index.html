@@ -32,7 +32,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .header h1 {
@@ -49,21 +49,21 @@ body {
   justify-content: center;
   text-align: center;
   font-weight: 1000;
-  font-size: 28px;
+  font-size: 26px;
   color: #000;
-  border: 5px solid #000; /* bold single circle */
+  border: 4px solid #000; /* smaller circle */
   border-radius: 50%;
-  width: 90px;
-  height: 90px;
+  width: 75px;
+  height: 75px;
   margin-left: 10px;
 }
 
 .sub-text {
-  font-size: 17px;
+  font-size: 16px;
   color: #333;
   font-weight: 600;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  margin-top: 2px; /* shifted up */
+  margin-bottom: 18px;
   line-height: 1.5;
 }
 
@@ -163,6 +163,56 @@ body {
   font-weight: bold;
   opacity: 0.8;
 }
+
+/* Popup styling */
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+}
+
+.popup-content {
+  background: #fff6f9;
+  border: 2px solid #ff5575;
+  border-radius: 12px;
+  width: 85%;
+  max-width: 320px;
+  margin: 100px auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.popup-content img {
+  width: 36px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.popup-content .amount {
+  font-weight: 800;
+  font-size: 24px;
+}
+
+.popup-content .price {
+  color: #666;
+  font-size: 16px;
+  margin-top: 6px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #ff355e;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+}
 </style>
 </head>
 <body>
@@ -183,29 +233,29 @@ body {
   </p>
 
   <div class="coins-grid">
-    <a href="#" class="coin-box">
+    <div class="coin-box" onclick="showPopup('30', 'NGN530')">
       <div class="coin-amount">30</div>
       <div class="coin-price">NGN530</div>
-    </a>
-    <a href="#" class="coin-box">
+    </div>
+    <div class="coin-box" onclick="showPopup('350', 'NGN6,200')">
       <div class="coin-amount">350</div>
       <div class="coin-price">NGN6,200</div>
-    </a>
-    <a href="#" class="coin-box">
+    </div>
+    <div class="coin-box" onclick="showPopup('700', 'NGN12,400')">
       <div class="coin-amount">700</div>
       <div class="coin-price">NGN12,400</div>
-    </a>
-    <a href="#" class="coin-box">
+    </div>
+    <div class="coin-box" onclick="showPopup('1,400', 'NGN24,700')">
       <div class="coin-amount">1,400</div>
       <div class="coin-price">NGN24,700</div>
-    </a>
-    <a href="#" class="coin-box">
+    </div>
+    <div class="coin-box" onclick="showPopup('3,500', 'NGN61,600')">
       <div class="coin-amount">3,500</div>
       <div class="coin-price">NGN61,600</div>
-    </a>
-    <a href="#" class="coin-box">
+    </div>
+    <div class="coin-box" onclick="showPopup('Custom', 'NGN—')">
       <span class="coin-amount">Custom</span>
-    </a>
+    </div>
   </div>
 
   <button class="login-btn">
@@ -227,6 +277,28 @@ body {
     <div class="legal">LegalTenderPay</div>
   </div>
 </div>
+
+<!-- Popup -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Coin_icon.png" alt="coin">
+    <span class="amount" id="popupAmount">3,500</span><br>
+    <div class="price" id="popupPrice">NGN61,600</div>
+    <button class="close-btn" onclick="closePopup()">Close</button>
+  </div>
+</div>
+
+<script>
+function showPopup(amount, price) {
+  document.getElementById("popupAmount").textContent = amount;
+  document.getElementById("popupPrice").textContent = price;
+  document.getElementById("popup").style.display = "block";
+}
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+}
+</script>
 
 </body>
 </html>
