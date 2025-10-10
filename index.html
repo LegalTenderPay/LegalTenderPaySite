@@ -37,7 +37,14 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 8px; /* moved header slightly closer to sub-text */
+  margin-top: -10px;  /* shifts “Get Coins” a little bit up */
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
 }
 
 /* ====== TikTok logo top-right ====== */
@@ -60,14 +67,15 @@ body {
   transform: scale(1.08);
 }
 
-/* ====== Sub text (adjusted spacing) ====== */
+/* ====== Sub text (closer to title) ====== */
 .sub-text {
   font-size: 17px;
   color: #333;
   font-weight: 600;
-  margin-top: -28px;   /* closer to “Get Coins” */
+  margin-top: -10px;   /* moved up to sit closer under “Get Coins” */
   margin-bottom: 20px;
   line-height: 1.3;
+  text-align: left;
 }
 
 .sub-text span {
