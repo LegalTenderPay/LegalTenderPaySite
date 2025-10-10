@@ -41,33 +41,21 @@ body {
   margin: 0;
 }
 
-/* TikTok text with double circle */
+/* TikTok text with bold single circle */
 .tiktok-logo {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  font-weight: 900;
-  font-size: 20px;
+  font-weight: 1000;
+  font-size: 28px;
   color: #000;
-  border: 2px solid #000;
+  border: 5px solid #000; /* bold single circle */
   border-radius: 50%;
-  width: 70px;
-  height: 70px;
-  line-height: 66px;
+  width: 90px;
+  height: 90px;
   margin-left: 10px;
-}
-
-/* Second (outer) circle */
-.tiktok-logo::before {
-  content: "";
-  position: absolute;
-  top: -6px;
-  left: -6px;
-  width: 82px;
-  height: 82px;
-  border: 2px solid #000;
-  border-radius: 50%;
-  box-sizing: border-box;
 }
 
 .sub-text {
