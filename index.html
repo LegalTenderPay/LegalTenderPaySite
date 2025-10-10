@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>LegalTenderPay</title>
+
 <style>
 .share-btn {
   font-size: 22px;
@@ -248,7 +249,7 @@ body {
     Log in to get Coins
   </button>
 
-  <!-- Invite Box -->
+  <!-- Invite and share box -->
   <div class="invite-box">
     <div class="invite-left">
       <img src="https://cdn-icons-png.flaticon.com/512/12749/12749038.png" alt="clap hands with coin">
@@ -272,17 +273,18 @@ function selectBox(element) {
   element.classList.add('active');
 }
 
+// ✅ Fixed Share Function
 function shareLive() {
   const shareData = {
     title: "Join My Live on LegalTenderPay 🎉",
     text: "Come check out my live stream and earn rewards together!",
-    url: "https://your-live-link-here.com" // 👈 Replace this with your real live URL
+    url: "https://legaltenderpay.github.io/live" // ✅ Replace this with your actual live link
   };
 
   if (navigator.share) {
     navigator.share(shareData)
-      .then(() => console.log('Live shared successfully!'))
-      .catch(err => console.log('Share canceled or failed:', err));
+      .then(() => console.log('✅ Live shared successfully!'))
+      .catch(err => console.log('❌ Share canceled or failed:', err));
   } else {
     alert("Sharing not supported on this device. Please copy the link manually.");
   }
