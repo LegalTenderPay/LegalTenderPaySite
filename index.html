@@ -180,8 +180,29 @@ body {
   font-weight: bold;
   opacity: 0.8;
 }
+
+/* ✅ Fallback message popup */
+.copy-popup {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #000;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 999;
+}
+
+.copy-popup.show {
+  opacity: 0.9;
+}
 </style>
 </head>
+
 <body>
 
 <div class="secure-payment">
@@ -245,14 +266,12 @@ body {
     </div>
   </div>
 
-  <button class="login-btn">
-    Log in to get Coins
-  </button>
+  <button class="login-btn">Log in to get Coins</button>
 
-  <!-- Invite and share box -->
+  <!-- Invite and Share -->
   <div class="invite-box">
     <div class="invite-left">
-      <img src="https://cdn-icons-png.flaticon.com/512/12749/12749038.png" alt="clap hands with coin">
+      <img src="https://cdn-icons-png.flaticon.com/512/12749/12749038.png" alt="invite">
       <div>
         <div class="invite-text">Invite & Get Rewards</div>
         <div class="invite-sub">Check out this new feature!</div>
@@ -266,6 +285,9 @@ body {
   </div>
 </div>
 
+<!-- Popup Message -->
+<div class="copy-popup" id="copyPopup">Link copied! Share it manually 💬</div>
+
 <script>
 function selectBox(element) {
   const boxes = document.querySelectorAll('.coin-box');
@@ -273,20 +295,31 @@ function selectBox(element) {
   element.classList.add('active');
 }
 
-// ✅ Fixed Share Function
+// ✅ Enhanced Share Function with Fallback
 function shareLive() {
   const shareData = {
     title: "Join My Live on LegalTenderPay 🎉",
     text: "Come check out my live stream and earn rewards together!",
-    url: "https://legaltenderpay.github.io/live" // ✅ Replace this with your actual live link
+    url: "https://legaltenderpay.github.io/live" // Replace this with your real live URL
   };
 
   if (navigator.share) {
     navigator.share(shareData)
-      .then(() => console.log('✅ Live shared successfully!'))
-      .catch(err => console.log('❌ Share canceled or failed:', err));
+      .then(() => console.log('✅ Shared successfully!'))
+      .catch(err => console.log('❌ Share failed:', err));
   } else {
-    alert("Sharing not supported on this device. Please copy the link manually.");
+    // Fallback: Copy the link
+    const tempInput = document.createElement("input");
+    tempInput.value = shareData.url;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+
+    // Show popup
+    const popup = document.getElementById("copyPopup");
+    popup.classList.add("show");
+    setTimeout(() => popup.classList.remove("show"), 2500);
   }
 }
 </script>
