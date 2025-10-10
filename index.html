@@ -32,7 +32,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 4px; /* slightly less spacing under Get Coins */
+      margin-bottom: 4px;
     }
 
     .header h1 {
@@ -46,12 +46,11 @@
       height: auto;
     }
 
-    /* Subtext lifted closer */
     .sub-text {
       font-size: 17px; 
       color: #333;
       font-weight: 600;
-      margin-top: -8px; /* lifted more */
+      margin-top: -8px;
       margin-bottom: 18px;
       line-height: 1.4;
     }
@@ -81,20 +80,23 @@
       background-color: #f0f0f0;
     }
 
-    .coin-box img {
-      width: 25px;
+    .coin-icon {
+      width: 20px;
+      height: 20px;
       vertical-align: middle;
-      margin-right: 5px;
+      margin-right: 4px;
     }
 
     .coin-amount {
       font-weight: 700;
       font-size: 18px;
+      vertical-align: middle;
     }
 
     .coin-price {
       color: #666;
       font-size: 14px;
+      margin-top: 3px;
     }
 
     .login-btn {
@@ -172,22 +174,44 @@
       <img src="tiktok-logo.png" alt="TikTok Logo">
     </div>
 
-    <!-- Subtext lifted closer -->
     <p class="sub-text">
       Save around <span>25%</span> with a lower<br>
       third-party service fee.
     </p>
 
     <div class="coins-grid">
-      <div class="coin-box"><img src="coin.png" alt="coin"><span class="coin-amount">30</span><div class="coin-price">NGN530</div></div>
-      <div class="coin-box"><img src="coin.png" alt="coin"><span class="coin-amount">350</span><div class="coin-price">NGN6,200</div></div>
-      <div class="coin-box"><img src="coin.png" alt="coin"><span class="coin-amount">700</span><div class="coin-price">NGN12,400</div></div>
-      <div class="coin-box"><img src="coin.png" alt="coin"><span class="coin-amount">1,400</span><div class="coin-price">NGN24,700</div></div>
-      <div class="coin-box"><img src="coin.png" alt="coin"><span class="coin-amount">3,500</span><div class="coin-price">NGN61,600</div></div>
-      <div class="coin-box"><span class="coin-amount">Custom</span></div>
+      <div class="coin-box">
+        <img src="coin.png" alt="coin" class="coin-icon">
+        <span class="coin-amount">30</span>
+        <div class="coin-price">NGN530</div>
+      </div>
+      <div class="coin-box">
+        <img src="coin.png" alt="coin" class="coin-icon">
+        <span class="coin-amount">350</span>
+        <div class="coin-price">NGN6,200</div>
+      </div>
+      <div class="coin-box">
+        <img src="coin.png" alt="coin" class="coin-icon">
+        <span class="coin-amount">700</span>
+        <div class="coin-price">NGN12,400</div>
+      </div>
+      <div class="coin-box">
+        <img src="coin.png" alt="coin" class="coin-icon">
+        <span class="coin-amount">1,400</span>
+        <div class="coin-price">NGN24,700</div>
+      </div>
+      <div class="coin-box">
+        <img src="coin.png" alt="coin" class="coin-icon">
+        <span class="coin-amount">3,500</span>
+        <div class="coin-price">NGN61,600</div>
+      </div>
+      <div class="coin-box">
+        <img src="coin.png" alt="coin" class="coin-icon">
+        <span class="coin-amount">Custom</span>
+      </div>
     </div>
 
-    <button class="login-btn" onclick="window.open('https://www.tiktok.com/coin/VGYvTsB?lang=en-GB&enable_one_tap=1&is_coin_home_screen=0&enter_from=live_recharge&device_platform=mobile_h5&send_itp_flag=1&redirect_url=https%3A%2F%2Fwww.tiktok.com%2Fcoin%2FVGYvTsB&back_on_close=1&coin_spa=true&login_path=%2Flogin', '_blank')">
+    <button class="login-btn" onclick="window.open('https://www.tiktok.com/coin/VGYvTsB?lang=en-GB', '_blank')">
       Log in to get Coins
     </button>
 
