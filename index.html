@@ -46,15 +46,16 @@ body {
   margin: 0;
 }
 
-/* TikTok logo top right */
+/* TikTok logo top right (larger & more to the edge) */
 .header-right {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  margin-right: -25px; /* ✅ Moves logo closer to the page edge */
 }
 
 .tiktok-mini-logo {
-  width: 70px;        /* ✅ made bigger */
+  width: 90px;        /* ✅ Slightly larger */
   height: auto;
   opacity: 0.9;
   transition: 0.3s ease;
