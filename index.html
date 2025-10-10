@@ -31,41 +31,31 @@ body {
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end; /* lowers the TikTok circle slightly */
-  margin-bottom: 0;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .header h1 {
   font-size: 32px;
   font-weight: 800;
   margin: 0;
-  line-height: 1.1;
 }
 
-/* TikTok text with lighter single circle */
-.tiktok-logo {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-weight: 900;
-  font-size: 25px;
+/* Updated TikTok text style */
+.tiktok-text {
+  font-size: 32px;        /* Bigger size */
+  font-weight: 900;       /* Extra bold */
   color: #000;
-  border: 3px solid #000; /* slightly less bold */
-  border-radius: 50%;
-  width: 75px;
-  height: 75px;
-  margin-left: 10px;
-  margin-bottom: -5px; /* moves circle slightly down */
+  margin-right: -5px;     /* Slightly shifted to the left */
+  letter-spacing: 0.5px;  /* Makes it look stronger and cleaner */
 }
 
 .sub-text {
-  font-size: 16px;
+  font-size: 17px;
   color: #333;
   font-weight: 600;
-  margin-top: -2px; /* lifted up closer to title */
-  margin-bottom: 18px;
+  margin-top: 10px; /* shifted down from Get Coins */
+  margin-bottom: 20px;
   line-height: 1.5;
 }
 
@@ -165,56 +155,6 @@ body {
   font-weight: bold;
   opacity: 0.8;
 }
-
-/* Popup styling */
-.popup {
-  display: none;
-  position: fixed;
-  z-index: 999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
-}
-
-.popup-content {
-  background: #fff6f9;
-  border: 2px solid #ff5575;
-  border-radius: 12px;
-  width: 85%;
-  max-width: 320px;
-  margin: 100px auto;
-  padding: 20px;
-  text-align: center;
-}
-
-.popup-content img {
-  width: 36px;
-  vertical-align: middle;
-  margin-right: 8px;
-}
-
-.popup-content .amount {
-  font-weight: 800;
-  font-size: 24px;
-}
-
-.popup-content .price {
-  color: #666;
-  font-size: 16px;
-  margin-top: 6px;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  color: #ff355e;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 15px;
-}
 </style>
 </head>
 <body>
@@ -226,7 +166,7 @@ body {
 <div class="container">
   <div class="header">
     <h1>Get Coins</h1>
-    <div class="tiktok-logo">TikTok</div>
+    <div class="tiktok-text">TikTok</div>
   </div>
 
   <p class="sub-text">
@@ -235,29 +175,29 @@ body {
   </p>
 
   <div class="coins-grid">
-    <div class="coin-box" onclick="showPopup('30', 'NGN530')">
+    <a href="#" class="coin-box">
       <div class="coin-amount">30</div>
       <div class="coin-price">NGN530</div>
-    </div>
-    <div class="coin-box" onclick="showPopup('350', 'NGN6,200')">
+    </a>
+    <a href="#" class="coin-box">
       <div class="coin-amount">350</div>
       <div class="coin-price">NGN6,200</div>
-    </div>
-    <div class="coin-box" onclick="showPopup('700', 'NGN12,400')">
+    </a>
+    <a href="#" class="coin-box">
       <div class="coin-amount">700</div>
       <div class="coin-price">NGN12,400</div>
-    </div>
-    <div class="coin-box" onclick="showPopup('1,400', 'NGN24,700')">
+    </a>
+    <a href="#" class="coin-box">
       <div class="coin-amount">1,400</div>
       <div class="coin-price">NGN24,700</div>
-    </div>
-    <div class="coin-box" onclick="showPopup('3,500', 'NGN61,600')">
+    </a>
+    <a href="#" class="coin-box">
       <div class="coin-amount">3,500</div>
       <div class="coin-price">NGN61,600</div>
-    </div>
-    <div class="coin-box" onclick="showPopup('Custom', 'NGN—')">
+    </a>
+    <a href="#" class="coin-box">
       <span class="coin-amount">Custom</span>
-    </div>
+    </a>
   </div>
 
   <button class="login-btn">
@@ -279,28 +219,6 @@ body {
     <div class="legal">LegalTenderPay</div>
   </div>
 </div>
-
-<!-- Popup -->
-<div class="popup" id="popup">
-  <div class="popup-content">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/Coin_icon.png" alt="coin">
-    <span class="amount" id="popupAmount">3,500</span><br>
-    <div class="price" id="popupPrice">NGN61,600</div>
-    <button class="close-btn" onclick="closePopup()">Close</button>
-  </div>
-</div>
-
-<script>
-function showPopup(amount, price) {
-  document.getElementById("popupAmount").textContent = amount;
-  document.getElementById("popupPrice").textContent = price;
-  document.getElementById("popup").style.display = "block";
-}
-
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
-}
-</script>
 
 </body>
 </html>
