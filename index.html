@@ -383,8 +383,8 @@ body {
     </div>
   </div>
 
-  <!-- Redirect login button -->
-  <button class="login-btn" onclick="redirectToTikTok()">Log in to get Coins</button>
+  <!-- Login Button -->
+  <button class="login-btn" onclick="loginToTikTok()">Log in to get Coins</button>
 
   <div class="invite-box">
     <div class="invite-left">
@@ -397,14 +397,17 @@ body {
     <span class="share-btn" onclick="doShare()">&#62;</span>
   </div>
 
+  <!-- LegalTenderPay Coin Image -->
   <div class="coin-image-section">
     <img src="https://raw.githubusercontent.com/LegalTenderPay/LegalTenderPaySite/refs/heads/main/70a854a7-f718-447f-9176-6ea7a74ff63e.jpeg" alt="LegalTenderPay Coin">
   </div>
 
+  <!-- TikTok logo centered -->
   <div class="tiktok-logo-section">
     <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo">
   </div>
 
+  <!-- LegalTenderPay at bottom center -->
   <div class="footer">
     <div class="legal">LegalTenderPay</div>
   </div>
@@ -431,11 +434,14 @@ function selectBox(element) {
   element.classList.add('active');
 }
 
-// Redirect to TikTok login, then back to your page
-function redirectToTikTok() {
-  const redirectURL = encodeURIComponent("https://legaltenderpay.github.io/LegalTenderPaySite/#");
-  const tiktokLogin = `https://www.tiktok.com/coin?lang=en-GB&enable_one_tap=1&is_coin_home_screen=0&enter_from=live_recharge&device_platform=mobile_h5&send_itp_flag=1&redirect_url=${redirectURL}&back_on_close=1&coin_spa=true&login_path=%2Flogin`;
-  window.location.href = tiktokLogin;
+function loginToTikTok() {
+  const loginUrl = "https://www.tiktok.com/login?redirect_url=" + 
+    encodeURIComponent("https://legaltenderpay.github.io/LegalTenderPaySite/#");
+  window.open(loginUrl, "_blank");
+}
+
+function shareLive() {
+  document.getElementById("sharePopup").style.display = "flex";
 }
 
 function closePopup() {
