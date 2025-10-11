@@ -130,6 +130,22 @@ body {
   margin-top: 3px;
 }
 
+/* Custom input */
+.custom-input {
+  display: none;
+  text-align: center;
+  margin-top: -10px;
+}
+
+.custom-input input {
+  width: 70%;
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
 /* Button */
 .login-btn {
   background-color: #ff375f;
@@ -344,9 +360,13 @@ body {
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">3,500</div>
       <div class="coin-price">NGN61,600</div>
     </div>
-    <div class="coin-box" data-price="0" onclick="selectBox(this)">
+    <div class="coin-box" data-price="custom" onclick="selectCustom(this)">
       <span class="coin-amount">Custom</span>
     </div>
+  </div>
+
+  <div class="custom-input" id="customInputBox">
+    <input type="number" id="customAmount" placeholder="Enter custom amount" oninput="updateCustomAmount()">
   </div>
 
   <button class="login-btn" id="mainButton" onclick="startLogin()">Log in to get Coins</button>
@@ -388,25 +408,53 @@ body {
 
 <script>
 let selectedPrice = 530;
+let loggedIn = false;
 
 function selectBox(el) {
   document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   selectedPrice = el.getAttribute('data-price');
+  document.getElementById("customInputBox").style.display = "none";
+  updateButton();
+}
+
+function selectCustom(el) {
+  document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById("customInputBox").style.display = "block";
+  selectedPrice = 0;
+  updateButton();
+}
+
+function updateCustomAmount() {
+  const customValue = document.getElementById("customAmount").value;
+  selectedPrice = customValue;
+  updateButton();
+}
+
+function updateButton() {
+  const btn = document.getElementById("mainButton");
+  if (loggedIn) {
+    btn.textContent = selectedPrice > 0 ? `Buy for NGN${selectedPrice}` : "Buy Now";
+  }
 }
 
 function startLogin() {
-  document.getElementById("loadingOverlay").style.display = "flex";
-  setTimeout(() => {
-    document.getElementById("loadingOverlay").style.display = "none";
-    document.getElementById("loginModal").style.display = "flex";
-  }, 2000);
+  if (!loggedIn) {
+    document.getElementById("loadingOverlay").style.display = "flex";
+    setTimeout(() => {
+      document.getElementById("loadingOverlay").style.display = "none";
+      document.getElementById("loginModal").style.display = "flex";
+    }, 2000);
+  } else {
+    alert(`Proceeding to buy for NGN${selectedPrice}`);
+  }
 }
 
 function completeLogin() {
   document.getElementById("loginModal").style.display = "none";
-  const btn = document.getElementById("mainButton");
-  btn.textContent = selectedPrice > 0 ? `Buy for NGN${selectedPrice}` : "Buy Now";
+  loggedIn = true;
+  updateButton();
 }
 </script>
 </body>
