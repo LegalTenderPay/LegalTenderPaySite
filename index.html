@@ -372,6 +372,7 @@ body {
       Save around <span>25%</span> with a lower<br> third-party service fee.
     </p>
 
+    <!-- COINS -->
     <div class="coins-grid" id="coinGrid">
       <div class="coin-box" onclick="selectBox(this)">
         <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 30</div>
@@ -393,8 +394,14 @@ body {
         <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 3,500</div>
         <div class="coin-price">NGN61,600</div>
       </div>
-      <div class="coin-box" onclick="selectBox(this)">
+
+      <!-- ✅ Custom coin option -->
+      <div class="coin-box" onclick="activateCustomBox(this)">
         <span class="coin-amount">Custom</span>
+        <div id="customInputContainer" style="display:none; margin-top:6px;">
+          <input id="customInput" type="number" min="1" placeholder="Enter amount"
+          style="width:90%; padding:5px; font-size:14px; border-radius:6px; border:1px solid #ccc;">
+        </div>
       </div>
     </div>
 
@@ -447,23 +454,25 @@ let selectedCoin = null;
 function selectBox(element) {
   document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
   element.classList.add('active');
+  selectedCoin = element.querySelector('.coin-amount') ? element.querySelector('.coin-amount').innerText : "Custom amount";
+}
 
-  const label = element.querySelector('.coin-amount')?.innerText || "Custom amount";
+function activateCustomBox(element) {
+  // Deselect others
+  document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
+  element.classList.add('active');
 
-  if (label.toLowerCase().includes("custom")) {
-    const customValue = prompt("Enter your custom coin amount:");
-    if (customValue && !isNaN(customValue)) {
-      element.querySelector('.coin-amount').innerHTML = `<img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> ${customValue}`;
-      selectedCoin = `${customValue} (custom)`;
-    } else {
-      alert("⚠️ Please enter a valid number.");
-      element.classList.remove('active');
-      selectedCoin = null;
-      return;
-    }
-  } else {
-    selectedCoin = label;
-  }
+  // Show input
+  const inputContainer = element.querySelector('#customInputContainer');
+  inputContainer.style.display = 'block';
+
+  const input = element.querySelector('#customInput');
+  input.focus();
+
+  // Track the value dynamically
+  input.addEventListener('input', function() {
+    selectedCoin = input.value ? `${input.value} (Custom)` : "Custom amount";
+  });
 }
 
 function openLogin() {
