@@ -14,6 +14,7 @@ body {
   color: #000;
 }
 
+/* Top secure banner */
 .secure-payment {
   background-color: #e8f8ed;
   text-align: center;
@@ -23,29 +24,30 @@ body {
   font-weight: 600;
 }
 
+/* Container for everything */
 .container {
   max-width: 420px;
   margin: 0 auto;
   padding: 15px 20px 20px 20px;
 }
 
-/* Header with logo on the right */
+/* Header with logo */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: -10px; /* moved header higher */
-  margin-bottom: 0; /* reduced space below header */
+  margin-top: -25px; /* lifted header */
+  margin-bottom: -5px; /* tighter spacing below */
 }
 
 .header h1 {
   margin: 0;
   font-size: 26px;
   font-weight: bold;
-  margin-top: 0;
+  margin-top: -5px; /* lifted title */
 }
 
-/* Logo box — enlarged 3× */
+/* Logo box */
 .logo-box {
   width: 135px;
   height: 135px;
@@ -63,13 +65,13 @@ body {
   object-fit: contain;
 }
 
-/* Sub-text shifted up closer to Get Coins */
+/* Sub-text moved closer */
 .sub-text {
   font-size: 16px;
   color: #333;
   font-weight: 600;
-  margin-top: 2px; /* closer to Get Coins */
-  margin-bottom: 12px; /* tighter spacing */
+  margin-top: -4px; /* moved up closer to title */
+  margin-bottom: 10px; /* tighter spacing below */
   line-height: 1.3;
 }
 
@@ -78,7 +80,7 @@ body {
   font-weight: 700;
 }
 
-/* Coin boxes */
+/* Coin boxes grid */
 .coins-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -136,7 +138,7 @@ body {
   margin-top: 10px;
 }
 
-/* Main button */
+/* Main login/buy button */
 .login-btn {
   background-color: #ff375f;
   color: white;
@@ -189,7 +191,7 @@ body {
   transition: 0.2s;
 }
 
-/* Coin image */
+/* Coin image section */
 .coin-image-section {
   text-align: center;
   margin-top: 25px;
@@ -202,13 +204,14 @@ body {
   transition: 0.3s ease;
 }
 
+/* Footer */
 .footer {
   text-align: center;
   margin-top: 100px;
   opacity: 0.6;
 }
 
-/* Loading & Login */
+/* Loading & Login overlay */
 .loading-overlay, .login-modal {
   display: none;
   position: fixed;
@@ -222,7 +225,7 @@ body {
   align-items: center;
 }
 
-/* Loader */
+/* Loader animation */
 .loader {
   width: 80px;
   height: 80px;
@@ -255,7 +258,7 @@ body {
   50% { transform: scale(1.3); opacity: 0.5; }
 }
 
-/* Login modal box */
+/* Login modal */
 .login-content {
   position: relative;
   background: #fff;
@@ -368,10 +371,12 @@ body {
   </div>
 </div>
 
+<!-- Loading overlay -->
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loader"></div>
 </div>
 
+<!-- Login modal -->
 <div class="login-modal" id="loginModal">
   <div class="login-content">
     <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"
