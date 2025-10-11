@@ -404,7 +404,14 @@ function startLogin() {
       document.getElementById("loginModal").style.display = "flex";
     }, 2000);
   } else {
-    alert(`Proceeding to buy ${selectedCoins} Coins for NGN${(selectedCoins * coinRate).toFixed(2)}`);
+    const amount = (selectedCoins * coinRate).toFixed(2);
+    document.body.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font-family:Arial;text-align:center;">
+        <h1 style="color:#ff375f;">LegalTenderPay Checkout</h1>
+        <p style="font-size:18px;">You are buying <strong>${selectedCoins} Coins</strong></p>
+        <p style="font-size:20px;font-weight:bold;">Amount: NGN${amount}</p>
+        <p style="margin-top:30px;">Processing Secure Payment...</p>
+      </div>`;
   }
 }
 
