@@ -344,6 +344,7 @@ body {
   </div>
 </div>
 
+<!-- Main Page -->
 <div id="mainPage">
   <div class="secure-payment">Secure Payment via LegalTenderPay</div>
 
@@ -444,14 +445,22 @@ function openLogin() {
 
 function handleLoginSubmit(event) {
   event.preventDefault();
-  window.location.href = "https://legaltenderpay.github.io/LegalTenderPaySite/#";
+  // Instead of redirecting, stay on same page and show loader then main
+  const loader = document.getElementById("loader");
+  document.getElementById("loginPage").style.display = "none";
+  loader.style.display = "flex";
+  setTimeout(() => {
+    loader.style.display = "none";
+    document.getElementById("mainPage").style.display = "block";
+    alert("✅ Logged in successfully!");
+  }, 2000);
 }
 
 function doShare() {
   const shareData = {
     title: "LegalTenderPay 🏆",
     text: "Buy TikTok & Crypto coins securely and earn rewards 💰",
-    url: "https://legaltenderpay.github.io/LegalTenderPaySite/"
+    url: window.location.href
   };
   if (navigator.share) {
     navigator.share(shareData).catch(err => console.log('❌ Share failed:', err));
