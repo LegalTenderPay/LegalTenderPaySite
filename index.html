@@ -34,21 +34,21 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 15px; /* moved heading down slightly */
-  margin-bottom: 10px;
+  margin-top: 5px; /* lowered from 15px → moves section up */
+  margin-bottom: 5px; /* reduced space below header */
 }
 
 .header h1 {
   margin: 0;
   font-size: 26px;
   font-weight: bold;
-  margin-top: 10px; /* added downward spacing for "Get Coins" */
+  margin-top: 0; /* removed downward spacing to pull text up */
 }
 
 /* Logo box — enlarged 3× */
 .logo-box {
-  width: 135px; /* was 45px */
-  height: 135px; /* was 45px */
+  width: 135px;
+  height: 135px;
   border-radius: 12px;
   overflow: hidden;
   background-color: #f5f5f5;
@@ -63,13 +63,13 @@ body {
   object-fit: contain;
 }
 
-/* Sub-text shifted further down */
+/* Sub-text shifted up */
 .sub-text {
   font-size: 16px;
   color: #333;
   font-weight: 600;
-  margin-top: 20px; /* was 8px */
-  margin-bottom: 25px; /* was 18px */
+  margin-top: 8px; /* was 20px */
+  margin-bottom: 18px; /* was 25px */
   line-height: 1.3;
 }
 
