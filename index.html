@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>LegalTenderPay</title>
 
+<!-- Paystack Inline Script -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
 <style>
 body {
   font-family: 'Arial', sans-serif;
@@ -14,7 +17,6 @@ body {
   color: #000;
 }
 
-/* Top secure banner */
 .secure-payment {
   background-color: #e8f8ed;
   text-align: center;
@@ -24,14 +26,12 @@ body {
   font-weight: 600;
 }
 
-/* Container for everything */
 .container {
   max-width: 420px;
   margin: 0 auto;
   padding: 15px 20px 20px 20px;
 }
 
-/* Header with logo */
 .header {
   display: flex;
   justify-content: space-between;
@@ -48,7 +48,6 @@ body {
   line-height: 1.2;
 }
 
-/* Sub-text */
 .sub-text {
   font-size: 15px;
   color: #333;
@@ -57,13 +56,11 @@ body {
   margin-bottom: 10px;
   line-height: 1.4;
 }
-
 .sub-text span {
   color: #ff355e;
   font-weight: 700;
 }
 
-/* Logo box */
 .logo-box {
   width: 120px;
   height: 120px;
@@ -74,7 +71,6 @@ body {
   justify-content: center;
   margin-top: 10px;
 }
-
 .logo-box img {
   width: 100%;
   height: 100%;
@@ -82,7 +78,6 @@ body {
   border-radius: 12px;
 }
 
-/* Coin boxes grid */
 .coins-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -100,12 +95,10 @@ body {
   transition: 0.3s;
   border: 1px solid #f0f0f0;
 }
-
 .coin-box.active {
   border: 2px solid #ffadc4;
   background-color: #fff6f9;
 }
-
 .coin-amount {
   font-weight: 700;
   font-size: 18px;
@@ -114,24 +107,20 @@ body {
   justify-content: center;
   gap: 5px;
 }
-
 .coin-amount img {
   width: 20px;
   height: 20px;
 }
-
 .coin-price {
   color: #666;
   font-size: 14px;
   margin-top: 3px;
 }
 
-/* Custom input */
 .custom-input {
   display: none;
   text-align: center;
 }
-
 .custom-input input {
   width: 70%;
   padding: 10px;
@@ -141,7 +130,6 @@ body {
   margin-top: 10px;
 }
 
-/* Main login/buy button */
 .login-btn {
   background-color: #ff375f;
   color: white;
@@ -155,7 +143,6 @@ body {
   margin-bottom: 25px;
 }
 
-/* Invite section */
 .invite-box {
   background-color: #fff;
   border-radius: 10px;
@@ -166,40 +153,22 @@ body {
   justify-content: space-between;
   margin-bottom: 15px;
 }
-
 .invite-left {
   display: flex;
   align-items: center;
 }
-
 .invite-left img {
   width: 35px;
   margin-right: 10px;
 }
+.invite-text { font-size: 16px; font-weight: 600; }
+.invite-sub { color: #666; font-size: 13px; }
+.share-btn { font-size: 22px; color: #999; cursor: pointer; transition: 0.2s; }
 
-.invite-text {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.invite-sub {
-  color: #666;
-  font-size: 13px;
-}
-
-.share-btn {
-  font-size: 22px;
-  color: #999;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-/* Coin image section */
 .coin-image-section {
   text-align: center;
   margin-top: 25px;
 }
-
 .coin-image-section img {
   width: 240px;
   height: auto;
@@ -207,7 +176,6 @@ body {
   transition: 0.3s ease;
 }
 
-/* Footer */
 .footer {
   text-align: center;
   margin-top: 100px;
@@ -215,26 +183,24 @@ body {
 }
 
 /* Loading & Login overlay */
-.loading-overlay, .login-modal {
+.loading-overlay, .login-modal, .summary-modal, .success-modal {
   display: none;
   position: fixed;
   z-index: 1300;
   left: 0;
-  top: 0;
+  bottom: 0;
   width: 100%;
-  height: 100%;
   background: white;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
-/* Loader animation */
 .loader {
   width: 80px;
   height: 80px;
   position: relative;
 }
-
 .loader::before, .loader::after {
   content: '';
   position: absolute;
@@ -244,67 +210,47 @@ body {
   border-radius: 50%;
   animation: tikSpin 0.8s infinite;
 }
-
-.loader::before {
-  left: 0;
-  background: #25f4ee;
-}
-
-.loader::after {
-  right: 0;
-  background: #ff375f;
-  animation-delay: 0.4s;
-}
-
+.loader::before { left: 0; background: #25f4ee; }
+.loader::after { right: 0; background: #ff375f; animation-delay: 0.4s; }
 @keyframes tikSpin {
   0%, 100% { transform: scale(1); opacity: 0.9; }
   50% { transform: scale(1.3); opacity: 0.5; }
 }
 
-/* Login modal */
-.login-content {
-  position: relative;
-  background: #fff;
-  border-radius: 14px;
-  padding: 25px 20px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+/* Order Summary Modal */
+.summary-modal {
+  height: 50%;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -3px 10px rgba(0,0,0,0.1);
+  padding: 25px;
   text-align: center;
-  width: 90%;
-  max-width: 380px;
 }
-
-.login-content h2 {
-  color: #000;
-  font-size: 22px;
-  margin-bottom: 8px;
-}
-
-.login-content p {
-  color: #666;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-.login-content input {
-  width: 85%;
-  padding: 12px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 15px;
-}
-
-.login-content button {
+.summary-modal h2 { font-size: 20px; margin-bottom: 10px; }
+.summary-modal p { font-size: 16px; margin: 8px 0; }
+.summary-modal button {
+  margin-top: 15px;
   background: #ff375f;
-  color: #fff;
   border: none;
-  padding: 12px;
+  padding: 12px 25px;
   border-radius: 8px;
-  cursor: not-allowed;
-  width: 88%;
+  color: #fff;
   font-weight: bold;
-  font-size: 16px;
-  opacity: 0.6;
+  cursor: pointer;
+}
+
+/* Success Message */
+.success-modal {
+  height: 40%;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  text-align: center;
+  padding: 40px 20px;
+}
+.success-modal h2 {
+  color: #28a745;
+  font-size: 22px;
+  margin-bottom: 10px;
 }
 </style>
 </head>
@@ -380,24 +326,23 @@ body {
   <div class="loader"></div>
 </div>
 
-<!-- Login modal -->
-<div class="login-modal" id="loginModal">
-  <div class="login-content">
-    <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"
-         alt="TikTok Logo"
-         style="width: 80px; position: absolute; top: 20px; right: 25px; opacity: 0.9;">
-    <h2 style="margin-top: 20px;">Log in to get Coins</h2>
-    <p>Log in to your TikTok account to get Coins, check notifications and more.</p>
-    <input type="text" id="usernameInput" placeholder="Username" required><br>
-    <input type="password" id="passwordInput" placeholder="Password" required><br>
-    <button id="continueBtn" disabled onclick="completeLogin()">Continue</button>
-  </div>
+<!-- Order Summary Modal -->
+<div class="summary-modal" id="summaryModal">
+  <h2>Order Summary</h2>
+  <p id="summaryCoins"></p>
+  <p id="summaryAmount"></p>
+  <button onclick="payWithPaystack()">Proceed to Pay</button>
+</div>
+
+<!-- Success Modal -->
+<div class="success-modal" id="successModal">
+  <h2>Payment Successful</h2>
+  <p>Coins will be sent shortly.</p>
 </div>
 
 <script>
 let coinRate = 17.71;
-let selectedCoins = 30;
-let loggedIn = false;
+let selectedCoins = 0;
 
 function formatCurrency(amount) {
   return '₦' + Math.round(amount).toLocaleString('en-NG');
@@ -408,7 +353,6 @@ function selectBox(el) {
   el.classList.add('active');
   selectedCoins = parseInt(el.getAttribute('data-coins')) || 0;
   document.getElementById("customInputBox").style.display = "none";
-  updateButton();
 }
 
 function selectCustom(el) {
@@ -416,78 +360,43 @@ function selectCustom(el) {
   el.classList.add('active');
   document.getElementById("customInputBox").style.display = "block";
   selectedCoins = 0;
-  updateButton();
 }
 
 function updateCustomAmount() {
   const val = parseInt(document.getElementById("customAmount").value);
   selectedCoins = val > 0 ? val : 0;
-  updateButton();
-}
-
-function updateButton() {
-  const btn = document.getElementById("mainButton");
-  if (loggedIn) {
-    if (selectedCoins > 0) {
-      const ngn = formatCurrency(selectedCoins * coinRate);
-      btn.textContent = `Buy ${selectedCoins} Coins for ${ngn}`;
-    } else {
-      btn.textContent = "Buy Now";
-    }
-  }
 }
 
 function startLogin() {
-  if (!loggedIn) {
-    document.getElementById("loadingOverlay").style.display = "flex";
-    setTimeout(() => {
-      document.getElementById("loadingOverlay").style.display = "none";
-      document.getElementById("loginModal").style.display = "flex";
-    }, 2000);
+  if (selectedCoins > 0) {
+    const ngn = formatCurrency(selectedCoins * coinRate);
+    document.getElementById("summaryCoins").innerText = `Coins: ${selectedCoins}`;
+    document.getElementById("summaryAmount").innerText = `Total: ${ngn}`;
+    document.getElementById("summaryModal").style.display = "flex";
   } else {
-    const amount = formatCurrency(selectedCoins * coinRate);
-    document.body.innerHTML = `
-      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font-family:Arial;text-align:center;">
-        <h1 style="color:#ff375f;">LegalTenderPay Checkout</h1>
-        <p style="font-size:18px;">You are buying <strong>${selectedCoins} Coins</strong></p>
-        <p style="font-size:20px;font-weight:bold;">Amount: ${amount}</p>
-        <p style="margin-top:30px;">Processing Secure Payment...</p>
-      </div>`;
+    alert("Please select or enter a coin amount first.");
   }
 }
 
-/* ✅ Updated Complete Login Function */
-function completeLogin() {
-  // Show loading animation for 2 seconds before going to next page
-  document.getElementById("loginModal").style.display = "none";
-  document.getElementById("loadingOverlay").style.display = "flex";
+// ✅ Paystack Integration
+function payWithPaystack() {
+  const amount = Math.round(selectedCoins * coinRate * 100); // convert to kobo
 
-  setTimeout(() => {
-    document.getElementById("loadingOverlay").style.display = "none";
-    loggedIn = true;
-    updateButton();
-  }, 2000);
+  let handler = PaystackPop.setup({
+    key: 'pk_live_05d5fe8301b202427f3d3a9b26059269ddd1c00f',
+    email: 'legaltenderpay@gmail.com',
+    amount: amount,
+    currency: 'NGN',
+    callback: function(response){
+      document.getElementById("summaryModal").style.display = "none";
+      document.getElementById("successModal").style.display = "flex";
+    },
+    onClose: function(){
+      alert('Payment window closed.');
+    }
+  });
+  handler.openIframe();
 }
-
-/* Username + Password field listener */
-const usernameField = document.getElementById("usernameInput");
-const passwordField = document.getElementById("passwordInput");
-const continueBtn = document.getElementById("continueBtn");
-
-function checkLoginFields() {
-  if (usernameField.value.trim() && passwordField.value.trim()) {
-    continueBtn.disabled = false;
-    continueBtn.style.opacity = "1";
-    continueBtn.style.cursor = "pointer";
-  } else {
-    continueBtn.disabled = true;
-    continueBtn.style.opacity = "0.6";
-    continueBtn.style.cursor = "not-allowed";
-  }
-}
-
-usernameField.addEventListener("input", checkLoginFields);
-passwordField.addEventListener("input", checkLoginFields);
 </script>
 </body>
 </html>
