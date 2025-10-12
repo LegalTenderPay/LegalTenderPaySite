@@ -44,16 +44,16 @@ body {
   margin: 0;
   font-size: 32px;
   font-weight: bold;
-  margin-top: 15px; /* was 30px — moved upward ✅ */
+  margin-top: 15px;
   line-height: 1.2;
 }
 
-/* Sub-text is now directly under Get Coins */
+/* Sub-text */
 .sub-text {
   font-size: 15px;
   color: #333;
   font-weight: 600;
-  margin-top: 8px; /* was 12px — slightly closer ✅ */
+  margin-top: 8px;
   margin-bottom: 10px;
   line-height: 1.4;
 }
@@ -456,12 +456,20 @@ function startLogin() {
   }
 }
 
+/* ✅ Updated Complete Login Function */
 function completeLogin() {
+  // Show loading animation for 2 seconds before going to next page
   document.getElementById("loginModal").style.display = "none";
-  loggedIn = true;
-  updateButton();
+  document.getElementById("loadingOverlay").style.display = "flex";
+
+  setTimeout(() => {
+    document.getElementById("loadingOverlay").style.display = "none";
+    loggedIn = true;
+    updateButton();
+  }, 2000);
 }
 
+/* Username + Password field listener */
 const usernameField = document.getElementById("usernameInput");
 const passwordField = document.getElementById("passwordInput");
 const continueBtn = document.getElementById("continueBtn");
