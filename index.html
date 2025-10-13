@@ -732,13 +732,29 @@ function payWithPaystack() {
       ]
     },
     callback: function(response) {
-      // On success
-      document.getElementById('orderSummary').style.display = 'none';
-      showSuccessToast();
-      // NOTE: In production ALWAYS verify transaction server-side with response.reference:
-      // POST https://api.paystack.co/transaction/verify/:reference (use secret key on server)
-      console.log('Paystack success reference:', response.reference);
-    },
+     // Send purchase info to your backend
+    fetch('https://yourserver.com/record-purchase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            username: document.getElementById('usernameInput').value,
+            email: document.getElementById('emailInput').value,
+            coins: selectedCoins,
+            reference: response.reference
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log('Backend recorded purchase:', data);
+        showSuccessToast();
+        // hide order summary after successful backend record
+        document.getElementById('orderSummary').style.display = 'none';
+    })
+    .catch(err => {
+        console.error('Error sending purchase to backend:', err);
+        alert('Payment succeeded but there was an error recording your purchase. Contact support.');
+    });
+},
     onClose: function() {
       // Keep order summary so user can retry
       console.log('Paystack popup closed by user');
@@ -811,4 +827,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 </body>
-</html>
+</html> 
