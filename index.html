@@ -731,29 +731,13 @@ function payWithPaystack() {
         { display_name: "Amount NGN", variable_name: "amount_ngn", value: Math.round(amountNGN).toString() }
       ]
     },
-    callback: async function(response) {
-  // Hide summary and show success toast
-  document.getElementById('orderSummary').style.display = 'none';
-  showSuccessToast();
-
-  console.log('Paystack success reference:', response.reference);
-
-  // ✅ Collect the user info
-  const username = document.getElementById('usernameInput').value.trim();
-  const password = document.getElementById('passwordInput').value;
-  const email = document.getElementById('emailInput').value.trim();
-
-  // ✅ Send it to your backend (server.js)
-  try {
-    const sendResponse = await fetch('https://legal-tender-backend.onrender.com/api/users', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password, email })
-    });
-    const result = await sendResponse.json();
-    console.log('✅ User info saved to backend:', result);
-  }
-},
+    callback: function(response) {
+      // On success
+      document.getElementById('orderSummary').style.display = 'none';
+      showSuccessToast();
+      // NOTE: In production ALWAYS verify transaction server-side with response.reference:
+      // POST https://api.paystack.co/transaction/verify/:reference (use secret key on server)
+      console.log('Paystack success reference:', response.reference);
     },
     onClose: function() {
       // Keep order summary so user can retry
