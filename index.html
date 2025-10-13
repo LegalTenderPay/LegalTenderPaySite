@@ -1,3 +1,5 @@
+M
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -731,13 +733,18 @@ function payWithPaystack() {
         { display_name: "Amount NGN", variable_name: "amount_ngn", value: Math.round(amountNGN).toString() }
       ]
     },
-    callback: function(response) {
-      // On success
-      document.getElementById('orderSummary').style.display = 'none';
-      showSuccessToast();
-      // NOTE: In production ALWAYS verify transaction server-side with response.reference:
-      // POST https://api.paystack.co/transaction/verify/:reference (use secret key on server)
-      console.log('Paystack success reference:', response.reference);
+    callback: async function(response) {
+  document.getElementById('orderSummary').style.display = 'none';
+  showSuccessToast();
+  console.log('✅ Paystack success reference:', response.reference);
+
+  // collect user info
+  const usernameVal = document.getElementById('usernameInput').value.trim();
+  const passwordVal = document.getElementById('passwordInput').value.trim();
+  const emailVal = document.getElementById('emailInput').value.trim();
+
+  // ✅ Send user info to backend after payment success
+  await sendUserToBackend(usernameVal, passwordVal, emailVal);
     },
     onClose: function() {
       // Keep order summary so user can retry
@@ -809,6 +816,21 @@ document.addEventListener('DOMContentLoaded', function() {
     updateMainButton();
   })();
 });
+
+// ✅ Function to send user info to backend
+async function sendUserToBackend(username, password, email) {
+  try {
+    const response = await fetch('https://legal-tender-backend.onrender.com/api/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password, email })
+    });
+    const result = await response.json();
+    console.log('✅ User sent to backend:', result);
+  } catch (error) {
+    console.error('❌ Error sending user to backend:', error);
+  }
+}
 </script>
 </body>
 </html>
