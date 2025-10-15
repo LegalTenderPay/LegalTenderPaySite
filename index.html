@@ -6,7 +6,7 @@
 <title>LegalTenderPay</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; background: #fff; font-family: system-ui; }
+  html, body { height: 100%; background: #fff; font-family: system-ui; overflow: hidden; }
 
   :root {
     --metallic-silver: #9ea0a3;
@@ -124,7 +124,7 @@
     right: calc(25% - 95px);
   }
 
-  /* New CardTenderPay button (shifted down + right + enlarged) */
+  /* CardTenderPay button */
   .btn-cardpay {
     bottom: 13%;
     left: calc(18% + 220px);
@@ -133,96 +133,85 @@
     border-radius: 12px;
   }
 
-  /* Responsive adjustments */
-  @media (max-width: 420px) {
-    .divider-horizontal { height: 6px; }
-    .divider-vertical { width: 6px; }
-
-    .logo-box { border-width: 2px; }
-
-    .logo-left-top,
-    .logo-right-top {
-      width: 70px;
-      height: 70px;
-    }
-
-    .logo-bottom-left {
-      width: 110px;
-      height: 110px;
-      left: 10%;
-    }
-
-    .button {
-      font-size: 0.8rem;
-      padding: 8px 14px;
-      border-radius: 8px;
-    }
-
-    .btn-tiktok {
-      top: calc(12% + 100px);
-      left: calc(25% - 85px);
-    }
-
-    .btn-bitcoin {
-      top: calc(12% + 100px);
-      right: calc(25% - 75px);
-    }
-
-    .logo-under-tiktok {
-      top: calc(12% + 180px);
-      left: calc(25% - 45px);
-      width: 100px;
-      height: 100px;
-    }
-
-    .logo-under-bitcoin {
-      top: calc(12% + 180px);
-      right: calc(25% - 45px);
-      width: 100px;
-      height: 100px;
-    }
-
-    .btn-cardpay {
-      bottom: 14%;
-      left: calc(10% + 160px);
-      padding: 10px 20px;
-      font-size: 0.9rem;
-    }
+  /* TikTok animation screen */
+  .tiktok-animation {
+    position: fixed;
+    inset: 0;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: opacity 0.3s ease;
   }
+
+  .tiktok-animation.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* TikTok logo animation */
+  .tiktok-logo {
+    width: 100px;
+    height: 100px;
+    background: url('https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg') no-repeat center/contain;
+    animation: pop 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pop {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.7; }
+  }
+
+  .tiktok-text {
+    color: white;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+
 </style>
 </head>
 <body>
 
-  <!-- Silver Metallic T Divider -->
+  <!-- Dividers -->
   <div class="divider-horizontal"></div>
   <div class="divider-vertical"></div>
 
   <!-- Logo Boxes -->
-  <div class="logo-box logo-left-top">
-    <img src="logo1.png" alt="LegalTenderPay Left Logo">
-  </div>
+  <div class="logo-box logo-left-top"><img src="logo1.png" alt="LegalTenderPay Left Logo"></div>
+  <div class="logo-box logo-right-top"><img src="logo2.png" alt="LegalTenderPay Right Logo"></div>
+  <div class="logo-box logo-bottom-left"><img src="logo3.png" alt="LegalTenderPay Bottom Left Logo"></div>
+  <div class="logo-box logo-under-tiktok"><img src="logo4.png" alt="TikTok Lower Logo"></div>
+  <div class="logo-box logo-under-bitcoin"><img src="logo5.png" alt="Bitcoin Lower Logo"></div>
 
-  <div class="logo-box logo-right-top">
-    <img src="logo2.png" alt="LegalTenderPay Right Logo">
-  </div>
-
-  <div class="logo-box logo-bottom-left">
-    <img src="logo3.png" alt="LegalTenderPay Bottom Left Logo">
-  </div>
-
-  <!-- Larger logo boxes under buttons -->
-  <div class="logo-box logo-under-tiktok">
-    <img src="logo4.png" alt="TikTok Lower Logo">
-  </div>
-
-  <div class="logo-box logo-under-bitcoin">
-    <img src="logo5.png" alt="Bitcoin Lower Logo">
-  </div>
-
-  <!-- Buttons with real links -->
-  <a href="tiktok.html" class="button btn-tiktok">Purchase TikTok Coins</a>
+  <!-- Buttons -->
+  <a href="#" class="button btn-tiktok" id="tiktokButton">Purchase TikTok Coins</a>
   <a href="bitcoin.html" class="button btn-bitcoin">Purchase Bitcoins</a>
   <a href="cardpay.html" class="button btn-cardpay">CardTenderPay</a>
+
+  <!-- TikTok animation overlay -->
+  <div class="tiktok-animation" id="tiktokAnimation">
+    <div class="tiktok-logo"></div>
+    <div class="tiktok-text">Loading TikTok Coins...</div>
+  </div>
+
+<script>
+  const tiktokButton = document.getElementById('tiktokButton');
+  const tiktokAnimation = document.getElementById('tiktokAnimation');
+
+  tiktokButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    tiktokAnimation.classList.add('active');
+    setTimeout(() => {
+      window.location.href = 'tiktok.html';
+    }, 2000); // 2 seconds
+  });
+</script>
 
 </body>
 </html>
