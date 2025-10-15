@@ -207,19 +207,23 @@
   const tiktokButton = document.getElementById('tiktokButton');
   const loadingScreen = document.getElementById('loadingScreen');
 
+  // When the TikTok button is clicked
   tiktokButton.addEventListener('click', (e) => {
     e.preventDefault();
-    // Only show animation if not already visited
-    if (!sessionStorage.getItem('tiktokVisited')) {
-      sessionStorage.setItem('tiktokVisited', 'true');
-      loadingScreen.classList.add('active');
-      document.body.style.pointerEvents = 'none';
-      setTimeout(() => {
-        window.location.href = 'tiktok.html';
-      }, 2000);
-    } else {
-      // Go straight without animation
+    // Always show animation when going forward
+    loadingScreen.classList.add('active');
+    document.body.style.pointerEvents = 'none';
+    setTimeout(() => {
       window.location.href = 'tiktok.html';
+    }, 2000);
+  });
+
+  // Detect when user navigates back — prevent animation
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted || performance.getEntriesByType("navigation")[0]?.type === "back_forward") {
+      // Coming back from TikTok page — ensure loading screen stays hidden
+      loadingScreen.classList.remove('active');
+      document.body.style.pointerEvents = 'auto';
     }
   });
 </script>
