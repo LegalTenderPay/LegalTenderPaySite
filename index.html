@@ -19,9 +19,22 @@
   .logo-bottom-left { bottom: 10%; left: 10%; width: 150px; height: 150px; }
   .logo-under-tiktok { top: calc(10% + 220px); left: calc(25% - 65px); width: 130px; height: 130px; }
   .logo-under-bitcoin { top: calc(10% + 220px); right: calc(25% - 65px); width: 130px; height: 130px; }
+  .logo-above-bitcoin { top: calc(10% + 120px); right: calc(25% - 65px); width: 80px; height: 80px; }
 
   /* Buttons */
-  .button { position: fixed; background: linear-gradient(180deg, #ff3333, #cc0000); color: #fff; border-radius: 10px; padding: 8px 18px; font-size: 0.9rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.3s ease; }
+  .button {
+    position: fixed;
+    background: linear-gradient(180deg, #ff3333, #cc0000);
+    color: #fff;
+    border-radius: 10px;
+    padding: 8px 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
   .button:hover { background: linear-gradient(180deg, #ff5555, #bb0000); transform: translateY(-2px); }
 
   .btn-tiktok { top: calc(10% + 135px); left: calc(25% - 95px); }
@@ -29,11 +42,17 @@
   .btn-cardpay { bottom: 15%; left: calc(18% + 150px); padding: 12px 30px; font-size: 1rem; border-radius: 12px; }
 
   /* Loading overlay */
-  .loading-screen { position: fixed; inset: 0; background: #fff; display: flex; justify-content: center; align-items: center; flex-direction: column; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .loading-screen {
+    position: fixed; inset: 0; background: #fff; display: flex;
+    justify-content: center; align-items: center; flex-direction: column;
+    z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  }
+
   .loading-screen.active { opacity: 1; pointer-events: all; }
 
   .spinner { width: 70px; height: 70px; border: 6px solid #9ea0a3; border-top: 6px solid var(--red); border-radius: 50%; animation: spin 1s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
+
   .loading-text { margin-top: 20px; font-size: 1.2rem; color: #9ea0a3; letter-spacing: 1px; }
 </style>
 </head>
@@ -56,8 +75,12 @@
     <img src="IMG_1086.jpeg" alt="TikTok Lower Logo">
   </div>
 
+  <div class="logo-box logo-above-bitcoin">
+    <img src="IMG_1088.jpeg" alt="Bitcoin Top Logo">
+  </div>
+
   <div class="logo-box logo-under-bitcoin">
-    <img src="IMG_1088.jpeg" alt="Bitcoin Lower Logo">
+    <img src="logo5.png" alt="Bitcoin Lower Logo">
   </div>
 
   <!-- Buttons -->
@@ -79,9 +102,7 @@
     e.preventDefault();
     loadingScreen.classList.add('active');
     document.body.style.pointerEvents = 'none';
-    setTimeout(() => {
-      window.location.href = 'tiktok.html';
-    }, 2000);
+    setTimeout(() => { window.location.href = 'tiktok.html'; }, 2000);
   });
 
   window.addEventListener('pageshow', (event) => {
