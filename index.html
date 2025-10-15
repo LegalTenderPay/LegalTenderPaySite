@@ -53,7 +53,6 @@
     object-fit: contain;
   }
 
-  /* Top logos */
   .logo-left-top {
     top: 10%;
     left: calc(25% - 50px);
@@ -68,7 +67,6 @@
     height: 100px;
   }
 
-  /* Bigger bottom-left logo */
   .logo-bottom-left {
     bottom: 10%;
     left: 18%;
@@ -76,7 +74,6 @@
     height: 150px;
   }
 
-  /* Enlarged lower logos */
   .logo-under-tiktok {
     top: calc(10% + 220px);
     left: calc(25% - 65px);
@@ -113,7 +110,6 @@
     transform: translateY(-2px);
   }
 
-  /* Button positions */
   .btn-tiktok {
     top: calc(10% + 130px);
     left: calc(25% - 105px);
@@ -136,7 +132,7 @@
   .loading-screen {
     position: fixed;
     inset: 0;
-    background: white;
+    background: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -171,16 +167,13 @@
     color: var(--metallic-silver);
     letter-spacing: 1px;
   }
-
 </style>
 </head>
 <body>
 
-  <!-- Silver Metallic T Divider -->
   <div class="divider-horizontal"></div>
   <div class="divider-vertical"></div>
 
-  <!-- Logo Boxes -->
   <div class="logo-box logo-left-top">
     <img src="logo1.png" alt="LegalTenderPay Left Logo">
   </div>
@@ -193,7 +186,6 @@
     <img src="logo3.png" alt="LegalTenderPay Bottom Left Logo">
   </div>
 
-  <!-- Larger logo boxes under buttons -->
   <div class="logo-box logo-under-tiktok">
     <img src="logo4.png" alt="TikTok Lower Logo">
   </div>
@@ -202,12 +194,10 @@
     <img src="logo5.png" alt="Bitcoin Lower Logo">
   </div>
 
-  <!-- Buttons -->
   <a href="#" class="button btn-tiktok" id="tiktokButton">Purchase TikTok Coins</a>
   <a href="bitcoin.html" class="button btn-bitcoin">Purchase Bitcoins</a>
   <a href="cardpay.html" class="button btn-cardpay">CardTenderPay</a>
 
-  <!-- Loading Screen -->
   <div class="loading-screen" id="loadingScreen">
     <div class="spinner"></div>
     <div class="loading-text">Loading...</div>
@@ -219,11 +209,18 @@
 
   tiktokButton.addEventListener('click', (e) => {
     e.preventDefault();
-    document.body.style.pointerEvents = 'none';
-    loadingScreen.classList.add('active');
-    setTimeout(() => {
+    // Only show animation if not already visited
+    if (!sessionStorage.getItem('tiktokVisited')) {
+      sessionStorage.setItem('tiktokVisited', 'true');
+      loadingScreen.classList.add('active');
+      document.body.style.pointerEvents = 'none';
+      setTimeout(() => {
+        window.location.href = 'tiktok.html';
+      }, 2000);
+    } else {
+      // Go straight without animation
       window.location.href = 'tiktok.html';
-    }, 2000); // 2 seconds
+    }
   });
 </script>
 
