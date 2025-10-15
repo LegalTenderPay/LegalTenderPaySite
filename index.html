@@ -110,14 +110,15 @@
     transform: translateY(-2px);
   }
 
+  /* Centered Button positions */
   .btn-tiktok {
     top: calc(10% + 130px);
-    left: calc(25% - 105px);
+    left: calc(25% - 85px); /* shifted slightly left for better centering */
   }
 
   .btn-bitcoin {
     top: calc(10% + 130px);
-    right: calc(25% - 95px);
+    right: calc(25% - 85px); /* shifted slightly left (mirrored) */
   }
 
   .btn-cardpay {
@@ -210,7 +211,6 @@
   // When the TikTok button is clicked
   tiktokButton.addEventListener('click', (e) => {
     e.preventDefault();
-    // Always show animation when going forward
     loadingScreen.classList.add('active');
     document.body.style.pointerEvents = 'none';
     setTimeout(() => {
@@ -221,7 +221,6 @@
   // Detect when user navigates back — prevent animation
   window.addEventListener('pageshow', (event) => {
     if (event.persisted || performance.getEntriesByType("navigation")[0]?.type === "back_forward") {
-      // Coming back from TikTok page — ensure loading screen stays hidden
       loadingScreen.classList.remove('active');
       document.body.style.pointerEvents = 'auto';
     }
