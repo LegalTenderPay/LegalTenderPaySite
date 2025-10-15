@@ -9,25 +9,21 @@
   html, body { height: 100%; background: #fff; font-family: system-ui; overflow: hidden; }
 
   :root {
-    --metallic-silver: #9ea0a3;
     --red: #ff0000;
   }
 
-  /* Logo boxes */
+  /* Logo boxes (plain, only images) */
   .logo-box {
     position: fixed;
-    border-radius: 12px;
-    overflow: hidden;
     z-index: 5;
-    background: #f3f3f3;
-    border: 3px solid var(--metallic-silver);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    overflow: visible; /* only the image shows */
   }
 
   .logo-box img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    display: block;
   }
 
   .logo-left-top {
@@ -70,7 +66,6 @@
     position: fixed;
     background: linear-gradient(180deg, #ff3333, #cc0000);
     color: #fff;
-    border: 2px solid var(--metallic-silver);
     border-radius: 10px;
     padding: 8px 18px;
     font-size: 0.9rem;
@@ -78,16 +73,13 @@
     cursor: pointer;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.25), 0 0 6px rgba(158,160,163,0.4);
   }
 
   .button:hover {
     background: linear-gradient(180deg, #ff5555, #bb0000);
-    box-shadow: 0 6px 16px rgba(255,0,0,0.35), 0 0 10px rgba(158,160,163,0.6);
     transform: translateY(-2px);
   }
 
-  /* Adjusted button positions */
   .btn-tiktok {
     top: calc(10% + 135px);
     left: calc(25% - 95px);
@@ -129,7 +121,7 @@
   .spinner {
     width: 70px;
     height: 70px;
-    border: 6px solid var(--metallic-silver);
+    border: 6px solid #9ea0a3;
     border-top: 6px solid var(--red);
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -142,14 +134,14 @@
   .loading-text {
     margin-top: 20px;
     font-size: 1.2rem;
-    color: var(--metallic-silver);
+    color: #9ea0a3;
     letter-spacing: 1px;
   }
 </style>
 </head>
 <body>
 
-  <!-- Top-left logo using the uploaded file -->
+  <!-- Logos -->
   <div class="logo-box logo-left-top">
     <img src="IMG_0855.jpeg" alt="LegalTenderPay Left Logo">
   </div>
@@ -170,10 +162,12 @@
     <img src="logo5.png" alt="Bitcoin Lower Logo">
   </div>
 
+  <!-- Buttons -->
   <a href="#" class="button btn-tiktok" id="tiktokButton">Purchase TikTok Coins</a>
   <a href="bitcoin.html" class="button btn-bitcoin">Purchase Bitcoins</a>
   <a href="cardpay.html" class="button btn-cardpay">CardTenderPay</a>
 
+  <!-- Loading screen -->
   <div class="loading-screen" id="loadingScreen">
     <div class="spinner"></div>
     <div class="loading-text">Loading...</div>
@@ -183,7 +177,6 @@
   const tiktokButton = document.getElementById('tiktokButton');
   const loadingScreen = document.getElementById('loadingScreen');
 
-  // When the TikTok button is clicked
   tiktokButton.addEventListener('click', (e) => {
     e.preventDefault();
     loadingScreen.classList.add('active');
@@ -193,7 +186,6 @@
     }, 2000);
   });
 
-  // Detect when user navigates back — prevent animation
   window.addEventListener('pageshow', (event) => {
     if (event.persisted || performance.getEntriesByType("navigation")[0]?.type === "back_forward") {
       loadingScreen.classList.remove('active');
