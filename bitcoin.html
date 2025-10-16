@@ -25,11 +25,11 @@
   /* Logo box */
   .logo-box {
     position: absolute;
-    top: 8%;
+    top: 12%; /* shifted down */
     left: 50%;
     transform: translateX(-50%);
-    width: 100px;
-    height: 100px;
+    width: 130px; /* larger logo */
+    height: 130px;
   }
 
   .logo-box img {
@@ -43,7 +43,7 @@
   h1 {
     color: #fcd535; /* Yellow */
     font-size: 1.8rem;
-    margin-top: 160px; /* pushes below logo */
+    margin-top: 200px; /* moved down to balance the larger logo */
     margin-bottom: 15px;
     font-weight: 700;
   }
@@ -92,8 +92,8 @@
 
   /* Responsive adjustments */
   @media (max-width: 480px) {
-    .logo-box { width: 80px; height: 80px; top: 10%; }
-    h1 { margin-top: 140px; font-size: 1.6rem; }
+    .logo-box { width: 100px; height: 100px; top: 14%; }
+    h1 { margin-top: 170px; font-size: 1.6rem; }
     p.subtitle { font-size: 1.1rem; }
   }
 </style>
