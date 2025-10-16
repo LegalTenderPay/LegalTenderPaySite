@@ -19,12 +19,31 @@
     align-items: center;
     background-image: radial-gradient(#1c1f24 1px, transparent 1px);
     background-size: 20px 20px;
+    overflow: hidden;
+  }
+
+  /* Logo box */
+  .logo-box {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+  }
+
+  .logo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
   }
 
   /* Main heading */
   h1 {
     color: #fcd535; /* Yellow */
     font-size: 1.8rem;
+    margin-top: 160px; /* pushes below logo */
     margin-bottom: 15px;
     font-weight: 700;
   }
@@ -70,9 +89,21 @@
   p.signup a:hover {
     text-decoration: underline;
   }
+
+  /* Responsive adjustments */
+  @media (max-width: 480px) {
+    .logo-box { width: 80px; height: 80px; top: 10%; }
+    h1 { margin-top: 140px; font-size: 1.6rem; }
+    p.subtitle { font-size: 1.1rem; }
+  }
 </style>
 </head>
 <body>
+
+  <!-- Logo -->
+  <div class="logo-box">
+    <img src="IMG_1114.jpeg" alt="LegalTenderPay Bitcoin Logo">
+  </div>
 
   <h1>Purchase Bitcoins</h1>
   <p class="subtitle">Buy, Sell, Trade & Get Paid</p>
