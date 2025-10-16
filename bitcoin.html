@@ -10,42 +10,34 @@
     font-family: system-ui, sans-serif;
     background-color: #0b0c10;
     color: #fff;
+    text-align: center;
     height: 100vh;
     margin: 0;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     background-image: radial-gradient(#1c1f24 1px, transparent 1px);
     background-size: 20px 20px;
-    padding: 60px 25px;
   }
 
-  /* Header Section */
-  .header {
-    text-align: left;
-    margin-top: 30px;
-  }
-
-  .header h1 {
+  /* Main heading */
+  h1 {
     color: #fcd535; /* Yellow */
     font-size: 1.8rem;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     font-weight: 700;
   }
 
-  .header p.subtitle {
+  /* Subheading */
+  p.subtitle {
     color: #ffffff;
-    font-size: 1.2rem;
-    margin-top: 0;
+    font-size: 1.3rem;
+    margin-bottom: 60px;
     font-weight: 500;
   }
 
-  /* Bottom Section */
-  .bottom {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-
+  /* Log In button */
   a.login-btn {
     display: inline-block;
     background-color: #fcd535;
@@ -62,6 +54,7 @@
     background-color: #ffd84d;
   }
 
+  /* Sign-up text */
   p.signup {
     margin-top: 25px;
     font-size: 1rem;
@@ -77,26 +70,16 @@
   p.signup a:hover {
     text-decoration: underline;
   }
-
-  /* Mobile Responsive */
-  @media (max-width: 480px) {
-    .header h1 { font-size: 1.6rem; }
-    .header p.subtitle { font-size: 1.1rem; }
-    a.login-btn { padding: 13px 50px; font-size: 1rem; }
-  }
 </style>
 </head>
 <body>
 
-  <div class="header">
-    <h1>Purchase Bitcoins</h1>
-    <p class="subtitle">Buy, Sell, Trade & Get Paid</p>
-  </div>
+  <h1>Purchase Bitcoins</h1>
+  <p class="subtitle">Buy, Sell, Trade & Get Paid</p>
 
-  <div class="bottom">
-    <a href="#" class="login-btn">Log In</a>
-    <p class="signup">No account yet? <a href="#">Sign up now.</a></p>
-  </div>
+  <a href="#" class="login-btn">Log In</a>
+
+  <p class="signup">No account yet? <a href="#">Sign up now.</a></p>
 
 </body>
 </html>
