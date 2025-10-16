@@ -1,3 +1,5 @@
+M
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -385,6 +387,7 @@ body {
   </div>
 
   <div class="coins-grid" id="coinsGrid">
+    <!-- 70 coin pack (displays $1.25) -->
     <div class="coin-box" data-coins="70" onclick="selectBox(this)">
       <div class="coin-amount"><img src="https://cdn-icons-png.flaticon.com/512/138/138281.png" alt="coin">70</div>
       <div class="coin-price"></div>
@@ -420,7 +423,7 @@ body {
     <input type="number" id="customAmount" placeholder="Enter coins amount" oninput="updateCustomAmount()">
   </div>
 
-  <!-- mainButton behavior -->
+  <!-- mainButton behavior: if not logged-in → show login; if logged-in → show order summary -->
   <button class="login-btn" id="mainButton" onclick="mainButtonAction()">Log in to get Coins</button>
 
   <div class="invite-box">
@@ -515,25 +518,44 @@ body {
 /* -------------------------
    Config / initial state
    ------------------------- */
+// Paystack public key (your provided live key)
 const PAYSTACK_PUBLIC_KEY = 'pk_live_05d5fe8301b202427f3d3a9b26059269ddd1c00f';
+
+// Exchange rate for charging: $1 = ₦1550
 const USD_TO_NGN = 1550;
-const coinRateUSD = 1.25 / 70;
-let selectedCoins = 70;
+
+// Per-user requested rate: 70 coins = $1.25
+const coinRateUSD = 1.25 / 70; // ≈ 0.017857142857...
+
+let selectedCoins = 70; // default selected to the 70-pack
 let loggedIn = false;
 
-function formatCurrencyUSD(amount) { return '$' + amount.toFixed(2); }
-function formatCurrencyNGN(amount) { return '₦' + Math.round(amount).toLocaleString('en-NG'); }
+/* -------------------------
+   Helper: format currency in USD
+   ------------------------- */
+function formatCurrencyUSD(amount) {
+  return '$' + amount.toFixed(2);
+}
 
 /* -------------------------
-   Update displayed coin prices
+   Helper: format currency in NGN
+   ------------------------- */
+function formatCurrencyNGN(amount) {
+  // round to whole Naira for display
+  return '₦' + Math.round(amount).toLocaleString('en-NG');
+}
+
+/* -------------------------
+   Update displayed coin prices in the grid (USD)
    ------------------------- */
 function updateGridPrices() {
   document.querySelectorAll('.coin-box').forEach(box => {
     const coins = box.getAttribute('data-coins');
     const priceEl = box.querySelector('.coin-price');
     if (!priceEl) return;
-    if (coins === 'custom') { priceEl.textContent = ''; } 
-    else {
+    if (coins === 'custom') {
+      priceEl.textContent = '';
+    } else {
       const n = parseInt(coins, 10) || 0;
       const priceUSD = n * coinRateUSD;
       // special: if coins === 70 show $1.25 explicitly (avoids tiny rounding)
