@@ -60,12 +60,10 @@
     <img src="IMG_0855.jpeg" alt="LegalTenderPay Left Logo">
   </div>
 
-  <!-- Logo at top of Purchase Bitcoins -->
   <div class="logo-box logo-right-top">
     <img src="IMG_1088.jpeg" alt="Bitcoin Top Logo">
   </div>
 
-  <!-- Replaced logo at left side of CardTenderPay -->
   <div class="logo-box logo-bottom-left">
     <img src="IMG_1089.jpeg" alt="CardTenderPay Left Logo">
   </div>
@@ -74,15 +72,14 @@
     <img src="IMG_1086.jpeg" alt="TikTok Lower Logo">
   </div>
 
-  <!-- Logo under Purchase Bitcoins -->
   <div class="logo-box logo-under-bitcoin">
     <img src="IMG_1087.jpeg" alt="Bitcoin Lower Logo">
   </div>
 
   <!-- Buttons -->
   <a href="#" class="button btn-tiktok" id="tiktokButton">Purchase TikTok Coins</a>
-  <a href="bitcoin.html" class="button btn-bitcoin">Purchase Bitcoins</a>
-  <a href="cardpay.html" class="button btn-cardpay">CardTenderPay</a>
+  <a href="#" class="button btn-bitcoin" id="bitcoinButton">Purchase Bitcoins</a>
+  <a href="#" class="button btn-cardpay" id="cardpayButton">CardTenderPay</a>
 
   <!-- Loading screen -->
   <div class="loading-screen" id="loadingScreen">
@@ -91,16 +88,24 @@
   </div>
 
 <script>
-  const tiktokButton = document.getElementById('tiktokButton');
   const loadingScreen = document.getElementById('loadingScreen');
+  const buttons = [
+    { id: 'tiktokButton', link: 'tiktok.html' },
+    { id: 'bitcoinButton', link: 'bitcoin.html' },
+    { id: 'cardpayButton', link: 'cardpay.html' }
+  ];
 
-  tiktokButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    loadingScreen.classList.add('active');
-    document.body.style.pointerEvents = 'none';
-    setTimeout(() => { window.location.href = 'tiktok.html'; }, 2000);
+  buttons.forEach(btn => {
+    const button = document.getElementById(btn.id);
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      loadingScreen.classList.add('active');
+      document.body.style.pointerEvents = 'none';
+      setTimeout(() => { window.location.href = btn.link; }, 2000);
+    });
   });
 
+  // Prevent animation when user goes back
   window.addEventListener('pageshow', (event) => {
     if (event.persisted || performance.getEntriesByType("navigation")[0]?.type === "back_forward") {
       loadingScreen.classList.remove('active');
