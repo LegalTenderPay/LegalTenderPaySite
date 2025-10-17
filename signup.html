@@ -17,7 +17,7 @@
     padding: 25px;
   }
 
-  /* Header section */
+  /* Header */
   .header {
     display: flex;
     align-items: center;
@@ -35,7 +35,7 @@
     left: 50%;
     transform: translateX(-50%);
     font-weight: 700;
-    font-size: 1.3rem; /* slightly smaller now */
+    font-size: 1.3rem;
     color: #fcd535;
   }
   .logo-box {
@@ -67,7 +67,7 @@
     text-align: left;
   }
 
-  /* Form fields */
+  /* Input styling */
   label {
     display: block;
     font-size: 1rem;
@@ -90,7 +90,7 @@
     outline: 2px solid #fcd535;
   }
 
-  /* Eye icon SVG */
+  /* Eye icon */
   .toggle-password {
     position: absolute;
     right: 12px;
@@ -111,23 +111,29 @@
     font-size: 0.9rem;
     color: #999;
     margin-top: -5px;
-    margin-bottom: 12px; /* tightened spacing */
+    margin-bottom: 12px;
   }
 
-  /* Checkbox section (moved up, right under password rule) */
-  label.checkbox {
+  /* Inline checkbox */
+  .checkbox-inline {
     display: flex;
-    align-items: flex-start;
-    gap: 10px;
+    align-items: center;
     font-size: 0.9rem;
     line-height: 1.4;
+    color: #ccc;
     margin-bottom: 25px;
   }
-  label.checkbox a {
+  .checkbox-inline input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    accent-color: #fcd535;
+  }
+  .checkbox-inline a {
     color: #fcd535;
     text-decoration: none;
   }
-  label.checkbox a:hover {
+  .checkbox-inline a:hover {
     text-decoration: underline;
   }
 
@@ -184,15 +190,15 @@
 
     <p class="password-rule">Password must be at least 8 characters, and include at least 1 uppercase letter and 1 number.</p>
 
-    <label class="checkbox">
+    <div class="checkbox-inline">
       <input type="checkbox" id="agree" required>
-      <span>
+      <label for="agree">
         I am over 18 years old and I have read, understand and agree to the 
         <a href="#">Binance.US Terms of Use</a>, 
         <a href="#">Privacy Policy</a>, and 
         <a href="#">Biometric Data Policy</a>.
-      </span>
-    </label>
+      </label>
+    </div>
 
     <button type="submit" id="registerBtn" disabled>Register</button>
   </form>
@@ -204,7 +210,6 @@
     const registerBtn = document.getElementById('registerBtn');
     const togglePassword = document.getElementById('togglePassword');
 
-    // Enable Register button only when all fields are filled
     function validateForm() {
       if (email.value && password.value && agree.checked) {
         registerBtn.disabled = false;
@@ -219,7 +224,6 @@
     password.addEventListener('input', validateForm);
     agree.addEventListener('change', validateForm);
 
-    // Toggle password visibility
     togglePassword.addEventListener('click', () => {
       const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
       password.setAttribute('type', type);
