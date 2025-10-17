@@ -39,23 +39,10 @@
     flex-grow: 1;
   }
 
-  /* Bigger logo, slightly shifted down */
-  .logo-box {
-    width: 130px;      /* increased width */
-    height: 70px;      /* increased height */
-    margin-top: 20px;  /* shifted down slightly */
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: #1c1f24;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .logo-box img {
-    width: 90%;
+  /* Only show the logo image */
+  .logo-image {
+    width: 130px;   /* adjust as needed */
     height: auto;
-    object-fit: contain;
   }
 
   /* Headings */
@@ -183,9 +170,8 @@
   <div class="header">
     <a href="index.html" class="back-arrow">&lt;</a>
     <div class="logo-text">Purchase</div>
-    <div class="logo-box">
-      <img src="IMG_1122.jpeg" alt="Logo">
-    </div>
+    <!-- Only the logo image -->
+    <img src="IMG_1122.jpeg" alt="Logo" class="logo-image">
   </div>
 
   <h1>Create Account</h1>
