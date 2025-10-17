@@ -228,7 +228,42 @@
 
   .code-inputs input.active { border-color: #fcd535; }
 
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 320px;
+    margin: 0 auto;
+    margin-top: 6px;
+  }
+
+  .key {
+    height: 56px;
+    border-radius: 12px;
+    background-color: #1c1f24;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.06s ease, background-color 0.12s;
+  }
+
+  .key:active { transform: scale(0.96); background-color: #22262b; }
+  .key.empty { background: transparent; border: none; cursor: default; }
+
+  .key.backspace svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+  }
+
   @media (max-width: 360px) {
+    .keypad { width: 260px; gap: 10px; }
+    .key { height: 48px; font-size: 1.15rem; border-radius: 10px; }
     .code-inputs input { width: 38px; height: 50px; font-size: 1.3rem; }
   }
 </style>
@@ -296,92 +331,63 @@
   </div>
 
   <div class="code-inputs" id="codeInputs">
-    <input type="text" maxlength="1" inputmode="numeric" />
-    <input type="text" maxlength="1" inputmode="numeric" />
-    <input type="text" maxlength="1" inputmode="numeric" />
-    <input type="text" maxlength="1" inputmode="numeric" />
-    <input type="text" maxlength="1" inputmode="numeric" />
-    <input type="text" maxlength="1" inputmode="numeric" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+  </div>
+
+  <div class="keypad" id="keypad">
+    <div class="key" data-key="1">1</div>
+    <div class="key" data-key="2">2</div>
+    <div class="key" data-key="3">3</div>
+    <div class="key" data-key="4">4</div>
+    <div class="key" data-key="5">5</div>
+    <div class="key" data-key="6">6</div>
+    <div class="key" data-key="7">7</div>
+    <div class="key" data-key="8">8</div>
+    <div class="key" data-key="9">9</div>
+    <div class="key empty"></div>
+    <div class="key" data-key="0">0</div>
+    <div class="key backspace" data-key="back">
+      <svg viewBox="0 0 24 24"><path d="M22 3H7L0 12l7 9h15a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-4.59 12.59L15 13.17l-2.41 2.42-1.18-1.18L13.83 12l-2.42-2.41 1.18-1.18L15 10.83l2.41-2.42 1.18 1.18L16.17 12l2.42 2.41-1.18 1.18z"/></svg>
+    </div>
   </div>
 </div>
 
 <script>
-const email = document.getElementById('email');
-const password = document.getElementById('password');
-const agree = document.getElementById('agree');
-const registerBtn = document.getElementById('registerBtn');
-const togglePassword = document.getElementById('togglePassword');
-const checkboxIcon = document.getElementById('checkboxIcon');
-const checkboxWrapper = document.getElementById('checkboxWrapper');
-const signupScreen = document.querySelector('.signup-screen');
-const verifyScreen = document.getElementById('verifyScreen');
-const resendText = document.getElementById('resendText');
-const goBack = document.getElementById('goBack');
 const inputs = Array.from(document.querySelectorAll('.code-inputs input'));
+const keypad = document.getElementById('keypad');
 
-function validateForm() {
-  if (email.value && password.value && agree.checked) {
-    registerBtn.disabled = false;
-    registerBtn.classList.add('active');
-  } else {
-    registerBtn.disabled = true;
-    registerBtn.classList.remove('active');
-  }
+function highlightNext() {
+  inputs.forEach(i => i.classList.remove('active'));
+  const next = inputs.find(i => !i.value);
+  if (next) next.classList.add('active');
 }
 
-email.addEventListener('input', validateForm);
-password.addEventListener('input', validateForm);
-checkboxWrapper.addEventListener('click', () => {
-  agree.checked = !agree.checked;
-  checkboxIcon.textContent = agree.checked ? "✅" : "☑️";
-  validateForm();
-});
+keypad.addEventListener('click', (e) => {
+  const key = e.target.closest('.key');
+  if (!key || key.classList.contains('empty')) return;
+  const val = key.dataset.key;
 
-togglePassword.addEventListener('click', () => {
-  const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-  password.setAttribute('type', type);
-});
-
-document.getElementById('signupForm').addEventListener('submit', (e) => {
-  e.preventDefault();
-  signupScreen.style.display = 'none';
-  verifyScreen.style.display = 'flex';
-  startCountdown();
-  inputs[0].focus();
-});
-
-goBack.addEventListener('click', (e) => {
-  e.preventDefault();
-  verifyScreen.style.display = 'none';
-  signupScreen.style.display = 'block';
-});
-
-function startCountdown() {
-  let timeLeft = 60;
-  resendText.textContent = `Resend Email (${timeLeft}s)`;
-  resendText.style.pointerEvents = 'none';
-  const timer = setInterval(() => {
-    timeLeft--;
-    resendText.textContent = `Resend Email (${timeLeft}s)`;
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      resendText.textContent = "Resend Email";
-      resendText.style.pointerEvents = 'auto';
-      resendText.addEventListener('click', startCountdown, { once: true });
+  if (val === 'back') {
+    for (let i = inputs.length - 1; i >= 0; i--) {
+      if (inputs[i].value) {
+        inputs[i].value = '';
+        break;
+      }
     }
-  }, 1000);
-}
-
-// Move focus automatically between boxes
-inputs.forEach((input, idx) => {
-  input.addEventListener('input', e => {
-    const val = e.target.value.replace(/\D/g, '');
-    e.target.value = val;
-    if (val && idx < inputs.length - 1) inputs[idx + 1].focus();
-  });
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Backspace' && !input.value && idx > 0) inputs[idx - 1].focus();
-  });
+  } else if (/^\d$/.test(val)) {
+    for (let i = 0; i < inputs.length; i++) {
+      if (!inputs[i].value) {
+        inputs[i].value = val;
+        break;
+      }
+    }
+  }
+  highlightNext();
 });
 </script>
 </body>
