@@ -130,22 +130,23 @@
 
   .checkbox-inline input[type="checkbox"] {
     appearance: none;
-    width: 18px;       /* match size of checkmark */
-    height: 18px;      /* match size of checkmark */
+    width: 16px;       /* match size of checkmark */
+    height: 16px;      /* match size of checkmark */
     margin: 0 10px 0 0;
     background-color: transparent;
     border: 2px solid #fff; /* visible empty square */
     border-radius: 3px;
     position: relative;
     cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
   }
 
   .checkbox-inline input[type="checkbox"]:checked::before {
     content: "✅";
     position: absolute;
-    top: -2px;  /* adjust to center checkmark */
-    left: -1px; /* adjust to center checkmark */
-    font-size: 18px; /* same as checkbox size */
+    top: -2px;   /* adjust to center checkmark */
+    left: -1px;  /* adjust to center checkmark */
+    font-size: 16px; /* same as checkbox size */
   }
 
   .checkbox-inline input[type="checkbox"]:hover {
