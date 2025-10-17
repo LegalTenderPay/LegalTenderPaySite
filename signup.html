@@ -221,11 +221,6 @@
 
   .code-inputs input.active {
     border-color: #fcd535;
-    animation: blink 1s step-start infinite;
-  }
-
-  @keyframes blink {
-    50% { border-color: #333; }
   }
 
   .footer-text { color: #999; font-size: 1rem; margin-bottom: 18px; }
@@ -430,14 +425,12 @@ function startCountdown() {
   }, 1000);
 }
 
-// Highlight the next input
 function highlightNext() {
   inputs.forEach(i => i.classList.remove('active'));
   const next = inputs.find(i => !i.value);
   if (next) next.classList.add('active');
 }
 
-// keypad behavior
 keypad.addEventListener('click', (e) => {
   const key = e.target.closest('.key');
   if (!key || key.classList.contains('empty')) return;
@@ -450,7 +443,7 @@ keypad.addEventListener('click', (e) => {
         break;
       }
     }
-  } else {
+  } else if (/^\d$/.test(val)) {
     for (let i = 0; i < inputs.length; i++) {
       if (!inputs[i].value) {
         inputs[i].value = val;
