@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Create Account — Purchase</title>
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    background-color: #0b0c10;
+    color: #fff;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 30px;
+  }
+  .top-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .back-arrow {
+    font-size: 1.8rem;
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+  }
+  .logo-text {
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #fcd535;
+  }
+  h1 {
+    font-size: 1.8rem;
+    margin-top: 20px;
+    margin-bottom: 5px;
+  }
+  p.sub {
+    color: #aaa;
+    margin-bottom: 40px;
+  }
+  label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+  input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: none;
+    background-color: #1c1f24;
+    color: #fff;
+    font-size: 1rem;
+  }
+  input:focus {
+    outline: 2px solid #fcd535;
+  }
+  p.password-rule {
+    font-size: 0.9rem;
+    color: #999;
+    margin-top: -15px;
+    margin-bottom: 25px;
+  }
+  label.checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  label.checkbox a {
+    color: #fcd535;
+    text-decoration: none;
+  }
+  label.checkbox a:hover {
+    text-decoration: underline;
+  }
+  button {
+    width: 100%;
+    padding: 15px;
+    background-color: #fcd535;
+    border: none;
+    border-radius: 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0b0c10;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #ffd84d;
+  }
+</style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <a href="index.html" class="back-arrow">&lt;</a>
+    <div class="logo-text">Purchase</div>
+  </div>
+
+  <h1>Create Account</h1>
+  <p class="sub">Get started in as little as 2 minutes</p>
+
+  <form>
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="Enter your email" required>
+
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="Enter your password" required>
+    <p class="password-rule">Password must be at least 8 characters, and include at least 1 uppercase letter and 1 number.</p>
+
+    <label class="checkbox">
+      <input type="checkbox" required>
+      <span>
+        I am over 18 years old and I have read, understand and agree to the 
+        <a href="#">Terms of Use</a>, 
+        <a href="#">Privacy Policy</a>, and 
+        <a href="#">Biometric Data Policy</a>.
+      </span>
+    </label>
+
+    <button type="submit">Register</button>
+  </form>
+
+</body>
+</html>
