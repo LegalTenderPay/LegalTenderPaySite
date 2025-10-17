@@ -25,20 +25,9 @@
   }
 
   .back-arrow {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-
-  .back-arrow svg {
-    width: 22px;
-    height: 22px;
-    fill: #fff;
+    font-size: 1.8rem;
+    color: #fff;
+    text-decoration: none;
   }
 
   .logo-text {
@@ -101,7 +90,6 @@
     height: 22px;
     transition: fill 0.3s ease;
   }
-
   .toggle-password:hover { fill: #fcd535; }
 
   p.password-rule {
@@ -169,15 +157,19 @@
     margin-top: 20px;
   }
 
+  .verify-header a {
+    color: #fff;
+    font-size: 1.8rem;
+    text-decoration: none;
+  }
+
   .envelope {
     width: 60px;
     height: 60px;
     margin: 60px auto 20px auto;
     position: relative;
   }
-
   .envelope svg { width: 100%; height: 100%; fill: #fff; }
-
   .circle-dot {
     position: absolute;
     top: -5px;
@@ -224,9 +216,14 @@
     border-radius: 8px;
     background-color: #1c1f24;
     color: #fff;
+    caret-color: transparent;
   }
 
-  .code-inputs input.active { border-color: #fcd535; }
+  .code-inputs input.active {
+    border-color: #fcd535;
+  }
+
+  .footer-text { color: #999; font-size: 1rem; margin-bottom: 18px; }
 
   .keypad {
     display: grid;
@@ -252,7 +249,11 @@
     transition: transform 0.06s ease, background-color 0.12s;
   }
 
-  .key:active { transform: scale(0.96); background-color: #22262b; }
+  .key:active {
+    transform: scale(0.96);
+    background-color: #22262b;
+  }
+
   .key.empty { background: transparent; border: none; cursor: default; }
 
   .key.backspace svg {
@@ -272,9 +273,7 @@
 
 <div class="signup-screen">
   <div class="header">
-    <button class="back-arrow" onclick="location.href='index.html'">
-      <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-    </button>
+    <a href="index.html" class="back-arrow">&lt;</a>
     <div class="logo-text">Purchase</div>
     <img src="IMG_1124.jpeg" alt="Logo" class="logo-image">
   </div>
@@ -315,29 +314,28 @@
 
 <div class="verify-screen" id="verifyScreen">
   <div class="verify-header">
-    <button class="back-arrow" id="goBack">
-      <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-    </button>
+    <a href="#" id="goBack">&lt;</a>
   </div>
   <div class="envelope">
     <svg viewBox="0 0 24 24"><path d="M2 4h20v16H2V4zm10 7L4 6v12h16V6l-8 5z"/></svg>
     <div class="circle-dot"></div>
   </div>
-  <div class="info-text">A verification code has been sent to your email address.</div>
-
+  <div class="info-text">
+    A verification code has been sent to your email address.
+  </div>
   <div class="code-header">
     <span>Verification Code</span>
     <span class="resend" id="resendText">Resend Email (60s)</span>
   </div>
-
   <div class="code-inputs" id="codeInputs">
-    <input type="text" maxlength="1" />
-    <input type="text" maxlength="1" />
-    <input type="text" maxlength="1" />
-    <input type="text" maxlength="1" />
-    <input type="text" maxlength="1" />
-    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" readonly />
+    <input type="text" maxlength="1" readonly />
+    <input type="text" maxlength="1" readonly />
+    <input type="text" maxlength="1" readonly />
+    <input type="text" maxlength="1" readonly />
+    <input type="text" maxlength="1" readonly />
   </div>
+  <div class="footer-text">Didn’t receive an email?</div>
 
   <div class="keypad" id="keypad">
     <div class="key" data-key="1">1</div>
@@ -352,14 +350,80 @@
     <div class="key empty"></div>
     <div class="key" data-key="0">0</div>
     <div class="key backspace" data-key="back">
-      <svg viewBox="0 0 24 24"><path d="M22 3H7L0 12l7 9h15a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-4.59 12.59L15 13.17l-2.41 2.42-1.18-1.18L13.83 12l-2.42-2.41 1.18-1.18L15 10.83l2.41-2.42 1.18 1.18L16.17 12l2.42 2.41-1.18 1.18z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M22 3H7L0 12l7 9h15a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-4.59 12.59L15 13.17l-2.41 2.42-1.18-1.18L13.83 12l-2.42-2.41 1.18-1.18L15 10.83l2.41-2.42 1.18 1.18L16.17 12l2.42 2.41-1.18 1.18z"/>
+      </svg>
     </div>
   </div>
 </div>
 
 <script>
+const email = document.getElementById('email');
+const password = document.getElementById('password');
+const agree = document.getElementById('agree');
+const registerBtn = document.getElementById('registerBtn');
+const togglePassword = document.getElementById('togglePassword');
+const checkboxIcon = document.getElementById('checkboxIcon');
+const checkboxWrapper = document.getElementById('checkboxWrapper');
+const signupScreen = document.querySelector('.signup-screen');
+const verifyScreen = document.getElementById('verifyScreen');
+const resendText = document.getElementById('resendText');
+const goBack = document.getElementById('goBack');
 const inputs = Array.from(document.querySelectorAll('.code-inputs input'));
 const keypad = document.getElementById('keypad');
+
+function validateForm() {
+  if (email.value && password.value && agree.checked) {
+    registerBtn.disabled = false;
+    registerBtn.classList.add('active');
+  } else {
+    registerBtn.disabled = true;
+    registerBtn.classList.remove('active');
+  }
+}
+
+email.addEventListener('input', validateForm);
+password.addEventListener('input', validateForm);
+checkboxWrapper.addEventListener('click', () => {
+  agree.checked = !agree.checked;
+  checkboxIcon.textContent = agree.checked ? "✅" : "☑️";
+  validateForm();
+});
+
+togglePassword.addEventListener('click', () => {
+  const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+  password.setAttribute('type', type);
+});
+
+document.getElementById('signupForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  signupScreen.style.display = 'none';
+  verifyScreen.style.display = 'flex';
+  startCountdown();
+  highlightNext();
+});
+
+goBack.addEventListener('click', (e) => {
+  e.preventDefault();
+  verifyScreen.style.display = 'none';
+  signupScreen.style.display = 'block';
+});
+
+function startCountdown() {
+  let timeLeft = 60;
+  resendText.textContent = `Resend Email (${timeLeft}s)`;
+  resendText.style.pointerEvents = 'none';
+  const timer = setInterval(() => {
+    timeLeft--;
+    resendText.textContent = `Resend Email (${timeLeft}s)`;
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      resendText.textContent = "Resend Email";
+      resendText.style.pointerEvents = 'auto';
+      resendText.addEventListener('click', startCountdown, { once: true });
+    }
+  }, 1000);
+}
 
 function highlightNext() {
   inputs.forEach(i => i.classList.remove('active'));
