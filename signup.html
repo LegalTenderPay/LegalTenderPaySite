@@ -121,7 +121,7 @@
   /* Custom checkbox styling */
   .checkbox-inline {
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* aligns checkbox with top of text */
     font-size: 0.9rem;
     color: #ccc;
     margin-bottom: 25px;
@@ -133,19 +133,20 @@
 
   .checkbox-inline label {
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* aligns custom box with text */
     cursor: pointer;
   }
 
-  .checkbox-inline .custom-checkbox {
+  .custom-checkbox {
     width: 18px;
     height: 18px;
     border: 2px solid #fff;
     border-radius: 3px;
-    margin-right: 10px;
+    margin-right: 8px; /* small space between checkbox and text */
     position: relative;
     display: inline-block;
     flex-shrink: 0;
+    margin-top: 2px; /* shifts box up slightly to align with "I" */
   }
 
   .checkbox-inline input[type="checkbox"]:checked + label .custom-checkbox::after {
