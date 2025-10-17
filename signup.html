@@ -452,6 +452,7 @@
         for (let i = 0; i < inputs.length; i++) {
           if (!inputs[i].value) {
             inputs[i].value = val;
+            inputs[i].style.borderColor = '#fcd535'; // highlight when filled
             checkComplete();
             break;
           }
@@ -468,7 +469,7 @@
         setTimeout(() => {
           info.textContent = "A verification code has been sent to your email address, unless that address is associated with another account.";
           info.style.color = '#ccc';
-          inputs.forEach(i => i.value = '');
+          inputs.forEach(i => { i.value = ''; i.style.borderColor = '#333'; });
         }, 1400);
       }
     }
