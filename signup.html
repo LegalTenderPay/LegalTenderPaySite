@@ -39,9 +39,8 @@
     flex-grow: 1;
   }
 
-  /* Only show the logo image */
   .logo-image {
-    width: 130px;   /* adjust as needed */
+    width: 130px;
     height: auto;
   }
 
@@ -95,9 +94,7 @@
     height: 22px;
     transition: fill 0.3s ease;
   }
-  .toggle-password:hover {
-    fill: #fcd535;
-  }
+  .toggle-password:hover { fill: #fcd535; }
 
   p.password-rule {
     font-size: 0.9rem;
@@ -126,19 +123,12 @@
     transition: 0.2s ease;
   }
 
-  .checkbox-inline label {
-    margin: 0;
-    cursor: pointer;
-  }
-
   .checkbox-inline a {
     color: #fcd535;
     text-decoration: none;
   }
 
-  .checkbox-inline a:hover {
-    text-decoration: underline;
-  }
+  .checkbox-inline a:hover { text-decoration: underline; }
 
   /* Button */
   button {
@@ -155,59 +145,164 @@
     transition: 0.3s ease;
   }
 
-  button.active {
-    cursor: pointer;
-    opacity: 1;
+  button.active { cursor: pointer; opacity: 1; }
+  button.active:hover { background-color: #ffd84d; }
+
+  /* --- Verification Screen Styles --- */
+  .verify-screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
   }
 
-  button.active:hover {
-    background-color: #ffd84d;
+  .verify-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
   }
+
+  .verify-header a {
+    color: #fff;
+    font-size: 1.8rem;
+    text-decoration: none;
+  }
+
+  .envelope {
+    width: 60px;
+    height: 60px;
+    margin: 60px auto 20px auto;
+    position: relative;
+  }
+  .envelope svg { width: 100%; height: 100%; fill: #fff; }
+  .circle-dot {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #fcd535;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+  }
+
+  .info-text {
+    color: #ccc;
+    font-size: 1rem;
+    max-width: 320px;
+    margin-bottom: 30px;
+  }
+
+  .code-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #aaa;
+    margin-bottom: 10px;
+  }
+
+  .resend {
+    color: #fcd535;
+    cursor: pointer;
+  }
+
+  .code-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .code-inputs input {
+    width: 45px;
+    height: 55px;
+    text-align: center;
+    font-size: 1.5rem;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background-color: #1c1f24;
+    color: #fff;
+  }
+
+  .code-inputs input:focus { border-color: #fcd535; }
+  .footer-text { color: #999; font-size: 1rem; }
 </style>
 </head>
 <body>
 
-  <div class="header">
-    <a href="index.html" class="back-arrow">&lt;</a>
-    <div class="logo-text">Purchase</div>
-    <!-- Only the logo image -->
-    <img src="IMG_1124.jpeg" alt="Logo" class="logo-image">
+  <!-- Signup Screen -->
+  <div class="signup-screen">
+    <div class="header">
+      <a href="index.html" class="back-arrow">&lt;</a>
+      <div class="logo-text">Purchase</div>
+      <img src="IMG_1124.jpeg" alt="Logo" class="logo-image">
+    </div>
+
+    <h1>Create Account</h1>
+    <p class="sub">Get started in as little as 2 minutes</p>
+
+    <form id="signupForm">
+      <label for="email">Email</label>
+      <div class="input-group">
+        <input type="email" id="email" placeholder="Enter your email" required>
+      </div>
+
+      <label for="password">Password</label>
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Enter your password" required>
+        <svg id="togglePassword" class="toggle-password" viewBox="0 0 24 24">
+          <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>
+        </svg>
+      </div>
+
+      <p class="password-rule">Password must be at least 8 characters, and include at least 1 uppercase letter and 1 number.</p>
+
+      <div class="checkbox-inline" id="checkboxWrapper">
+        <span class="checkbox-icon" id="checkboxIcon">☑️</span>
+        <label for="agree">
+          I am over 18 years old and I have read, understand and agree to the 
+          <a href="#">LegalTenderPay Terms of Use</a>, 
+          <a href="#">Privacy Policy</a>, and 
+          <a href="#">Biometric Data Policy</a>.
+        </label>
+        <input type="checkbox" id="agree" required style="display:none;">
+      </div>
+
+      <button type="submit" id="registerBtn" disabled>Register</button>
+    </form>
   </div>
 
-  <h1>Create Account</h1>
-  <p class="sub">Get started in as little as 2 minutes</p>
-
-  <form id="signupForm">
-    <label for="email">Email</label>
-    <div class="input-group">
-      <input type="email" id="email" placeholder="Enter your email" required>
+  <!-- Verification Screen -->
+  <div class="verify-screen" id="verifyScreen">
+    <div class="verify-header">
+      <a href="#" id="goBack">&lt;</a>
     </div>
-
-    <label for="password">Password</label>
-    <div class="input-group">
-      <input type="password" id="password" placeholder="Enter your password" required>
-      <svg id="togglePassword" class="toggle-password" viewBox="0 0 24 24">
-        <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>
-      </svg>
+    <div class="envelope">
+      <svg viewBox="0 0 24 24"><path d="M2 4h20v16H2V4zm10 7L4 6v12h16V6l-8 5z"/></svg>
+      <div class="circle-dot"></div>
     </div>
-
-    <p class="password-rule">Password must be at least 8 characters, and include at least 1 uppercase letter and 1 number.</p>
-
-    <div class="checkbox-inline" id="checkboxWrapper">
-      <span class="checkbox-icon" id="checkboxIcon">☑️</span>
-      <label for="agree">
-        I am over 18 years old and I have read, understand and agree to the 
-        <a href="#">LegalTenderPay Terms of Use</a>, 
-        <a href="#">Privacy Policy</a>, and 
-        <a href="#">Biometric Data Policy</a>.
-      </label>
-      <input type="checkbox" id="agree" required style="display:none;">
+    <div class="info-text">
+      A verification code has been sent to your email address, unless that address is associated with another account.
     </div>
-
-    <button type="submit" id="registerBtn" disabled>Register</button>
-  </form>
+    <div class="code-header">
+      <span>Verification Code</span>
+      <span class="resend" id="resendText">Resend Email (60s)</span>
+    </div>
+    <div class="code-inputs">
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+    </div>
+    <div class="footer-text">Didn’t receive an email?</div>
+  </div>
 
   <script>
+    // Elements
     const email = document.getElementById('email');
     const password = document.getElementById('password');
     const agree = document.getElementById('agree');
@@ -215,6 +310,11 @@
     const togglePassword = document.getElementById('togglePassword');
     const checkboxIcon = document.getElementById('checkboxIcon');
     const checkboxWrapper = document.getElementById('checkboxWrapper');
+
+    const signupScreen = document.querySelector('.signup-screen');
+    const verifyScreen = document.getElementById('verifyScreen');
+    const resendText = document.getElementById('resendText');
+    const goBack = document.getElementById('goBack');
 
     function validateForm() {
       if (email.value && password.value && agree.checked) {
@@ -228,7 +328,6 @@
 
     email.addEventListener('input', validateForm);
     password.addEventListener('input', validateForm);
-
     checkboxWrapper.addEventListener('click', () => {
       agree.checked = !agree.checked;
       checkboxIcon.textContent = agree.checked ? "✅" : "☑️";
@@ -238,11 +337,48 @@
     togglePassword.addEventListener('click', () => {
       const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
       password.setAttribute('type', type);
-      if (type === 'password') {
-        togglePassword.innerHTML = '<path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>';
-      } else {
-        togglePassword.innerHTML = '<path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path><line x1="4" y1="4" x2="20" y2="20" stroke="#fcd535" stroke-width="2" />';
-      }
+    });
+
+    // Handle Register Button
+    document.getElementById('signupForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      signupScreen.style.display = 'none';
+      verifyScreen.style.display = 'flex';
+      startCountdown();
+    });
+
+    // Handle Back Button
+    goBack.addEventListener('click', (e) => {
+      e.preventDefault();
+      verifyScreen.style.display = 'none';
+      signupScreen.style.display = 'block';
+    });
+
+    // Countdown timer
+    function startCountdown() {
+      let timeLeft = 60;
+      resendText.textContent = `Resend Email (${timeLeft}s)`;
+      resendText.style.pointerEvents = 'none';
+      const timer = setInterval(() => {
+        timeLeft--;
+        resendText.textContent = `Resend Email (${timeLeft}s)`;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          resendText.textContent = "Resend Email";
+          resendText.style.pointerEvents = 'auto';
+          resendText.addEventListener('click', startCountdown, { once: true });
+        }
+      }, 1000);
+    }
+
+    // Auto move between code boxes
+    const inputs = document.querySelectorAll(".code-inputs input");
+    inputs.forEach((input, index) => {
+      input.addEventListener("input", () => {
+        if (input.value.length === 1 && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+      });
     });
   </script>
 
