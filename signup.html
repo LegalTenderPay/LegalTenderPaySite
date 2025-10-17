@@ -41,7 +41,7 @@
     top: 8px;
   }
   .logo-box {
-    width: 55px; /* Larger logo box */
+    width: 55px;
     height: 55px;
     border-radius: 50%;
     overflow: hidden;
@@ -49,7 +49,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 14px; /* Slightly lowered */
+    margin-top: 14px;
   }
   .logo-box img {
     width: 100%;
@@ -84,7 +84,7 @@
     width: 100%;
     padding: 14px 42px 14px 12px;
     border-radius: 8px;
-    border: 1px solid #333; /* Closed look */
+    border: 1px solid #333;
     background-color: #1c1f24;
     color: #fff;
     font-size: 1rem;
@@ -118,7 +118,7 @@
     margin-bottom: 12px;
   }
 
-  /* Checkbox */
+  /* Checkbox (refined) */
   .checkbox-inline {
     display: flex;
     align-items: flex-start;
@@ -127,28 +127,31 @@
     color: #ccc;
     margin-bottom: 25px;
   }
+
   .checkbox-inline input[type="checkbox"] {
     appearance: none;
     width: 18px;
     height: 18px;
     margin-top: 2px;
     margin-right: 10px;
-    border: 2px solid #fcd535;
-    border-radius: 3px;
     background-color: transparent;
+    border: none; /* Removed yellow box */
     position: relative;
     cursor: pointer;
   }
+
   .checkbox-inline input[type="checkbox"]:checked::before {
     content: "✅";
     position: absolute;
     top: -3px;
-    left: -1px;
+    left: 2px; /* shifted right slightly */
     font-size: 18px;
   }
+
   .checkbox-inline label {
     cursor: pointer;
   }
+
   .checkbox-inline a {
     color: #fcd535;
     text-decoration: none;
