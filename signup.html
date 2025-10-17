@@ -17,26 +17,41 @@
     padding: 25px;
   }
 
-  /* Top bar */
-  .top-bar {
+  /* Header section */
+  .header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
   }
   .back-arrow {
     font-size: 1.8rem;
     color: #fff;
     text-decoration: none;
-    position: absolute;
-    left: 0;
   }
   .logo-text {
-    flex: 1;
-    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     font-weight: 700;
     font-size: 1.6rem;
     color: #fcd535;
+  }
+  .logo-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #1c1f24;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   /* Headings */
@@ -52,59 +67,50 @@
     text-align: left;
   }
 
-  /* Input fields */
+  /* Form fields */
+  label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
   .input-group {
     position: relative;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
   }
-  .input-group input {
+  input {
     width: 100%;
-    padding: 18px 42px 10px 12px; /* space for eye icon */
+    padding: 14px 42px 14px 12px;
     border-radius: 8px;
     border: none;
     background-color: #1c1f24;
     color: #fff;
     font-size: 1rem;
   }
-  .input-group label {
-    position: absolute;
-    top: 10px;
-    left: 14px;
-    font-size: 0.95rem;
-    color: #aaa;
-    transition: 0.2s ease;
-    pointer-events: none;
-  }
-  .input-group input:focus + label,
-  .input-group input:not(:placeholder-shown) + label {
-    top: -10px;
-    left: 10px;
-    font-size: 0.8rem;
-    color: #fcd535;
-  }
-  .input-group input:focus {
+  input:focus {
     outline: 2px solid #fcd535;
   }
 
-  /* Eye icon */
+  /* Eye icon SVG */
   .toggle-password {
     position: absolute;
     right: 12px;
     top: 50%;
     transform: translateY(-50%);
-    color: #888;
-    font-size: 1.2rem;
     cursor: pointer;
     user-select: none;
+    fill: #888;
+    width: 22px;
+    height: 22px;
+    transition: fill 0.3s ease;
   }
   .toggle-password:hover {
-    color: #fcd535;
+    fill: #fcd535;
   }
 
   p.password-rule {
     font-size: 0.9rem;
     color: #999;
-    margin-top: -10px;
+    margin-top: -5px;
     margin-bottom: 20px;
   }
 
@@ -150,24 +156,30 @@
 </head>
 <body>
 
-  <div class="top-bar">
+  <div class="header">
     <a href="index.html" class="back-arrow">&lt;</a>
     <div class="logo-text">Purchase</div>
+    <div class="logo-box">
+      <!-- Upload your logo image later -->
+      <!-- <img src="your-logo.png" alt="Logo"> -->
+    </div>
   </div>
 
   <h1>Create Account</h1>
   <p class="sub">Get started in as little as 2 minutes</p>
 
   <form id="signupForm">
+    <label for="email">Email</label>
     <div class="input-group">
-      <input type="email" id="email" placeholder=" " required>
-      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter your email" required>
     </div>
 
+    <label for="password">Password</label>
     <div class="input-group">
-      <input type="password" id="password" placeholder=" " required>
-      <label for="password">Password</label>
-      <span class="toggle-password" id="togglePassword">👁️</span>
+      <input type="password" id="password" placeholder="Enter your password" required>
+      <svg id="togglePassword" class="toggle-password" viewBox="0 0 24 24">
+        <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>
+      </svg>
     </div>
 
     <p class="password-rule">Password must be at least 8 characters, and include at least 1 uppercase letter and 1 number.</p>
@@ -211,7 +223,11 @@
     togglePassword.addEventListener('click', () => {
       const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
       password.setAttribute('type', type);
-      togglePassword.textContent = type === 'password' ? '👁️' : '🙈';
+      if (type === 'password') {
+        togglePassword.innerHTML = '<path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>';
+      } else {
+        togglePassword.innerHTML = '<path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path><line x1="4" y1="4" x2="20" y2="20" stroke="#fcd535" stroke-width="2" />';
+      }
     });
   </script>
 
