@@ -368,7 +368,7 @@
   </div>
 
   <script>
-    // Elements for signup
+    // Signup logic
     const email = document.getElementById('email');
     const password = document.getElementById('password');
     const agree = document.getElementById('agree');
@@ -404,13 +404,11 @@
       password.setAttribute('type', type);
     });
 
-    // Handle Register Button
-    document.getElementById('signupForm').addEventListener('submit', function (e) {
+    document.getElementById('signupForm').addEventListener('submit', (e) => {
       e.preventDefault();
       signupScreen.style.display = 'none';
       verifyScreen.style.display = 'flex';
       startCountdown();
-      // Removed focus on input to avoid triggering keyboard
     });
 
     goBack.addEventListener('click', (e) => {
@@ -419,7 +417,6 @@
       signupScreen.style.display = 'block';
     });
 
-    // Countdown timer
     function startCountdown() {
       let timeLeft = 60;
       resendText.textContent = `Resend Email (${timeLeft}s)`;
@@ -436,7 +433,7 @@
       }, 1000);
     }
 
-    // Inputs + keypad logic
+    // Keypad + code logic
     const inputs = Array.from(document.querySelectorAll('.code-inputs input'));
     const keypad = document.getElementById('keypad');
 
@@ -464,13 +461,14 @@
 
     function checkComplete() {
       const code = inputs.map(i => i.value).join('');
-      if (code.length === inputs.length && !code.includes('')) {
+      if (code.length === inputs.length) {
         const info = document.querySelector('.info-text');
         info.textContent = "✅ Email verified successfully";
         info.style.color = '#b7f0b7';
         setTimeout(() => {
           info.textContent = "A verification code has been sent to your email address, unless that address is associated with another account.";
           info.style.color = '#ccc';
+          inputs.forEach(i => i.value = '');
         }, 1400);
       }
     }
