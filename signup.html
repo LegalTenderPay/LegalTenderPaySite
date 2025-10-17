@@ -337,12 +337,12 @@
       <span class="resend" id="resendText">Resend Email (60s)</span>
     </div>
     <div class="code-inputs" id="codeInputs">
-      <input inputmode="numeric" type="text" maxlength="1" />
-      <input inputmode="numeric" type="text" maxlength="1" />
-      <input inputmode="numeric" type="text" maxlength="1" />
-      <input inputmode="numeric" type="text" maxlength="1" />
-      <input inputmode="numeric" type="text" maxlength="1" />
-      <input inputmode="numeric" type="text" maxlength="1" />
+      <input type="text" maxlength="1" readonly />
+      <input type="text" maxlength="1" readonly />
+      <input type="text" maxlength="1" readonly />
+      <input type="text" maxlength="1" readonly />
+      <input type="text" maxlength="1" readonly />
+      <input type="text" maxlength="1" readonly />
     </div>
     <div class="footer-text">Didn’t receive an email?</div>
 
@@ -410,7 +410,7 @@
       signupScreen.style.display = 'none';
       verifyScreen.style.display = 'flex';
       startCountdown();
-      document.querySelectorAll('.code-inputs input')[0].focus();
+      // Removed focus on input to avoid triggering keyboard
     });
 
     goBack.addEventListener('click', (e) => {
@@ -440,16 +440,6 @@
     const inputs = Array.from(document.querySelectorAll('.code-inputs input'));
     const keypad = document.getElementById('keypad');
 
-    inputs.forEach((input, index) => {
-      input.addEventListener('input', () => {
-        if (input.value && index < inputs.length - 1) inputs[index + 1].focus();
-        checkComplete();
-      });
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Backspace' && !input.value && index > 0) inputs[index - 1].focus();
-      });
-    });
-
     keypad.addEventListener('click', (e) => {
       const key = e.target.closest('.key');
       if (!key || key.classList.contains('empty')) return;
@@ -458,7 +448,6 @@
         for (let i = inputs.length - 1; i >= 0; i--) {
           if (inputs[i].value) {
             inputs[i].value = '';
-            inputs[i].focus();
             break;
           }
         }
@@ -466,7 +455,6 @@
         for (let i = 0; i < inputs.length; i++) {
           if (!inputs[i].value) {
             inputs[i].value = val;
-            if (i < inputs.length - 1) inputs[i + 1].focus();
             checkComplete();
             break;
           }
@@ -487,6 +475,5 @@
       }
     }
   </script>
-
 </body>
 </html>
