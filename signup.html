@@ -118,44 +118,42 @@
     margin-bottom: 12px;
   }
 
-  /* Checkbox styling */
+  /* Custom checkbox styling */
   .checkbox-inline {
     display: flex;
-    align-items: center; /* vertically center checkbox with text */
+    align-items: center;
     font-size: 0.9rem;
-    line-height: 1.4;
     color: #ccc;
     margin-bottom: 25px;
   }
 
   .checkbox-inline input[type="checkbox"] {
-    appearance: none;
-    width: 16px;       /* match size of checkmark */
-    height: 16px;      /* match size of checkmark */
-    margin: 0 10px 0 0;
-    background-color: transparent;
-    border: 2px solid #fff; /* visible empty square */
-    border-radius: 3px;
-    position: relative;
-    cursor: pointer;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
-  }
-
-  .checkbox-inline input[type="checkbox"]:checked::before {
-    content: "✅";
-    position: absolute;
-    top: -2px;   /* adjust to center checkmark */
-    left: -1px;  /* adjust to center checkmark */
-    font-size: 16px; /* same as checkbox size */
-  }
-
-  .checkbox-inline input[type="checkbox"]:hover {
-    border-color: #fcd535;
+    display: none; /* hide default checkbox */
   }
 
   .checkbox-inline label {
+    display: flex;
+    align-items: center;
     cursor: pointer;
-    margin: 0;
+  }
+
+  .checkbox-inline .custom-checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    margin-right: 10px;
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .checkbox-inline input[type="checkbox"]:checked + label .custom-checkbox::after {
+    content: "✅";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    font-size: 18px;
   }
 
   .checkbox-inline a {
@@ -195,7 +193,6 @@
     <a href="index.html" class="back-arrow">&lt;</a>
     <div class="logo-text">Purchase</div>
     <div class="logo-box">
-      <!-- Upload your logo image later -->
       <!-- <img src="your-logo.png" alt="Logo"> -->
     </div>
   </div>
@@ -222,6 +219,7 @@
     <div class="checkbox-inline">
       <input type="checkbox" id="agree" required>
       <label for="agree">
+        <span class="custom-checkbox"></span>
         I am over 18 years old and I have read, understand and agree to the 
         <a href="#">Binance.US Terms of Use</a>, 
         <a href="#">Privacy Policy</a>, and 
