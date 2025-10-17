@@ -36,20 +36,20 @@
     left: 50%;
     transform: translateX(-50%);
     font-weight: 700;
-    font-size: 1.3rem;
+    font-size: 1.5rem; /* increased size */
     color: #fcd535;
     top: 8px;
   }
   .logo-box {
-    width: 55px;
-    height: 55px;
+    width: 70px;       /* bigger logo */
+    height: 70px;      /* bigger logo */
     border-radius: 50%;
     overflow: hidden;
     background-color: #1c1f24;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 14px;
+    margin-top: 20px;  /* shifted down */
   }
 
   /* Headings */
@@ -116,7 +116,7 @@
   /* Checkbox with emoji */
   .checkbox-inline {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     font-size: 1rem;
     line-height: 1.5;
     font-weight: 600;
@@ -128,7 +128,8 @@
 
   .checkbox-inline span.checkbox-icon {
     font-size: 18px;
-    margin-right: 10px;
+    margin-right: 5px; /* closer to the I */
+    margin-top: 3px;   /* align vertically with text */
     transition: 0.2s ease;
   }
 
