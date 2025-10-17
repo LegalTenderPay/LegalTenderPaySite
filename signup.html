@@ -51,11 +51,6 @@
     justify-content: center;
     margin-top: 14px;
   }
-  .logo-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
 
   /* Headings */
   h1 {
@@ -118,44 +113,28 @@
     margin-bottom: 12px;
   }
 
-  /* Checkbox styling */
+  /* Checkbox with emoji */
   .checkbox-inline {
     display: flex;
-    align-items: flex-start; /* vertically align checkbox with text */
-    font-size: 1rem;          /* slightly bigger text */
+    align-items: center;
+    font-size: 1rem;
     line-height: 1.5;
-    font-weight: 600;         /* bold text for stronger appearance */
+    font-weight: 600;
     color: #ccc;
     margin-bottom: 25px;
-  }
-
-  .checkbox-inline input[type="checkbox"] {
-    appearance: none;
-    width: 18px;       
-    height: 18px;      
-    margin: 0 10px 0 0;
-    background-color: transparent;
-    border: 2px solid #fff; /* visible empty square */
-    border-radius: 3px;
-    position: relative;
     cursor: pointer;
+    user-select: none;
   }
 
-  .checkbox-inline input[type="checkbox"]:checked::before {
-    content: "✅";
-    position: absolute;
-    top: -2px;  
-    left: -1px; 
-    font-size: 18px; 
-  }
-
-  .checkbox-inline input[type="checkbox"]:hover {
-    border-color: #fcd535;
+  .checkbox-inline span.checkbox-icon {
+    font-size: 18px;
+    margin-right: 10px;
+    transition: 0.2s ease;
   }
 
   .checkbox-inline label {
-    cursor: pointer;
     margin: 0;
+    cursor: pointer;
   }
 
   .checkbox-inline a {
@@ -195,7 +174,6 @@
     <a href="index.html" class="back-arrow">&lt;</a>
     <div class="logo-text">Purchase</div>
     <div class="logo-box">
-      <!-- Upload your logo image later -->
     </div>
   </div>
 
@@ -218,14 +196,15 @@
 
     <p class="password-rule">Password must be at least 8 characters, and include at least 1 uppercase letter and 1 number.</p>
 
-    <div class="checkbox-inline">
-      <input type="checkbox" id="agree" required>
+    <div class="checkbox-inline" id="checkboxWrapper">
+      <span class="checkbox-icon" id="checkboxIcon">☑️</span>
       <label for="agree">
         I am over 18 years old and I have read, understand and agree to the 
-        <a href="#">Binance.US Terms of Use</a>, 
+        <a href="#">LegalTenderPay Terms of Use</a>, 
         <a href="#">Privacy Policy</a>, and 
         <a href="#">Biometric Data Policy</a>.
       </label>
+      <input type="checkbox" id="agree" required style="display:none;">
     </div>
 
     <button type="submit" id="registerBtn" disabled>Register</button>
@@ -237,6 +216,8 @@
     const agree = document.getElementById('agree');
     const registerBtn = document.getElementById('registerBtn');
     const togglePassword = document.getElementById('togglePassword');
+    const checkboxIcon = document.getElementById('checkboxIcon');
+    const checkboxWrapper = document.getElementById('checkboxWrapper');
 
     function validateForm() {
       if (email.value && password.value && agree.checked) {
@@ -250,7 +231,12 @@
 
     email.addEventListener('input', validateForm);
     password.addEventListener('input', validateForm);
-    agree.addEventListener('change', validateForm);
+
+    checkboxWrapper.addEventListener('click', () => {
+      agree.checked = !agree.checked;
+      checkboxIcon.textContent = agree.checked ? "✅" : "☑️";
+      validateForm();
+    });
 
     togglePassword.addEventListener('click', () => {
       const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
