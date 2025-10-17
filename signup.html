@@ -14,57 +14,101 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 30px;
+    padding: 25px;
   }
+
+  /* Top bar */
   .top-bar {
     display: flex;
     align-items: center;
-    margin-bottom: 30px;
+    position: relative;
+    margin-bottom: 20px;
   }
   .back-arrow {
     font-size: 1.8rem;
     color: #fff;
     text-decoration: none;
-    margin-right: 10px;
+    position: absolute;
+    left: 0;
   }
   .logo-text {
+    flex: 1;
+    text-align: center;
     font-weight: 700;
-    font-size: 1.3rem;
+    font-size: 1.6rem;
     color: #fcd535;
   }
+
+  /* Headings */
   h1 {
-    font-size: 1.8rem;
-    margin-top: 20px;
+    font-size: 1.9rem;
+    margin-top: 10px;
     margin-bottom: 5px;
+    text-align: left;
   }
   p.sub {
     color: #aaa;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
+    text-align: left;
   }
-  label {
-    display: block;
-    font-size: 1rem;
-    margin-bottom: 8px;
+
+  /* Input fields */
+  .input-group {
+    position: relative;
+    margin-bottom: 25px;
   }
-  input {
+  .input-group input {
     width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
+    padding: 18px 42px 10px 12px; /* space for eye icon */
     border-radius: 8px;
     border: none;
     background-color: #1c1f24;
     color: #fff;
     font-size: 1rem;
   }
-  input:focus {
+  .input-group label {
+    position: absolute;
+    top: 10px;
+    left: 14px;
+    font-size: 0.95rem;
+    color: #aaa;
+    transition: 0.2s ease;
+    pointer-events: none;
+  }
+  .input-group input:focus + label,
+  .input-group input:not(:placeholder-shown) + label {
+    top: -10px;
+    left: 10px;
+    font-size: 0.8rem;
+    color: #fcd535;
+  }
+  .input-group input:focus {
     outline: 2px solid #fcd535;
   }
+
+  /* Eye icon */
+  .toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 1.2rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  .toggle-password:hover {
+    color: #fcd535;
+  }
+
   p.password-rule {
     font-size: 0.9rem;
     color: #999;
-    margin-top: -15px;
-    margin-bottom: 25px;
+    margin-top: -10px;
+    margin-bottom: 20px;
   }
+
+  /* Checkbox */
   label.checkbox {
     display: flex;
     align-items: flex-start;
@@ -80,6 +124,8 @@
   label.checkbox a:hover {
     text-decoration: underline;
   }
+
+  /* Button */
   button {
     width: 100%;
     padding: 15px;
@@ -89,9 +135,15 @@
     font-size: 1.1rem;
     font-weight: 600;
     color: #0b0c10;
-    cursor: pointer;
+    cursor: not-allowed;
+    opacity: 0.5;
+    transition: 0.3s ease;
   }
-  button:hover {
+  button.active {
+    cursor: pointer;
+    opacity: 1;
+  }
+  button.active:hover {
     background-color: #ffd84d;
   }
 </style>
@@ -106,16 +158,22 @@
   <h1>Create Account</h1>
   <p class="sub">Get started in as little as 2 minutes</p>
 
-  <form>
-    <label for="email">Email</label>
-    <input type="email" id="email" placeholder="Enter your email" required>
+  <form id="signupForm">
+    <div class="input-group">
+      <input type="email" id="email" placeholder=" " required>
+      <label for="email">Email</label>
+    </div>
 
-    <label for="password">Password</label>
-    <input type="password" id="password" placeholder="Enter your password" required>
+    <div class="input-group">
+      <input type="password" id="password" placeholder=" " required>
+      <label for="password">Password</label>
+      <span class="toggle-password" id="togglePassword">👁️</span>
+    </div>
+
     <p class="password-rule">Password must be at least 8 characters, and include at least 1 uppercase letter and 1 number.</p>
 
     <label class="checkbox">
-      <input type="checkbox" required>
+      <input type="checkbox" id="agree" required>
       <span>
         I am over 18 years old and I have read, understand and agree to the 
         <a href="#">Terms of Use</a>, 
@@ -124,8 +182,38 @@
       </span>
     </label>
 
-    <button type="submit">Register</button>
+    <button type="submit" id="registerBtn" disabled>Register</button>
   </form>
+
+  <script>
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const agree = document.getElementById('agree');
+    const registerBtn = document.getElementById('registerBtn');
+    const togglePassword = document.getElementById('togglePassword');
+
+    // Enable Register button only when all fields are filled
+    function validateForm() {
+      if (email.value && password.value && agree.checked) {
+        registerBtn.disabled = false;
+        registerBtn.classList.add('active');
+      } else {
+        registerBtn.disabled = true;
+        registerBtn.classList.remove('active');
+      }
+    }
+
+    email.addEventListener('input', validateForm);
+    password.addEventListener('input', validateForm);
+    agree.addEventListener('change', validateForm);
+
+    // Toggle password visibility
+    togglePassword.addEventListener('click', () => {
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      togglePassword.textContent = type === 'password' ? '👁️' : '🙈';
+    });
+  </script>
 
 </body>
 </html>
