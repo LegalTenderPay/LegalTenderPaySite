@@ -36,20 +36,20 @@
     left: 50%;
     transform: translateX(-50%);
     font-weight: 700;
-    font-size: 1.5rem; /* increased size */
+    font-size: 1.5rem;
     color: #fcd535;
     top: 8px;
   }
   .logo-box {
-    width: 70px;       /* bigger logo */
-    height: 70px;      /* bigger logo */
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     overflow: hidden;
     background-color: #1c1f24;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;  /* shifted down */
+    margin-top: 20px;
   }
 
   /* Headings */
@@ -77,22 +77,19 @@
   }
   input {
     width: 100%;
-    padding: 14px 42px 14px 12px;
+    padding: 14px 40px 14px 12px; /* right padding slightly less to prevent overlap */
     border-radius: 8px;
     border: 1px solid #333;
     background-color: #1c1f24;
     color: #fff;
     font-size: 1rem;
-  }
-  input:focus {
-    outline: 2px solid #fcd535;
-    border-color: #fcd535;
+    box-sizing: border-box;
   }
 
   /* Eye icon */
   .toggle-password {
     position: absolute;
-    right: 12px;
+    right: 10px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
@@ -128,8 +125,8 @@
 
   .checkbox-inline span.checkbox-icon {
     font-size: 18px;
-    margin-right: 5px; /* closer to the I */
-    margin-top: 3px;   /* align vertically with text */
+    margin-right: 5px;
+    margin-top: 3px;
     transition: 0.2s ease;
   }
 
