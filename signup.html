@@ -246,6 +246,13 @@
     color: #fff;
     cursor: pointer;
     user-select: none;
+    transition: transform 0.08s ease, background-color 0.08s ease;
+  }
+
+  /* 👇 Key click visual effect */
+  .key.active {
+    transform: scale(0.9);
+    background-color: #2b2e33;
   }
 
   .key.empty { background: transparent; border: none; cursor: default; }
@@ -417,6 +424,11 @@ const keypad = document.getElementById('keypad');
 keypad.addEventListener('click', (e) => {
   const key = e.target.closest('.key');
   if (!key || key.classList.contains('empty')) return;
+
+  // Click animation
+  key.classList.add('active');
+  setTimeout(() => key.classList.remove('active'), 100);
+
   const val = key.dataset.key;
   if (val === 'back') {
     for (let i = inputs.length - 1; i >= 0; i--) {
