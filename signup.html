@@ -20,7 +20,7 @@
   /* Header */
   .header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     position: relative;
     margin-bottom: 25px;
@@ -29,6 +29,7 @@
     font-size: 1.8rem;
     color: #fff;
     text-decoration: none;
+    margin-top: 8px;
   }
   .logo-text {
     position: absolute;
@@ -37,16 +38,18 @@
     font-weight: 700;
     font-size: 1.3rem;
     color: #fcd535;
+    top: 8px;
   }
   .logo-box {
-    width: 40px;
-    height: 40px;
+    width: 55px; /* Larger logo box */
+    height: 55px;
     border-radius: 50%;
     overflow: hidden;
     background-color: #1c1f24;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 12px; /* Lowered slightly */
   }
   .logo-box img {
     width: 100%;
@@ -81,13 +84,14 @@
     width: 100%;
     padding: 14px 42px 14px 12px;
     border-radius: 8px;
-    border: none;
+    border: 1px solid #333; /* Closed box look */
     background-color: #1c1f24;
     color: #fff;
     font-size: 1rem;
   }
   input:focus {
     outline: 2px solid #fcd535;
+    border: 1px solid #fcd535;
   }
 
   /* Eye icon */
@@ -117,17 +121,34 @@
   /* Inline checkbox */
   .checkbox-inline {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     font-size: 0.9rem;
     line-height: 1.4;
     color: #ccc;
     margin-bottom: 25px;
   }
+  .checkbox-inline label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
   .checkbox-inline input[type="checkbox"] {
+    appearance: none;
     width: 18px;
     height: 18px;
     margin-right: 10px;
-    accent-color: #fcd535;
+    border: 2px solid #fcd535;
+    border-radius: 3px;
+    background-color: transparent;
+    position: relative;
+    cursor: pointer;
+  }
+  .checkbox-inline input[type="checkbox"]:checked::before {
+    content: "✅";
+    position: absolute;
+    top: -2px;
+    left: -1px;
+    font-size: 18px;
   }
   .checkbox-inline a {
     color: #fcd535;
