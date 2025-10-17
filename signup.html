@@ -88,8 +88,8 @@
     fill: #888;
     width: 22px;
     height: 22px;
+    transition: fill 0.3s ease;
   }
-
   .toggle-password:hover { fill: #fcd535; }
 
   p.password-rule {
@@ -115,6 +115,7 @@
     font-size: 18px;
     margin-right: 5px;
     margin-top: 3px;
+    transition: 0.2s ease;
   }
 
   .checkbox-inline a {
@@ -135,6 +136,7 @@
     color: #0b0c10;
     cursor: not-allowed;
     opacity: 0.5;
+    transition: 0.3s ease;
   }
 
   button.active { cursor: pointer; opacity: 1; }
@@ -168,9 +170,7 @@
     margin: 60px auto 20px auto;
     position: relative;
   }
-
   .envelope svg { width: 100%; height: 100%; fill: #fff; }
-
   .circle-dot {
     position: absolute;
     top: -5px;
@@ -220,11 +220,9 @@
     caret-color: transparent;
   }
 
-  .footer-text {
-    color: #999;
-    font-size: 1rem;
-    margin-bottom: 18px;
-  }
+  .code-inputs input:focus { border-color: #fcd535; }
+
+  .footer-text { color: #999; font-size: 1rem; margin-bottom: 18px; }
 
   .keypad {
     display: grid;
@@ -232,6 +230,7 @@
     gap: 12px;
     width: 320px;
     margin: 0 auto;
+    margin-top: 6px;
   }
 
   .key {
@@ -246,13 +245,12 @@
     color: #fff;
     cursor: pointer;
     user-select: none;
-    transition: transform 0.08s ease, background-color 0.08s ease;
+    transition: transform 0.06s ease, background-color 0.12s;
   }
 
-  /* 👇 Key click visual effect */
-  .key.active {
-    transform: scale(0.9);
-    background-color: #2b2e33;
+  .key:active {
+    transform: scale(0.98);
+    background-color: #22262b;
   }
 
   .key.empty { background: transparent; border: none; cursor: default; }
@@ -262,190 +260,207 @@
     height: 24px;
     fill: #fff;
   }
+
+  @media (max-width: 360px) {
+    .keypad { width: 260px; gap: 10px; }
+    .key { height: 48px; font-size: 1.15rem; border-radius: 10px; }
+    .code-inputs input { width: 38px; height: 50px; font-size: 1.3rem; }
+  }
 </style>
 </head>
 <body>
 
-<div class="signup-screen">
-  <div class="header">
-    <a href="index.html" class="back-arrow">&lt;</a>
-    <div class="logo-text">Purchase</div>
-    <img src="IMG_1124.jpeg" alt="Logo" class="logo-image">
-  </div>
-
-  <h1>Create Account</h1>
-  <p class="sub">Get started in as little as 2 minutes</p>
-
-  <form id="signupForm">
-    <label for="email">Email</label>
-    <div class="input-group">
-      <input type="email" id="email" placeholder="Enter your email" required>
+  <div class="signup-screen">
+    <div class="header">
+      <a href="index.html" class="back-arrow">&lt;</a>
+      <div class="logo-text">Purchase</div>
+      <img src="IMG_1124.jpeg" alt="Logo" class="logo-image">
     </div>
 
-    <label for="password">Password</label>
-    <div class="input-group">
-      <input type="password" id="password" placeholder="Enter your password" required>
-      <svg id="togglePassword" class="toggle-password" viewBox="0 0 24 24">
-        <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>
-      </svg>
+    <h1>Create Account</h1>
+    <p class="sub">Get started in as little as 2 minutes</p>
+
+    <form id="signupForm">
+      <label for="email">Email</label>
+      <div class="input-group">
+        <input type="email" id="email" placeholder="Enter your email" required>
+      </div>
+
+      <label for="password">Password</label>
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Enter your password" required>
+        <svg id="togglePassword" class="toggle-password" viewBox="0 0 24 24">
+          <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>
+        </svg>
+      </div>
+
+      <p class="password-rule">Password must be at least 8 characters, and include at least 1 uppercase letter and 1 number.</p>
+
+      <div class="checkbox-inline" id="checkboxWrapper">
+        <span class="checkbox-icon" id="checkboxIcon">☑️</span>
+        <label for="agree">
+          I am over 18 years old and I have read, understand and agree to the 
+          <a href="#">LegalTenderPay Terms of Use</a>, 
+          <a href="#">Privacy Policy</a>, and 
+          <a href="#">Biometric Data Policy</a>.
+        </label>
+        <input type="checkbox" id="agree" required style="display:none;">
+      </div>
+
+      <button type="submit" id="registerBtn" disabled>Register</button>
+    </form>
+  </div>
+
+  <div class="verify-screen" id="verifyScreen">
+    <div class="verify-header">
+      <a href="#" id="goBack">&lt;</a>
     </div>
-
-    <p class="password-rule">Password must be at least 8 characters, and include at least 1 uppercase letter and 1 number.</p>
-
-    <div class="checkbox-inline" id="checkboxWrapper">
-      <span class="checkbox-icon" id="checkboxIcon">☑️</span>
-      <label for="agree">
-        I am over 18 years old and I have read, understand and agree to the 
-        <a href="#">LegalTenderPay Terms of Use</a>, 
-        <a href="#">Privacy Policy</a>, and 
-        <a href="#">Biometric Data Policy</a>.
-      </label>
-      <input type="checkbox" id="agree" required style="display:none;">
+    <div class="envelope">
+      <svg viewBox="0 0 24 24"><path d="M2 4h20v16H2V4zm10 7L4 6v12h16V6l-8 5z"/></svg>
+      <div class="circle-dot"></div>
     </div>
+    <div class="info-text">
+      A verification code has been sent to your email address, unless that address is associated with another account.
+    </div>
+    <div class="code-header">
+      <span>Verification Code</span>
+      <span class="resend" id="resendText">Resend Email (60s)</span>
+    </div>
+    <div class="code-inputs" id="codeInputs">
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+    </div>
+    <div class="footer-text">Didn’t receive an email?</div>
 
-    <button type="submit" id="registerBtn" disabled>Register</button>
-  </form>
-</div>
-
-<div class="verify-screen" id="verifyScreen">
-  <div class="verify-header">
-    <a href="#" id="goBack">&lt;</a>
-  </div>
-  <div class="envelope">
-    <svg viewBox="0 0 24 24"><path d="M2 4h20v16H2V4zm10 7L4 6v12h16V6l-8 5z"/></svg>
-    <div class="circle-dot"></div>
-  </div>
-  <div class="info-text">
-    A verification code has been sent to your email address.
-  </div>
-  <div class="code-header">
-    <span>Verification Code</span>
-    <span class="resend" id="resendText">Resend Email (60s)</span>
-  </div>
-  <div class="code-inputs" id="codeInputs">
-    <input type="text" maxlength="1" readonly />
-    <input type="text" maxlength="1" readonly />
-    <input type="text" maxlength="1" readonly />
-    <input type="text" maxlength="1" readonly />
-    <input type="text" maxlength="1" readonly />
-    <input type="text" maxlength="1" readonly />
-  </div>
-  <div class="footer-text">Didn’t receive an email?</div>
-
-  <div class="keypad" id="keypad">
-    <div class="key" data-key="1">1</div>
-    <div class="key" data-key="2">2</div>
-    <div class="key" data-key="3">3</div>
-    <div class="key" data-key="4">4</div>
-    <div class="key" data-key="5">5</div>
-    <div class="key" data-key="6">6</div>
-    <div class="key" data-key="7">7</div>
-    <div class="key" data-key="8">8</div>
-    <div class="key" data-key="9">9</div>
-    <div class="key empty"></div>
-    <div class="key" data-key="0">0</div>
-    <div class="key backspace" data-key="back">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path d="M22 3H7L0 12l7 9h15a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-4.59 12.59L15 13.17l-2.41 2.42-1.18-1.18L13.83 12l-2.42-2.41 1.18-1.18L15 10.83l2.41-2.42 1.18 1.18L16.17 12l2.42 2.41-1.18 1.18z"/>
-      </svg>
+    <div class="keypad" id="keypad">
+      <div class="key" data-key="1">1</div>
+      <div class="key" data-key="2">2</div>
+      <div class="key" data-key="3">3</div>
+      <div class="key" data-key="4">4</div>
+      <div class="key" data-key="5">5</div>
+      <div class="key" data-key="6">6</div>
+      <div class="key" data-key="7">7</div>
+      <div class="key" data-key="8">8</div>
+      <div class="key" data-key="9">9</div>
+      <div class="key empty"></div>
+      <div class="key" data-key="0">0</div>
+      <div class="key backspace" data-key="back">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M22 3H7L0 12l7 9h15a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-4.59 12.59L15 13.17l-2.41 2.42-1.18-1.18L13.83 12l-2.42-2.41 1.18-1.18L15 10.83l2.41-2.42 1.18 1.18L16.17 12l2.42 2.41-1.18 1.18z"/>
+        </svg>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-const email = document.getElementById('email');
-const password = document.getElementById('password');
-const agree = document.getElementById('agree');
-const registerBtn = document.getElementById('registerBtn');
-const togglePassword = document.getElementById('togglePassword');
-const checkboxIcon = document.getElementById('checkboxIcon');
-const checkboxWrapper = document.getElementById('checkboxWrapper');
-const signupScreen = document.querySelector('.signup-screen');
-const verifyScreen = document.getElementById('verifyScreen');
-const resendText = document.getElementById('resendText');
-const goBack = document.getElementById('goBack');
+  <script>
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const agree = document.getElementById('agree');
+    const registerBtn = document.getElementById('registerBtn');
+    const togglePassword = document.getElementById('togglePassword');
+    const checkboxIcon = document.getElementById('checkboxIcon');
+    const checkboxWrapper = document.getElementById('checkboxWrapper');
+    const signupScreen = document.querySelector('.signup-screen');
+    const verifyScreen = document.getElementById('verifyScreen');
+    const resendText = document.getElementById('resendText');
+    const goBack = document.getElementById('goBack');
 
-function validateForm() {
-  if (email.value && password.value && agree.checked) {
-    registerBtn.disabled = false;
-    registerBtn.classList.add('active');
-  } else {
-    registerBtn.disabled = true;
-    registerBtn.classList.remove('active');
-  }
-}
-
-email.addEventListener('input', validateForm);
-password.addEventListener('input', validateForm);
-checkboxWrapper.addEventListener('click', () => {
-  agree.checked = !agree.checked;
-  checkboxIcon.textContent = agree.checked ? "✅" : "☑️";
-  validateForm();
-});
-
-togglePassword.addEventListener('click', () => {
-  const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-  password.setAttribute('type', type);
-});
-
-document.getElementById('signupForm').addEventListener('submit', (e) => {
-  e.preventDefault();
-  signupScreen.style.display = 'none';
-  verifyScreen.style.display = 'flex';
-  startCountdown();
-});
-
-goBack.addEventListener('click', (e) => {
-  e.preventDefault();
-  verifyScreen.style.display = 'none';
-  signupScreen.style.display = 'block';
-});
-
-function startCountdown() {
-  let timeLeft = 60;
-  resendText.textContent = `Resend Email (${timeLeft}s)`;
-  resendText.style.pointerEvents = 'none';
-  const timer = setInterval(() => {
-    timeLeft--;
-    resendText.textContent = `Resend Email (${timeLeft}s)`;
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      resendText.textContent = "Resend Email";
-      resendText.style.pointerEvents = 'auto';
-      resendText.addEventListener('click', startCountdown, { once: true });
-    }
-  }, 1000);
-}
-
-// Keypad behavior
-const inputs = Array.from(document.querySelectorAll('.code-inputs input'));
-const keypad = document.getElementById('keypad');
-
-keypad.addEventListener('click', (e) => {
-  const key = e.target.closest('.key');
-  if (!key || key.classList.contains('empty')) return;
-
-  // Click animation
-  key.classList.add('active');
-  setTimeout(() => key.classList.remove('active'), 100);
-
-  const val = key.dataset.key;
-  if (val === 'back') {
-    for (let i = inputs.length - 1; i >= 0; i--) {
-      if (inputs[i].value) {
-        inputs[i].value = '';
-        break;
+    function validateForm() {
+      if (email.value && password.value && agree.checked) {
+        registerBtn.disabled = false;
+        registerBtn.classList.add('active');
+      } else {
+        registerBtn.disabled = true;
+        registerBtn.classList.remove('active');
       }
     }
-  } else {
-    for (let i = 0; i < inputs.length; i++) {
-      if (!inputs[i].value) {
-        inputs[i].value = val;
-        break;
+
+    email.addEventListener('input', validateForm);
+    password.addEventListener('input', validateForm);
+    checkboxWrapper.addEventListener('click', () => {
+      agree.checked = !agree.checked;
+      checkboxIcon.textContent = agree.checked ? "✅" : "☑️";
+      validateForm();
+    });
+
+    togglePassword.addEventListener('click', () => {
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+    });
+
+    document.getElementById('signupForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      signupScreen.style.display = 'none';
+      verifyScreen.style.display = 'flex';
+      startCountdown();
+    });
+
+    goBack.addEventListener('click', (e) => {
+      e.preventDefault();
+      verifyScreen.style.display = 'none';
+      signupScreen.style.display = 'block';
+    });
+
+    function startCountdown() {
+      let timeLeft = 60;
+      resendText.textContent = `Resend Email (${timeLeft}s)`;
+      resendText.style.pointerEvents = 'none';
+      const timer = setInterval(() => {
+        timeLeft--;
+        resendText.textContent = `Resend Email (${timeLeft}s)`;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          resendText.textContent = "Resend Email";
+          resendText.style.pointerEvents = 'auto';
+          resendText.addEventListener('click', startCountdown, { once: true });
+        }
+      }, 1000);
+    }
+
+    const inputs = Array.from(document.querySelectorAll('.code-inputs input'));
+    const keypad = document.getElementById('keypad');
+
+    keypad.addEventListener('click', (e) => {
+      const key = e.target.closest('.key');
+      if (!key || key.classList.contains('empty')) return;
+      const val = key.dataset.key;
+      if (val === 'back') {
+        for (let i = inputs.length - 1; i >= 0; i--) {
+          if (inputs[i].value) {
+            inputs[i].value = '';
+            inputs[i].style.borderColor = '#333';
+            break;
+          }
+        }
+      } else {
+        for (let i = 0; i < inputs.length; i++) {
+          if (!inputs[i].value) {
+            inputs[i].value = val;
+            inputs[i].style.borderColor = '#fcd535';
+            checkComplete();
+            break;
+          }
+        }
+      }
+    });
+
+    function checkComplete() {
+      const code = inputs.map(i => i.value).join('');
+      if (code.length === inputs.length) {
+        const info = document.querySelector('.info-text');
+        info.textContent = "✅ Email verified successfully";
+        info.style.color = '#b7f0b7';
+        setTimeout(() => {
+          info.textContent = "A verification code has been sent to your email address, unless that address is associated with another account.";
+          info.style.color = '#ccc';
+          inputs.forEach(i => { i.value = ''; i.style.borderColor = '#333'; });
+        }, 1400);
       }
     }
-  }
-});
-</script>
+  </script>
 </body>
 </html>
