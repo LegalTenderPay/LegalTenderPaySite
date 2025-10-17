@@ -14,54 +14,59 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 10px 25px 25px 25px; /* top padding reduced */
+    padding: 10px 25px 25px 25px;
   }
 
   /* Header */
   .header {
     display: flex;
-    align-items: flex-start;
+    align-items: center; /* vertical center */
     justify-content: space-between;
-    position: relative;
-    margin-bottom: 15px; /* reduced margin-bottom */
+    margin-bottom: 20px;
   }
+
   .back-arrow {
     font-size: 1.8rem;
     color: #fff;
     text-decoration: none;
-    margin-top: 8px;
   }
+
   .logo-text {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: #fcd535;
-    top: 8px;
+    text-align: center;
+    flex-grow: 1;
   }
+
   .logo-box {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
+    width: 90px;      
+    height: 50px;     
+    border-radius: 8px;
     overflow: hidden;
     background-color: #1c1f24;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 15px; /* slightly shifted down */
+  }
+
+  .logo-box img {
+    width: 80%;
+    height: auto;
+    object-fit: contain;
   }
 
   /* Headings */
   h1 {
     font-size: 1.9rem;
-    margin-top: 5px; /* reduced top margin */
+    margin-top: 0;
     margin-bottom: 5px;
     text-align: left;
   }
+
   p.sub {
     color: #aaa;
-    margin-bottom: 20px; /* reduced spacing */
+    margin-bottom: 20px;
     text-align: left;
   }
 
@@ -69,12 +74,14 @@
   label {
     display: block;
     font-size: 1rem;
-    margin-bottom: 5px; /* reduced spacing */
+    margin-bottom: 5px;
   }
+
   .input-group {
     position: relative;
-    margin-bottom: 15px; /* reduced spacing */
+    margin-bottom: 15px;
   }
+
   input {
     width: 100%;
     padding: 14px 40px 14px 12px;
@@ -99,6 +106,7 @@
     height: 22px;
     transition: fill 0.3s ease;
   }
+
   .toggle-password:hover {
     fill: #fcd535;
   }
@@ -107,7 +115,7 @@
     font-size: 0.9rem;
     color: #999;
     margin-top: -5px;
-    margin-bottom: 15px; /* reduced spacing */
+    margin-bottom: 15px;
   }
 
   /* Checkbox with emoji */
@@ -118,7 +126,7 @@
     line-height: 1.5;
     font-weight: 600;
     color: #ccc;
-    margin-bottom: 15px; /* reduced spacing */
+    margin-bottom: 15px;
     cursor: pointer;
     user-select: none;
   }
@@ -139,6 +147,7 @@
     color: #fcd535;
     text-decoration: none;
   }
+
   .checkbox-inline a:hover {
     text-decoration: underline;
   }
@@ -157,10 +166,12 @@
     opacity: 0.5;
     transition: 0.3s ease;
   }
+
   button.active {
     cursor: pointer;
     opacity: 1;
   }
+
   button.active:hover {
     background-color: #ffd84d;
   }
@@ -172,6 +183,8 @@
     <a href="index.html" class="back-arrow">&lt;</a>
     <div class="logo-text">Purchase</div>
     <div class="logo-box">
+      <!-- Example logo image -->
+      <!-- <img src="your-logo.png" alt="Logo"> -->
     </div>
   </div>
 
