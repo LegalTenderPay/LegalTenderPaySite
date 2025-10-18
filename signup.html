@@ -1,11 +1,20 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Create Account — Purchase</title>
 <style>
-body { font-family: system-ui, sans-serif; background-color: #0b0c10; color:#fff; height:100vh; margin:0; display:flex; flex-direction:column; padding:10px 25px 25px 25px; }
+body {
+  font-family: system-ui, sans-serif;
+  background-color: #0b0c10;
+  color:#fff;
+  height:100vh;
+  margin:0;
+  display:flex;
+  flex-direction:column;
+  padding:10px 25px 25px 25px;
+}
 .header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
 .back-arrow { font-size:1.8rem; color:#fff; text-decoration:none; }
 .logo-text { font-weight:700; font-size:1.6rem; color:#fcd535; text-align:center; flex-grow:1; }
@@ -15,9 +24,6 @@ p.sub { color:#aaa; margin-bottom:20px; text-align:left; }
 label { display:block; font-size:1rem; margin-bottom:5px; }
 .input-group { position:relative; margin-bottom:15px; }
 input { width:100%; padding:14px 40px 14px 12px; border-radius:8px; border:1px solid #333; background:#1c1f24; color:#fff; font-size:1rem; box-sizing:border-box; }
-.toggle-password { position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; fill:#888; width:22px; height:22px; transition:fill .3s; }
-.toggle-password:hover { fill:#fcd535; }
-p.password-rule { font-size:.9rem; color:#999; margin-top:-5px; margin-bottom:15px; }
 .checkbox-inline { display:flex; align-items:flex-start; font-size:1rem; line-height:1.5; font-weight:600; color:#ccc; margin-bottom:15px; cursor:pointer; user-select:none; }
 .checkbox-icon { font-size:18px; margin-right:5px; margin-top:3px; }
 .checkbox-inline a { color:#fcd535; text-decoration:none; }
@@ -25,6 +31,20 @@ p.password-rule { font-size:.9rem; color:#999; margin-top:-5px; margin-bottom:15
 button { width:100%; padding:15px; background-color:#fcd535; border:none; border-radius:40px; font-size:1.1rem; font-weight:600; color:#0b0c10; cursor:not-allowed; opacity:.5; transition:.3s; }
 button.active { cursor:pointer; opacity:1; }
 button.active:hover { background-color:#ffd84d; }
+/* Toast notification */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #FFD700;
+  color: #000;
+  padding: 15px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  z-index: 9999;
+}
 </style>
 </head>
 <body>
@@ -50,8 +70,6 @@ button.active:hover { background-color:#ffd84d; }
       <input type="password" id="password" placeholder="Enter your password" required>
     </div>
 
-    <p class="password-rule">Password must be at least 8 characters, include at least 1 uppercase letter, and 2 numbers.</p>
-
     <div class="checkbox-inline" id="checkboxWrapper">
       <span class="checkbox-icon" id="checkboxIcon">☑️</span>
       <label for="agree">
@@ -74,7 +92,7 @@ const registerBtn = document.getElementById('registerBtn');
 const checkboxIcon = document.getElementById('checkboxIcon');
 const checkboxWrapper = document.getElementById('checkboxWrapper');
 
-// Existing emails simulation
+// Simulate existing emails
 const existingEmails = ["test@gmail.com", "user@gmail.com", "example@gmail.com"];
 
 function validatePassword(pwd) {
@@ -99,39 +117,29 @@ checkboxWrapper.addEventListener('click', () => {
   validateForm();
 });
 
-// Show yellow toast and redirect to login
+// Show toast and auto redirect
 function showToastAndRedirect(message) {
   const toast = document.createElement('div');
+  toast.className = 'toast';
   toast.textContent = message;
-  toast.style.position = 'fixed';
-  toast.style.top = '20px';
-  toast.style.right = '20px';
-  toast.style.backgroundColor = '#FFD700';
-  toast.style.color = '#000';
-  toast.style.padding = '15px 20px';
-  toast.style.borderRadius = '8px';
-  toast.style.fontWeight = '600';
-  toast.style.fontSize = '1rem';
-  toast.style.boxShadow = '0 4px 6px rgba(0,0,0,0.2)';
-  toast.style.zIndex = '9999';
   document.body.appendChild(toast);
 
   setTimeout(() => {
-    toast.remove();
     window.location.href = 'login.html';
-  }, 2000);
+  }, 2000); // wait 2 seconds before redirect
 }
 
 document.getElementById('signupForm').addEventListener('submit', (e) => {
   e.preventDefault();
-  
+
   if(existingEmails.includes(email.value.toLowerCase().trim())) {
     showToastAndRedirect("This email already has an existing account.");
     return;
   }
 
-  alert("Proceed to create account and set PIN here!");
+  alert("Proceed to create account!");
 });
 </script>
+
 </body>
 </html>
