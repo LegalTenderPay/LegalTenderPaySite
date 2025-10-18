@@ -27,16 +27,16 @@ button.active { cursor:pointer; opacity:1; }
 button.active:hover { background-color:#ffd84d; }
 
 /* VERIFY SCREEN */
-.verify-screen { display:none; flex-direction:column; align-items:center; text-align:center; width:100%; position:relative; padding-top:10px; } /* reduced padding-top */
-.verify-header { position:absolute; top:5px; left:5px; display:flex; justify-content:flex-start; align-items:center; } /* shifted header slightly up */
+.verify-screen { display:none; flex-direction:column; align-items:center; text-align:center; width:100%; position:relative; padding-top:20px; }
+.verify-header { position:absolute; top:10px; left:10px; display:flex; justify-content:flex-start; align-items:center; }
 .verify-header a { color:#fff; font-size:1.8rem; text-decoration:none; }
-.info-text { color:#ccc; font-size:1rem; max-width:320px; margin-bottom:10px; }
+.info-text { color:#ccc; font-size:1rem; max-width:320px; margin-bottom:15px; }
 
 /* Logo Box */
 .pin-logo-box {
   width: 100px;
   height: 100px;
-  margin: 50px auto 10px auto; /* moved up from 80px */
+  margin: 80px auto 15px auto; /* move logo box down */
   border: 2px dashed #555; 
   border-radius: 12px;
   display: flex;
@@ -54,26 +54,25 @@ button.active:hover { background-color:#ffd84d; }
 #pinInstruction {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #fff; 
+  color: #fff; /* white */
   margin-bottom: 10px;
   text-align: center;
 }
-.code-header { width:100%; display:flex; justify-content:center; color:#aaa; margin-bottom:8px; }
-.code-inputs { display:flex; justify-content:center; gap:8px; margin-bottom:8px; }
+.code-header { width:100%; display:flex; justify-content:center; color:#aaa; margin-bottom:10px; }
+.code-inputs { display:flex; justify-content:center; gap:10px; margin-bottom:10px; }
 .code-cell { width:45px; height:55px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; border-radius:8px; border:1px solid #333; background:#1c1f24; color:#fff; user-select:none; }
 .code-cell.active { border-color:#fcd535; }
-.footer-text { color:#999; font-size:1rem; margin-bottom:8px; }
-.keypad { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; width:300px; margin:0 auto; margin-top:0; }
-.key { height:50px; border-radius:12px; background:#1c1f24; border:1px solid #333; display:flex; align-items:center; justify-content:center; font-size:1.2rem; color:#fff; cursor:pointer; user-select:none; transition:transform .06s, background-color .12s; }
+.footer-text { color:#999; font-size:1rem; margin-bottom:10px; }
+.keypad { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; width:320px; margin:0 auto; margin-top:0; }
+.key { height:56px; border-radius:12px; background:#1c1f24; border:1px solid #333; display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:#fff; cursor:pointer; user-select:none; transition:transform .06s, background-color .12s; }
 .key:active { transform:scale(.96); background-color:#22262b; }
 .key.empty { background:transparent; border:none; cursor:default; }
-.key.backspace svg { width:22px; height:22px; fill:#fff; }
+.key.backspace svg { width:24px; height:24px; fill:#fff; }
 
 @media (max-width:360px) {
-  .keypad { width:240px; gap:8px; }
-  .key { height:44px; font-size:1.1rem; border-radius:10px; }
-  .code-cell { width:36px; height:50px; font-size:1.3rem; }
-  .pin-logo-box { width:90px; height:90px; margin:40px auto 10px auto; }
+  .keypad { width:260px; gap:10px; }
+  .key { height:48px; font-size:1.15rem; border-radius:10px; }
+  .code-cell { width:38px; height:50px; font-size:1.3rem; }
 }
 </style>
 </head>
@@ -256,4 +255,46 @@ function updatePin(val) {
     }
     return;
   }
-  if (!/^\d$/.test(val)) return
+  if (!/^\d$/.test(val)) return;
+  for (let i=0;i<codeCells.length;i++) {
+    if (!codeCells[i].dataset.digit) {
+      codeCells[i].dataset.digit = val;
+      codeCells[i].textContent = val; // show number briefly
+      highlightNext();
+      setTimeout(()=>{ codeCells[i].textContent = '•'; },500); // turn into dot
+      break;
+    }
+  }
+  const pin = codeCells.map(c => c.dataset.digit || '').join('');
+  if (pin.length === 6) {
+    if (!confirming) {
+      firstPin = pin;
+      confirming = true;
+      pinFooter.textContent = "Confirm your 6-digit PIN";
+      clearAllCells();
+    } else {
+      if (pin === firstPin) {
+        alert("PIN set successfully! Account created.");
+        resetPinFlow();
+      } else {
+        alert("PINs do not match. Try again.");
+        firstPin = '';
+        confirming = false;
+        pinFooter.textContent = "Enter your 6-digit PIN";
+        clearAllCells();
+      }
+    }
+  }
+}
+
+document.getElementById('keypad').addEventListener('click', (e)=>{
+  const key = e.target.closest('.key');
+  if(!key || key.classList.contains('empty')) return;
+  updatePin(key.dataset.key);
+});
+
+highlightNext();
+</script>
+
+</body>
+</html>
