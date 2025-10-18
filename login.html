@@ -50,7 +50,7 @@
   }
   input {
     padding: 14px 12px;
-    padding-right: 40px; /* space for eye icon */
+    padding-right: 40px;
     border-radius: 8px;
     border: 1px solid #333;
     background: #1c1f24;
@@ -127,12 +127,10 @@ const loginPassword = document.getElementById('loginPassword');
 const loginNotice = document.getElementById('loginNotice');
 const toggleLoginPassword = document.getElementById('toggleLoginPassword');
 
-// Toggle password visibility
 toggleLoginPassword.addEventListener('click', () => {
   loginPassword.type = loginPassword.type === 'password' ? 'text' : 'password';
 });
 
-// Handle login form submission
 loginForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
@@ -141,24 +139,19 @@ loginForm.addEventListener('submit', (e) => {
 
   const storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
 
-  // Find the user by email and password
   const user = storedUsers.find(u => u.email === email && u.password === password);
 
   if(user) {
-    // Login successful: show the user's name
     loginNotice.style.display = 'block';
     loginNotice.style.color = '#0b0c10';
     loginNotice.style.backgroundColor = '#fcd535';
     loginNotice.textContent = `Welcome back, ${user.name}!`;
-    
-    // Optionally store logged-in user info for dashboard
     localStorage.setItem('loggedInUser', JSON.stringify(user));
 
     setTimeout(() => {
-      window.location.href = 'dashboard.html'; // Redirect to your dashboard or homepage
+      window.location.href = 'dashboard.html';
     }, 1500);
   } else {
-    // Login failed
     loginNotice.style.display = 'block';
     loginNotice.style.color = '#fcd535';
     loginNotice.style.backgroundColor = '#0b0c10';
