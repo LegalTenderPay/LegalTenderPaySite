@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Create Account — Purchase</title>
 <style>
-body { font-family: system-ui, sans-serif; background-color: #0b0c10; color:#fff; height:100vh; margin:0; display:flex; flex-direction:column; padding:10px 25px 25px 25px; position:relative;}
+body { font-family: system-ui, sans-serif; background-color: #0b0c10; color:#fff; height:100vh; margin:0; display:flex; flex-direction:column; padding:10px 25px 25px 25px; }
 .header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
 .back-arrow { font-size:1.8rem; color:#fff; text-decoration:none; }
 .logo-text { font-weight:700; font-size:1.6rem; color:#fcd535; text-align:center; flex-grow:1; }
@@ -26,31 +26,35 @@ button { width:100%; padding:15px; background-color:#fcd535; border:none; border
 button.active { cursor:pointer; opacity:1; }
 button.active:hover { background-color:#ffd84d; }
 
-/* Yellow notification for existing email */
-#existingEmailNotification {
-  position:absolute;
-  top:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background-color: #fcd535;
-  color:#0b0c10;
-  padding:12px 25px;
-  border-radius:8px;
-  font-weight:600;
-  display:none;
-  z-index:1000;
-  max-width:90%;
-  text-align:center;
-}
-
 /* VERIFY SCREEN */
 .verify-screen { display:none; flex-direction:column; align-items:center; text-align:center; width:100%; position:relative; padding-top:20px; }
 .verify-header { position:absolute; top:10px; left:10px; display:flex; justify-content:flex-start; align-items:center; }
 .verify-header a { color:#fff; font-size:1.8rem; text-decoration:none; }
 .info-text { color:#ccc; font-size:1rem; max-width:320px; margin-bottom:15px; }
-.pin-logo-box { width: 100px; height: 100px; margin: 80px auto 15px auto; display: flex; align-items: center; justify-content: center; }
-.pin-logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-#pinInstruction { font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 10px; text-align: center; }
+
+/* Logo Box - NO FRAME */
+.pin-logo-box {
+  width: 100px;
+  height: 100px;
+  margin: 80px auto 15px auto; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pin-logo-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* PIN Instruction */
+#pinInstruction {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff; 
+  margin-bottom: 10px;
+  text-align: center;
+}
 .code-header { width:100%; display:flex; justify-content:center; color:#aaa; margin-bottom:10px; }
 .code-inputs { display:flex; justify-content:center; gap:10px; margin-bottom:10px; }
 .code-cell { width:45px; height:55px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; border-radius:8px; border:1px solid #333; background:#1c1f24; color:#fff; user-select:none; }
@@ -61,6 +65,7 @@ button.active:hover { background-color:#ffd84d; }
 .key:active { transform:scale(.96); background-color:#22262b; }
 .key.empty { background:transparent; border:none; cursor:default; }
 .key.backspace svg { width:24px; height:24px; fill:#fff; }
+
 @media (max-width:360px) {
   .keypad { width:260px; gap:10px; }
   .key { height:48px; font-size:1.15rem; border-radius:10px; }
@@ -69,8 +74,6 @@ button.active:hover { background-color:#ffd84d; }
 </style>
 </head>
 <body>
-
-<div id="existingEmailNotification">This email already has an existing account.</div>
 
 <div class="signup-screen">
   <div class="header">
@@ -114,9 +117,48 @@ button.active:hover { background-color:#ffd84d; }
 </div>
 
 <div class="verify-screen" id="verifyScreen">
-  <!-- PIN Screen content stays the same -->
   <div class="pin-logo-box">
     <img src="IMG_1142.webp" alt="Security Logo" id="pinLogo" />
+  </div>
+
+  <div class="verify-header">
+    <a href="#" id="goBack">&lt;</a>
+  </div>
+
+  <div class="info-text" id="pinInstruction">Create your 6-digit PIN</div>
+
+  <div class="code-header">
+    <span>6-digit PIN</span>
+  </div>
+
+  <div class="code-inputs" id="codeInputs">
+    <div class="code-cell" data-index="0"></div>
+    <div class="code-cell" data-index="1"></div>
+    <div class="code-cell" data-index="2"></div>
+    <div class="code-cell" data-index="3"></div>
+    <div class="code-cell" data-index="4"></div>
+    <div class="code-cell" data-index="5"></div>
+  </div>
+
+  <div class="footer-text" id="pinFooter">Enter your 6-digit PIN</div>
+
+  <div class="keypad" id="keypad">
+    <div class="key" data-key="1">1</div>
+    <div class="key" data-key="2">2</div>
+    <div class="key" data-key="3">3</div>
+    <div class="key" data-key="4">4</div>
+    <div class="key" data-key="5">5</div>
+    <div class="key" data-key="6">6</div>
+    <div class="key" data-key="7">7</div>
+    <div class="key" data-key="8">8</div>
+    <div class="key" data-key="9">9</div>
+    <div class="key empty"></div>
+    <div class="key" data-key="0">0</div>
+    <div class="key backspace" data-key="back">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M22 3H7L0 12l7 9h15a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-4.59 12.59L15 13.17l-2.41 2.42-1.18-1.18L13.83 12l-2.42-2.41 1.18-1.18L15 10.83l2.41-2.42 1.18 1.18L16.17 12l2.42 2.41-1.18 1.18z"/>
+      </svg>
+    </div>
   </div>
 </div>
 
@@ -130,14 +172,20 @@ const checkboxIcon = document.getElementById('checkboxIcon');
 const checkboxWrapper = document.getElementById('checkboxWrapper');
 const signupScreen = document.querySelector('.signup-screen');
 const verifyScreen = document.getElementById('verifyScreen');
-const existingEmailNotification = document.getElementById('existingEmailNotification');
+const codeCells = Array.from(document.querySelectorAll('.code-cell'));
+const goBack = document.getElementById('goBack');
+const pinInstruction = document.getElementById('pinInstruction');
+const pinFooter = document.getElementById('pinFooter');
 
-const existingEmails = ["test@gmail.com", "user@gmail.com", "example@gmail.com"];
+let firstPin = '';
+let confirming = false;
 
+// Password validation
 function validatePassword(pwd) {
   return pwd.length >= 8 && /[A-Z]/.test(pwd) && (pwd.match(/\d/g) || []).length >= 2;
 }
 
+// Enable/disable register button
 function validateForm() {
   if (email.value && validatePassword(password.value) && agree.checked) {
     registerBtn.disabled = false;
@@ -150,32 +198,123 @@ function validateForm() {
 
 email.addEventListener('input', validateForm);
 password.addEventListener('input', validateForm);
+
 checkboxWrapper.addEventListener('click', () => {
   agree.checked = !agree.checked;
   checkboxIcon.textContent = agree.checked ? "✅" : "☑️";
   validateForm();
 });
 
+// Toggle password visibility
 togglePassword.addEventListener('click', () => {
   password.type = password.type === 'password' ? 'text' : 'password';
 });
 
+// Handle form submission
 document.getElementById('signupForm').addEventListener('submit', (e) => {
   e.preventDefault();
-  
-  if(existingEmails.includes(email.value.toLowerCase().trim())) {
-    // Show yellow notification
-    existingEmailNotification.style.display = 'block';
-    setTimeout(()=>{
-      existingEmailNotification.style.display = 'none';
-      window.location.href = 'login.html'; // redirect to login
-    }, 2500);
+
+  let storedEmails = JSON.parse(localStorage.getItem('registeredEmails') || '[]');
+  const userEmail = email.value.toLowerCase().trim();
+
+  // Check if email already exists
+  if(storedEmails.includes(userEmail)) {
+    alert("This email already has an existing account.");
     return;
   }
 
+  // Save email to localStorage
+  storedEmails.push(userEmail);
+  localStorage.setItem('registeredEmails', JSON.stringify(storedEmails));
+
+  // Proceed to PIN screen
   signupScreen.style.display = 'none';
   verifyScreen.style.display = 'flex';
+  highlightNext();
 });
+
+// PIN flow
+goBack.addEventListener('click', (e) => {
+  e.preventDefault();
+  resetPinFlow();
+});
+
+function highlightNext() {
+  codeCells.forEach(c => c.classList.remove('active'));
+  const next = codeCells.find(c => !c.dataset.digit);
+  if (next) next.classList.add('active');
+}
+
+function clearAllCells() {
+  codeCells.forEach(c => {
+    delete c.dataset.digit;
+    c.textContent = '';
+    c.classList.remove('active');
+  });
+  highlightNext();
+}
+
+function resetPinFlow() {
+  firstPin = '';
+  confirming = false;
+  pinInstruction.textContent = "Create your 6-digit PIN";
+  pinFooter.textContent = "Enter your 6-digit PIN";
+  clearAllCells();
+  verifyScreen.style.display = 'none';
+  signupScreen.style.display = 'block';
+}
+
+function updatePin(val) {
+  if (val === 'back') {
+    for (let i = codeCells.length-1; i>=0; i--) {
+      if (codeCells[i].dataset.digit) {
+        delete codeCells[i].dataset.digit;
+        codeCells[i].textContent = '';
+        highlightNext();
+        return;
+      }
+    }
+    return;
+  }
+  if (!/^\d$/.test(val)) return;
+  for (let i=0;i<codeCells.length;i++) {
+    if (!codeCells[i].dataset.digit) {
+      codeCells[i].dataset.digit = val;
+      codeCells[i].textContent = val;
+      highlightNext();
+      setTimeout(()=>{ codeCells[i].textContent = '•'; },500);
+      break;
+    }
+  }
+  const pin = codeCells.map(c => c.dataset.digit || '').join('');
+  if (pin.length === 6) {
+    if (!confirming) {
+      firstPin = pin;
+      confirming = true;
+      pinFooter.textContent = "Confirm your 6-digit PIN";
+      clearAllCells();
+    } else {
+      if (pin === firstPin) {
+        alert("PIN set successfully! Account created.");
+        resetPinFlow();
+      } else {
+        alert("PINs do not match. Try again.");
+        firstPin = '';
+        confirming = false;
+        pinFooter.textContent = "Enter your 6-digit PIN";
+        clearAllCells();
+      }
+    }
+  }
+}
+
+document.getElementById('keypad').addEventListener('click', (e)=>{
+  const key = e.target.closest('.key');
+  if(!key || key.classList.contains('empty')) return;
+  updatePin(key.dataset.key);
+});
+
+highlightNext();
 </script>
 
 </body>
