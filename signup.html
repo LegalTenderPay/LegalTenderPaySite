@@ -17,7 +17,11 @@ label { display:block; font-size:1rem; margin-bottom:5px; }
 input { width:100%; padding:14px 40px 14px 12px; border-radius:8px; border:1px solid #333; background:#1c1f24; color:#fff; font-size:1rem; box-sizing:border-box; }
 .toggle-password { position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; fill:#888; width:22px; height:22px; transition:fill .3s; }
 .toggle-password:hover { fill:#fcd535; }
-p.password-rule { font-size:.9rem; color:#999; margin-top:-5px; margin-bottom:15px; }
+.password-rule { font-size:.9rem; color:#999; margin-top:-5px; margin-bottom:5px; }
+.password-list { font-size:.9rem; margin:5px 0 15px 10px; }
+.password-list li { margin-bottom:4px; }
+.password-valid { color:#0f0; }
+.password-invalid { color:#f33; }
 .checkbox-inline { display:flex; align-items:flex-start; font-size:1rem; line-height:1.5; font-weight:600; color:#ccc; margin-bottom:15px; cursor:pointer; user-select:none; }
 .checkbox-icon { font-size:18px; margin-right:5px; margin-top:3px; }
 .checkbox-inline a { color:#fcd535; text-decoration:none; }
@@ -36,11 +40,10 @@ button.active:hover { background-color:#ffd84d; }
 .pin-logo-box {
   width: 100px;
   height: 100px;
-  margin: 80px auto 15px auto; /* center vertically */
+  margin: 80px auto 15px auto; 
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Removed border and background */
 }
 .pin-logo-box img {
   max-width: 100%;
@@ -52,7 +55,7 @@ button.active:hover { background-color:#ffd84d; }
 #pinInstruction {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #fff; /* white */
+  color: #fff; 
   margin-bottom: 10px;
   text-align: center;
 }
@@ -100,7 +103,12 @@ button.active:hover { background-color:#ffd84d; }
       </svg>
     </div>
 
-    <p class="password-rule">Password must be at least 8 characters, and include at least 1 uppercase letter and 1 number.</p>
+    <p class="password-rule">Password must meet all requirements below:</p>
+    <ul class="password-list">
+      <li id="lengthRule" class="password-invalid">At least 8 characters</li>
+      <li id="uppercaseRule" class="password-invalid">At least 1 uppercase letter</li>
+      <li id="numberRule" class="password-invalid">At least 2 numbers</li>
+    </ul>
 
     <div class="checkbox-inline" id="checkboxWrapper">
       <span class="checkbox-icon" id="checkboxIcon">☑️</span>
@@ -118,7 +126,6 @@ button.active:hover { background-color:#ffd84d; }
 </div>
 
 <div class="verify-screen" id="verifyScreen">
-  <!-- Logo Box -->
   <div class="pin-logo-box">
     <img src="IMG_1142.webp" alt="Security Logo" id="pinLogo" />
   </div>
@@ -179,11 +186,29 @@ const goBack = document.getElementById('goBack');
 const pinInstruction = document.getElementById('pinInstruction');
 const pinFooter = document.getElementById('pinFooter');
 
+const lengthRule = document.getElementById('lengthRule');
+const uppercaseRule = document.getElementById('uppercaseRule');
+const numberRule = document.getElementById('numberRule');
+
 let firstPin = '';
 let confirming = false;
 
+function validatePassword(pwd) {
+  return {
+    length: pwd.length >= 8,
+    uppercase: /[A-Z]/.test(pwd),
+    numbers: (pwd.match(/\d/g) || []).length >= 2
+  };
+}
+
 function validateForm() {
-  if (email.value && password.value && agree.checked) {
+  const pwdChecks = validatePassword(password.value);
+
+  lengthRule.className = pwdChecks.length ? 'password-valid' : 'password-invalid';
+  uppercaseRule.className = pwdChecks.uppercase ? 'password-valid' : 'password-invalid';
+  numberRule.className = pwdChecks.numbers ? 'password-valid' : 'password-invalid';
+
+  if (email.value && pwdChecks.length && pwdChecks.uppercase && pwdChecks.numbers && agree.checked) {
     registerBtn.disabled = false;
     registerBtn.classList.add('active');
   } else {
@@ -257,9 +282,9 @@ function updatePin(val) {
   for (let i=0;i<codeCells.length;i++) {
     if (!codeCells[i].dataset.digit) {
       codeCells[i].dataset.digit = val;
-      codeCells[i].textContent = val; // show number briefly
+      codeCells[i].textContent = val;
       highlightNext();
-      setTimeout(()=>{ codeCells[i].textContent = '•'; },500); // turn into dot
+      setTimeout(()=>{ codeCells[i].textContent = '•'; },500);
       break;
     }
   }
