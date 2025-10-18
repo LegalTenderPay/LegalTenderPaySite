@@ -1,87 +1,308 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Login — LegalTenderPay</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Create Account — Purchase</title>
 <style>
-  body {
-    font-family: system-ui, sans-serif;
-    background-color: #0b0c10;
-    color: #fff;
-    text-align: center;
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .logo-box {
-    position: absolute;
-    top: 14%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 190px;
-    height: 190px;
-  }
-  .logo-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  h1 {
-    color: #fcd535;
-    font-size: 1.9rem;
-    margin-top: 270px;
-    margin-bottom: 15px;
-    font-weight: 700;
-  }
-  form {
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    max-width: 360px;
-    margin: 0 auto;
-  }
-  input {
-    padding: 14px 12px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #333;
-    background: #1c1f24;
-    color: #fff;
-    font-size: 1rem;
-  }
-  button {
-    padding: 15px;
-    background-color: #fcd535;
-    border: none;
-    border-radius: 40px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #0b0c10;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  button:hover {
-    background-color: #ffd84d;
-  }
+body { font-family: system-ui, sans-serif; background-color: #0b0c10; color:#fff; height:100vh; margin:0; display:flex; flex-direction:column; padding:10px 25px 25px 25px; }
+.header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.back-arrow { font-size:1.8rem; color:#fff; text-decoration:none; }
+.logo-text { font-weight:700; font-size:1.6rem; color:#fcd535; text-align:center; flex-grow:1; }
+.logo-image { width:130px; height:auto; }
+h1 { font-size:1.9rem; margin-top:0; margin-bottom:5px; text-align:left; }
+p.sub { color:#aaa; margin-bottom:20px; text-align:left; }
+label { display:block; font-size:1rem; margin-bottom:5px; }
+.input-group { position:relative; margin-bottom:15px; }
+input { width:100%; padding:14px 40px 14px 12px; border-radius:8px; border:1px solid #333; background:#1c1f24; color:#fff; font-size:1rem; box-sizing:border-box; }
+.toggle-password { position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; fill:#888; width:22px; height:22px; transition:fill .3s; }
+.toggle-password:hover { fill:#fcd535; }
+p.password-rule { font-size:.9rem; color:#999; margin-top:-5px; margin-bottom:15px; }
+.checkbox-inline { display:flex; align-items:flex-start; font-size:1rem; line-height:1.5; font-weight:600; color:#ccc; margin-bottom:15px; cursor:pointer; user-select:none; }
+.checkbox-icon { font-size:18px; margin-right:5px; margin-top:3px; }
+.checkbox-inline a { color:#fcd535; text-decoration:none; }
+.checkbox-inline a:hover { text-decoration:underline; }
+button { width:100%; padding:15px; background-color:#fcd535; border:none; border-radius:40px; font-size:1.1rem; font-weight:600; color:#0b0c10; cursor:not-allowed; opacity:.5; transition:.3s; }
+button.active { cursor:pointer; opacity:1; }
+button.active:hover { background-color:#ffd84d; }
+
+/* VERIFY SCREEN */
+.verify-screen { display:none; flex-direction:column; align-items:center; text-align:center; width:100%; position:relative; padding-top:20px; }
+.verify-header { position:absolute; top:10px; left:10px; display:flex; justify-content:flex-start; align-items:center; }
+.verify-header a { color:#fff; font-size:1.8rem; text-decoration:none; }
+.info-text { color:#ccc; font-size:1rem; max-width:320px; margin-bottom:15px; }
+
+/* Logo Box - NO FRAME */
+.pin-logo-box {
+  width: 100px;
+  height: 100px;
+  margin: 80px auto 15px auto; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pin-logo-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* PIN Instruction */
+#pinInstruction {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff; 
+  margin-bottom: 10px;
+  text-align: center;
+}
+.code-header { width:100%; display:flex; justify-content:center; color:#aaa; margin-bottom:10px; }
+.code-inputs { display:flex; justify-content:center; gap:10px; margin-bottom:10px; }
+.code-cell { width:45px; height:55px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; border-radius:8px; border:1px solid #333; background:#1c1f24; color:#fff; user-select:none; }
+.code-cell.active { border-color:#fcd535; }
+.footer-text { color:#999; font-size:1rem; margin-bottom:10px; }
+.keypad { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; width:320px; margin:0 auto; margin-top:0; }
+.key { height:56px; border-radius:12px; background:#1c1f24; border:1px solid #333; display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:#fff; cursor:pointer; user-select:none; transition:transform .06s, background-color .12s; }
+.key:active { transform:scale(.96); background-color:#22262b; }
+.key.empty { background:transparent; border:none; cursor:default; }
+.key.backspace svg { width:24px; height:24px; fill:#fff; }
+
+@media (max-width:360px) {
+  .keypad { width:260px; gap:10px; }
+  .key { height:48px; font-size:1.15rem; border-radius:10px; }
+  .code-cell { width:38px; height:50px; font-size:1.3rem; }
+}
 </style>
 </head>
 <body>
 
-  <div class="logo-box">
-    <img src="E270B287-284E-4BDE-B744-9A9039B2FDE0.jpeg" alt="Logo">
+<div class="signup-screen">
+  <div class="header">
+    <a href="index.html" class="back-arrow">&lt;</a>
+    <div class="logo-text">Purchase</div>
+    <img src="IMG_1124.jpeg" alt="Logo" class="logo-image">
   </div>
 
-  <h1>Log In</h1>
+  <h1>Create Account</h1>
+  <p class="sub">Get started in as little as 2 minutes</p>
 
-  <form id="loginForm">
-    <input type="email" placeholder="Email" required>
-    <input type="password" placeholder="Password" required>
-    <button type="submit">Log In</button>
+  <form id="signupForm">
+    <label for="email">Email</label>
+    <div class="input-group">
+      <input type="email" id="email" placeholder="Enter your email" required>
+    </div>
+
+    <label for="password">Password</label>
+    <div class="input-group">
+      <input type="password" id="password" placeholder="Enter your password" required>
+      <svg id="togglePassword" class="toggle-password" viewBox="0 0 24 24">
+        <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>
+      </svg>
+    </div>
+
+    <p class="password-rule">Password must be at least 8 characters, include at least 1 uppercase letter, and 2 numbers.</p>
+
+    <div class="checkbox-inline" id="checkboxWrapper">
+      <span class="checkbox-icon" id="checkboxIcon">☑️</span>
+      <label for="agree">
+        I am over 18 years old and I have read, understand and agree to the 
+        <a href="#">LegalTenderPay Terms of Use</a>, 
+        <a href="#">Privacy Policy</a>, and 
+        <a href="#">Biometric Data Policy</a>.
+      </label>
+      <input type="checkbox" id="agree" required style="display:none;">
+    </div>
+
+    <button type="submit" id="registerBtn" disabled>Register</button>
   </form>
+</div>
+
+<div class="verify-screen" id="verifyScreen">
+  <div class="pin-logo-box">
+    <img src="IMG_1142.webp" alt="Security Logo" id="pinLogo" />
+  </div>
+
+  <div class="verify-header">
+    <a href="#" id="goBack">&lt;</a>
+  </div>
+
+  <div class="info-text" id="pinInstruction">Create your 6-digit PIN</div>
+
+  <div class="code-header">
+    <span>6-digit PIN</span>
+  </div>
+
+  <div class="code-inputs" id="codeInputs">
+    <div class="code-cell" data-index="0"></div>
+    <div class="code-cell" data-index="1"></div>
+    <div class="code-cell" data-index="2"></div>
+    <div class="code-cell" data-index="3"></div>
+    <div class="code-cell" data-index="4"></div>
+    <div class="code-cell" data-index="5"></div>
+  </div>
+
+  <div class="footer-text" id="pinFooter">Enter your 6-digit PIN</div>
+
+  <div class="keypad" id="keypad">
+    <div class="key" data-key="1">1</div>
+    <div class="key" data-key="2">2</div>
+    <div class="key" data-key="3">3</div>
+    <div class="key" data-key="4">4</div>
+    <div class="key" data-key="5">5</div>
+    <div class="key" data-key="6">6</div>
+    <div class="key" data-key="7">7</div>
+    <div class="key" data-key="8">8</div>
+    <div class="key" data-key="9">9</div>
+    <div class="key empty"></div>
+    <div class="key" data-key="0">0</div>
+    <div class="key backspace" data-key="back">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M22 3H7L0 12l7 9h15a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-4.59 12.59L15 13.17l-2.41 2.42-1.18-1.18L13.83 12l-2.42-2.41 1.18-1.18L15 10.83l2.41-2.42 1.18 1.18L16.17 12l2.42 2.41-1.18 1.18z"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<script>
+const email = document.getElementById('email');
+const password = document.getElementById('password');
+const agree = document.getElementById('agree');
+const registerBtn = document.getElementById('registerBtn');
+const togglePassword = document.getElementById('togglePassword');
+const checkboxIcon = document.getElementById('checkboxIcon');
+const checkboxWrapper = document.getElementById('checkboxWrapper');
+const signupScreen = document.querySelector('.signup-screen');
+const verifyScreen = document.getElementById('verifyScreen');
+const codeCells = Array.from(document.querySelectorAll('.code-cell'));
+const goBack = document.getElementById('goBack');
+const pinInstruction = document.getElementById('pinInstruction');
+const pinFooter = document.getElementById('pinFooter');
+
+const existingEmails = ["test@gmail.com", "user@gmail.com", "example@gmail.com"];
+
+let firstPin = '';
+let confirming = false;
+
+function validatePassword(pwd) {
+  return pwd.length >= 8 && /[A-Z]/.test(pwd) && (pwd.match(/\d/g) || []).length >= 2;
+}
+
+function validateForm() {
+  if (email.value && validatePassword(password.value) && agree.checked) {
+    registerBtn.disabled = false;
+    registerBtn.classList.add('active');
+  } else {
+    registerBtn.disabled = true;
+    registerBtn.classList.remove('active');
+  }
+}
+
+email.addEventListener('input', validateForm);
+password.addEventListener('input', validateForm);
+checkboxWrapper.addEventListener('click', () => {
+  agree.checked = !agree.checked;
+  checkboxIcon.textContent = agree.checked ? "✅" : "☑️";
+  validateForm();
+});
+
+togglePassword.addEventListener('click', () => {
+  password.type = password.type === 'password' ? 'text' : 'password';
+});
+
+document.getElementById('signupForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  
+  if(existingEmails.includes(email.value.toLowerCase().trim())) {
+    alert("This email already has an existing account.");
+    return;
+  }
+
+  signupScreen.style.display = 'none';
+  verifyScreen.style.display = 'flex';
+  highlightNext();
+});
+
+goBack.addEventListener('click', (e) => {
+  e.preventDefault();
+  resetPinFlow();
+});
+
+function highlightNext() {
+  codeCells.forEach(c => c.classList.remove('active'));
+  const next = codeCells.find(c => !c.dataset.digit);
+  if (next) next.classList.add('active');
+}
+
+function clearAllCells() {
+  codeCells.forEach(c => {
+    delete c.dataset.digit;
+    c.textContent = '';
+    c.classList.remove('active');
+  });
+  highlightNext();
+}
+
+function resetPinFlow() {
+  firstPin = '';
+  confirming = false;
+  pinInstruction.textContent = "Create your 6-digit PIN";
+  pinFooter.textContent = "Enter your 6-digit PIN";
+  clearAllCells();
+  verifyScreen.style.display = 'none';
+  signupScreen.style.display = 'block';
+}
+
+function updatePin(val) {
+  if (val === 'back') {
+    for (let i = codeCells.length-1; i>=0; i--) {
+      if (codeCells[i].dataset.digit) {
+        delete codeCells[i].dataset.digit;
+        codeCells[i].textContent = '';
+        highlightNext();
+        return;
+      }
+    }
+    return;
+  }
+  if (!/^\d$/.test(val)) return;
+  for (let i=0;i<codeCells.length;i++) {
+    if (!codeCells[i].dataset.digit) {
+      codeCells[i].dataset.digit = val;
+      codeCells[i].textContent = val;
+      highlightNext();
+      setTimeout(()=>{ codeCells[i].textContent = '•'; },500);
+      break;
+    }
+  }
+  const pin = codeCells.map(c => c.dataset.digit || '').join('');
+  if (pin.length === 6) {
+    if (!confirming) {
+      firstPin = pin;
+      confirming = true;
+      pinFooter.textContent = "Confirm your 6-digit PIN";
+      clearAllCells();
+    } else {
+      if (pin === firstPin) {
+        alert("PIN set successfully! Account created.");
+        resetPinFlow();
+      } else {
+        alert("PINs do not match. Try again.");
+        firstPin = '';
+        confirming = false;
+        pinFooter.textContent = "Enter your 6-digit PIN";
+        clearAllCells();
+      }
+    }
+  }
+}
+
+document.getElementById('keypad').addEventListener('click', (e)=>{
+  const key = e.target.closest('.key');
+  if(!key || key.classList.contains('empty')) return;
+  updatePin(key.dataset.key);
+});
+
+highlightNext();
+</script>
 
 </body>
 </html>
