@@ -107,6 +107,11 @@ button.active:hover { background-color:#ffd84d; }
   <p class="sub">Get started in as little as 2 minutes</p>
 
   <form id="signupForm">
+    <label for="name">Full Name</label>
+    <div class="input-group">
+      <input type="text" id="name" placeholder="Enter your full name" required>
+    </div>
+
     <label for="email">Email</label>
     <div class="input-group">
       <input type="email" id="email" placeholder="Enter your email" required>
@@ -116,7 +121,7 @@ button.active:hover { background-color:#ffd84d; }
     <label for="password">Password</label>
     <div class="input-group">
       <input type="password" id="password" placeholder="Enter your password" required>
-      <svg id="togglePassword" class="toggle-password" viewBox="0 0 24 24">
+      <svg id="togglePassword" class="toggle-password" viewBox="0 0 24 24" title="Show/Hide password">
         <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>
       </svg>
     </div>
@@ -185,6 +190,7 @@ button.active:hover { background-color:#ffd84d; }
 </div>
 
 <script>
+const nameInput = document.getElementById('name');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
 const agree = document.getElementById('agree');
@@ -204,14 +210,14 @@ const notification = document.getElementById('notification');
 let firstPin = '';
 let confirming = false;
 
-// Password validation
+// Password validation: >=8 chars, >=1 uppercase, >=2 digits
 function validatePassword(pwd) {
   return pwd.length >= 8 && /[A-Z]/.test(pwd) && (pwd.match(/\d/g) || []).length >= 2;
 }
 
 // Enable/disable register button
 function validateForm() {
-  if (email.value && validatePassword(password.value) && agree.checked) {
+  if (nameInput.value.trim() && email.value && validatePassword(password.value) && agree.checked) {
     registerBtn.disabled = false;
     registerBtn.classList.add('active');
   } else {
@@ -220,6 +226,7 @@ function validateForm() {
   }
 }
 
+nameInput.addEventListener('input', validateForm);
 email.addEventListener('input', validateForm);
 password.addEventListener('input', validateForm);
 
@@ -243,15 +250,23 @@ function showNotification(message, duration = 3000) {
   }, duration);
 }
 
-// Handle form submission
+// Handle signup form submission -> go to PIN setup
 document.getElementById('signupForm').addEventListener('submit', (e) => {
   e.preventDefault();
 
-  let storedEmails = JSON.parse(localStorage.getItem('registeredEmails') || '[]');
+  const userName = nameInput.value.trim();
   const userEmail = email.value.toLowerCase().trim();
+  const userPassword = password.value;
 
-  // Check if email already exists
-  if(storedEmails.includes(userEmail)) {
+  // Basic validations again
+  if (!userName) { alert('Please enter your name.'); return; }
+  if (!userEmail) { alert('Please enter your email.'); return; }
+  if (!validatePassword(userPassword)) { alert('Password does not meet requirements.'); return; }
+
+  // Check for existing user (by email)
+  let storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+  const exists = storedUsers.some(u => u.email === userEmail);
+  if (exists) {
     emailNotice.textContent = "This email already has an existing account.";
     emailNotice.style.display = 'block';
     return;
@@ -259,17 +274,21 @@ document.getElementById('signupForm').addEventListener('submit', (e) => {
     emailNotice.style.display = 'none';
   }
 
-  // Save email to localStorage
-  storedEmails.push(userEmail);
-  localStorage.setItem('registeredEmails', JSON.stringify(storedEmails));
+  // Temporarily store the name/email/password in memory (for use after pin)
+  // (we will write to localStorage only after pin is confirmed)
+  sessionStorage.setItem('pendingSignup', JSON.stringify({
+    name: userName,
+    email: userEmail,
+    password: userPassword
+  }));
 
-  // Proceed to PIN screen
+  // Hide signup and show PIN screen
   signupScreen.style.display = 'none';
   verifyScreen.style.display = 'flex';
   highlightNext();
 });
 
-// PIN flow
+// PIN flow handlers
 goBack.addEventListener('click', (e) => {
   e.preventDefault();
   resetPinFlow();
@@ -302,7 +321,7 @@ function resetPinFlow() {
 
 function updatePin(val) {
   if (val === 'back') {
-    for (let i = codeCells.length-1; i>=0; i--) {
+    for (let i = codeCells.length - 1; i >= 0; i--) {
       if (codeCells[i].dataset.digit) {
         delete codeCells[i].dataset.digit;
         codeCells[i].textContent = '';
@@ -313,15 +332,17 @@ function updatePin(val) {
     return;
   }
   if (!/^\d$/.test(val)) return;
-  for (let i=0;i<codeCells.length;i++) {
+
+  for (let i = 0; i < codeCells.length; i++) {
     if (!codeCells[i].dataset.digit) {
       codeCells[i].dataset.digit = val;
       codeCells[i].textContent = val;
       highlightNext();
-      setTimeout(()=>{ codeCells[i].textContent = '•'; },500);
+      setTimeout(() => { codeCells[i].textContent = '•'; }, 500);
       break;
     }
   }
+
   const pin = codeCells.map(c => c.dataset.digit || '').join('');
   if (pin.length === 6) {
     if (!confirming) {
@@ -330,20 +351,31 @@ function updatePin(val) {
       pinFooter.textContent = "Confirm your 6-digit PIN";
       clearAllCells();
     } else {
-    if (pin === firstPin) {
-  // Save email, password, and PIN together
-  let storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-  storedUsers.push({
-    email: email.value.toLowerCase().trim(),
-    password: password.value,
-    pin: pin
-  });
-  localStorage.setItem('registeredUsers', JSON.stringify(storedUsers));
+      if (pin === firstPin) {
+        // Retrieve pending signup from sessionStorage
+        const pending = JSON.parse(sessionStorage.getItem('pendingSignup') || '{}');
+        if (!pending.email || !pending.password) {
+          alert('Signup data missing. Please try again.');
+          resetPinFlow();
+          return;
+        }
 
-  showNotification("PIN set successfully! Account created.");
-  setTimeout(() => {
-    window.location.href = 'login.html';
-  }, 2000); // 2 seconds
+        // Save user to localStorage
+        let storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+        storedUsers.push({
+          name: pending.name || '',
+          email: pending.email,
+          password: pending.password,
+          pin: pin
+        });
+        localStorage.setItem('registeredUsers', JSON.stringify(storedUsers));
+        // clear pending signup
+        sessionStorage.removeItem('pendingSignup');
+
+        showNotification("PIN set successfully! Account created.");
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 1500);
       } else {
         alert("PINs do not match. Try again.");
         firstPin = '';
@@ -355,9 +387,9 @@ function updatePin(val) {
   }
 }
 
-document.getElementById('keypad').addEventListener('click', (e)=>{
+document.getElementById('keypad').addEventListener('click', (e) => {
   const key = e.target.closest('.key');
-  if(!key || key.classList.contains('empty')) return;
+  if (!key || key.classList.contains('empty')) return;
   updatePin(key.dataset.key);
 });
 
