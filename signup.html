@@ -330,11 +330,20 @@ function updatePin(val) {
       pinFooter.textContent = "Confirm your 6-digit PIN";
       clearAllCells();
     } else {
-     if (pin === firstPin) {
-    showNotification("PIN set successfully! Account created.");
-    setTimeout(() => {
-        window.location.href = 'login.html';
-    }, 2000); // 2 seconds
+    if (pin === firstPin) {
+  // Save email, password, and PIN together
+  let storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+  storedUsers.push({
+    email: email.value.toLowerCase().trim(),
+    password: password.value,
+    pin: pin
+  });
+  localStorage.setItem('registeredUsers', JSON.stringify(storedUsers));
+
+  showNotification("PIN set successfully! Account created.");
+  setTimeout(() => {
+    window.location.href = 'login.html';
+  }, 2000); // 2 seconds
       } else {
         alert("PINs do not match. Try again.");
         firstPin = '';
