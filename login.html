@@ -44,14 +44,34 @@
     max-width: 360px;
     margin: 0 auto;
   }
+  .input-group {
+    position: relative;
+    margin-bottom: 15px;
+  }
   input {
     padding: 14px 12px;
-    margin-bottom: 15px;
+    padding-right: 40px; /* space for eye icon */
     border-radius: 8px;
     border: 1px solid #333;
     background: #1c1f24;
     color: #fff;
     font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    fill: #888;
+    width: 22px;
+    height: 22px;
+    transition: fill .3s;
+  }
+  .toggle-password:hover {
+    fill: #fcd535;
   }
   button {
     padding: 15px;
@@ -72,6 +92,8 @@
     margin-bottom: 15px;
     font-weight: 600;
     display: none;
+    padding: 10px;
+    border-radius: 5px;
   }
 </style>
 </head>
@@ -86,8 +108,15 @@
   <div id="loginNotice"></div>
 
   <form id="loginForm">
-    <input type="email" id="loginEmail" placeholder="Email" required>
-    <input type="password" id="loginPassword" placeholder="Password" required>
+    <div class="input-group">
+      <input type="email" id="loginEmail" placeholder="Email" required>
+    </div>
+    <div class="input-group">
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <svg id="toggleLoginPassword" class="toggle-password" viewBox="0 0 24 24">
+        <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>
+      </svg>
+    </div>
     <button type="submit">Log In</button>
   </form>
 
@@ -96,6 +125,12 @@ const loginForm = document.getElementById('loginForm');
 const loginEmail = document.getElementById('loginEmail');
 const loginPassword = document.getElementById('loginPassword');
 const loginNotice = document.getElementById('loginNotice');
+const toggleLoginPassword = document.getElementById('toggleLoginPassword');
+
+// Toggle password visibility
+toggleLoginPassword.addEventListener('click', () => {
+  loginPassword.type = loginPassword.type === 'password' ? 'text' : 'password';
+});
 
 loginForm.addEventListener('submit', (e) => {
   e.preventDefault();
