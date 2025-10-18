@@ -206,7 +206,7 @@ function generateCode() {
 // --- Send Verification Email via EmailJS ---
 async function sendEmail(emailAddr, code) {
   try {
-    await emailjs.send('service_4mmyunb', 'YOUR_TEMPLATE_ID', {
+    await emailjs.send('service_4mmyunb', 'template_szg5obk', {
       to_email: emailAddr,
       verification_code: code
     });
@@ -282,7 +282,6 @@ function clearAllCells() {
 function verifyCode(code) {
   if (code === currentCode) {
     alert("Email verified! Account created.");
-    // redirect or reset form
     clearAllCells();
     verifyScreen.style.display = 'none';
     signupScreen.style.display = 'block';
