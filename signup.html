@@ -177,16 +177,15 @@ const goBack = document.getElementById('goBack');
 const pinInstruction = document.getElementById('pinInstruction');
 const pinFooter = document.getElementById('pinFooter');
 
-// Simulate existing accounts
-const existingEmails = ["test@gmail.com", "user@gmail.com", "example@gmail.com"];
-
 let firstPin = '';
 let confirming = false;
 
+// Password validation
 function validatePassword(pwd) {
   return pwd.length >= 8 && /[A-Z]/.test(pwd) && (pwd.match(/\d/g) || []).length >= 2;
 }
 
+// Enable/disable register button
 function validateForm() {
   if (email.value && validatePassword(password.value) && agree.checked) {
     registerBtn.disabled = false;
@@ -199,24 +198,34 @@ function validateForm() {
 
 email.addEventListener('input', validateForm);
 password.addEventListener('input', validateForm);
+
 checkboxWrapper.addEventListener('click', () => {
   agree.checked = !agree.checked;
   checkboxIcon.textContent = agree.checked ? "✅" : "☑️";
   validateForm();
 });
 
+// Toggle password visibility
 togglePassword.addEventListener('click', () => {
   password.type = password.type === 'password' ? 'text' : 'password';
 });
 
+// Handle form submission
 document.getElementById('signupForm').addEventListener('submit', (e) => {
   e.preventDefault();
-  
+
+  let storedEmails = JSON.parse(localStorage.getItem('registeredEmails') || '[]');
+  const userEmail = email.value.toLowerCase().trim();
+
   // Check if email already exists
-  if(existingEmails.includes(email.value.toLowerCase().trim())) {
+  if(storedEmails.includes(userEmail)) {
     alert("This email already has an existing account.");
     return;
   }
+
+  // Save email to localStorage
+  storedEmails.push(userEmail);
+  localStorage.setItem('registeredEmails', JSON.stringify(storedEmails));
 
   // Proceed to PIN screen
   signupScreen.style.display = 'none';
@@ -224,6 +233,7 @@ document.getElementById('signupForm').addEventListener('submit', (e) => {
   highlightNext();
 });
 
+// PIN flow
 goBack.addEventListener('click', (e) => {
   e.preventDefault();
   resetPinFlow();
