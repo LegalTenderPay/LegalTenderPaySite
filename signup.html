@@ -217,8 +217,6 @@
     background-color: #1c1f24;
     color: #fff;
     caret-color: transparent;
-
-    /* ✅ Critical visual fix for all browsers */
     pointer-events: none;
     user-select: none;
     appearance: none;
@@ -332,14 +330,16 @@
     <span>Verification Code</span>
     <span class="resend" id="resendText">Resend Email (60s)</span>
   </div>
-<div class="code-inputs" id="codeInputs">
-  <input type="text" maxlength="1" />
-  <input type="text" maxlength="1" />
-  <input type="text" maxlength="1" />
-  <input type="text" maxlength="1" />
-  <input type="text" maxlength="1" />
-  <input type="text" maxlength="1" />
-</div>
+
+  <div class="code-inputs" id="codeInputs">
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+  </div>
+
   <div class="footer-text">Didn’t receive an email?</div>
 
   <div class="keypad" id="keypad">
@@ -432,34 +432,36 @@ function startCountdown() {
 
 function highlightNext() {
   inputs.forEach(i => i.classList.remove('active'));
-  const next = inputs.find(i => !i.value);
+  const next = inputs.find(i => !i.dataset.digit);
   if (next) next.classList.add('active');
   else inputs[inputs.length - 1].classList.add('active');
 }
 
-// ✅ FIX: ensure numbers appear visually in all browsers
+// ✅ Safari fix — ensure numbers appear visually
 function updateVerifyBoxes(val) {
   if (val === 'back') {
     for (let i = inputs.length - 1; i >= 0; i--) {
-      if (inputs[i].value !== '') {
+      if (inputs[i].dataset.digit) {
+        inputs[i].dataset.digit = '';
         inputs[i].value = '';
-        inputs[i].setAttribute('value', '');
+        inputs[i].textContent = '';
         highlightNext();
         return;
       }
     }
   } else if (/^\d$/.test(val)) {
     for (let i = 0; i < inputs.length; i++) {
-      if (inputs[i].value === '') {
+      if (!inputs[i].dataset.digit) {
+        inputs[i].dataset.digit = val;
         inputs[i].value = val;
-        inputs[i].setAttribute('value', val); // ✅ force re-render
+        inputs[i].textContent = val; // Safari visual fix
         highlightNext();
         break;
       }
     }
   }
 
-  const code = inputs.map(i => i.value).join('');
+  const code = inputs.map(i => i.dataset.digit || '').join('');
   if (code.length === inputs.length) {
     console.log("Entered Code:", code);
   }
