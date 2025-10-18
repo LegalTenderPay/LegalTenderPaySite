@@ -67,6 +67,12 @@
   button:hover {
     background-color: #ffd84d;
   }
+  #loginNotice {
+    color: #fcd535;
+    margin-bottom: 15px;
+    font-weight: 600;
+    display: none;
+  }
 </style>
 </head>
 <body>
@@ -77,11 +83,48 @@
 
   <h1>Log In</h1>
 
+  <div id="loginNotice"></div>
+
   <form id="loginForm">
-    <input type="email" placeholder="Email" required>
-    <input type="password" placeholder="Password" required>
+    <input type="email" id="loginEmail" placeholder="Email" required>
+    <input type="password" id="loginPassword" placeholder="Password" required>
     <button type="submit">Log In</button>
   </form>
+
+<script>
+const loginForm = document.getElementById('loginForm');
+const loginEmail = document.getElementById('loginEmail');
+const loginPassword = document.getElementById('loginPassword');
+const loginNotice = document.getElementById('loginNotice');
+
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const email = loginEmail.value.toLowerCase().trim();
+  const password = loginPassword.value;
+
+  const storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+
+  const user = storedUsers.find(u => u.email === email && u.password === password);
+
+  if(user) {
+    // Login successful
+    loginNotice.style.display = 'block';
+    loginNotice.style.color = '#0b0c10';
+    loginNotice.style.backgroundColor = '#fcd535';
+    loginNotice.textContent = `Welcome back, ${email}!`;
+    setTimeout(() => {
+      window.location.href = 'dashboard.html'; // Redirect to your dashboard or homepage
+    }, 1500);
+  } else {
+    // Login failed
+    loginNotice.style.display = 'block';
+    loginNotice.style.color = '#fcd535';
+    loginNotice.style.backgroundColor = '#0b0c10';
+    loginNotice.textContent = 'Invalid email or password.';
+  }
+});
+</script>
 
 </body>
 </html>
