@@ -99,7 +99,7 @@ button.active:hover { background-color:#ffd84d; }
       </svg>
     </div>
 
-    <p class="password-rule">Password must be at least 8 characters, and include at least 1 uppercase letter and 2 numbers.</p>
+    <p class="password-rule">Password must be at least 8 characters, include at least 1 uppercase letter, and 2 numbers.</p>
 
     <div class="checkbox-inline" id="checkboxWrapper">
       <span class="checkbox-icon" id="checkboxIcon">☑️</span>
@@ -177,6 +177,9 @@ const goBack = document.getElementById('goBack');
 const pinInstruction = document.getElementById('pinInstruction');
 const pinFooter = document.getElementById('pinFooter');
 
+// Simulate existing accounts
+const existingEmails = ["test@gmail.com", "user@gmail.com", "example@gmail.com"];
+
 let firstPin = '';
 let confirming = false;
 
@@ -208,6 +211,14 @@ togglePassword.addEventListener('click', () => {
 
 document.getElementById('signupForm').addEventListener('submit', (e) => {
   e.preventDefault();
+  
+  // Check if email already exists
+  if(existingEmails.includes(email.value.toLowerCase().trim())) {
+    alert("This email already has an existing account.");
+    return;
+  }
+
+  // Proceed to PIN screen
   signupScreen.style.display = 'none';
   verifyScreen.style.display = 'flex';
   highlightNext();
