@@ -5,87 +5,45 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Create Account — Purchase</title>
 <style>
-  body {
-    font-family: system-ui, sans-serif;
-    background-color: #0b0c10;
-    color: #fff;
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 10px 25px 25px 25px;
-  }
-
-  .header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
-  .back-arrow { font-size:1.8rem; color:#fff; text-decoration:none; }
-  .logo-text { font-weight:700; font-size:1.6rem; color:#fcd535; text-align:center; flex-grow:1; }
-  .logo-image { width:130px; height:auto; }
-
-  h1 { font-size:1.9rem; margin-top:0; margin-bottom:5px; text-align:left; }
-  p.sub { color:#aaa; margin-bottom:20px; text-align:left; }
-  label { display:block; font-size:1rem; margin-bottom:5px; }
-  .input-group { position:relative; margin-bottom:15px; }
-
-  input { width:100%; padding:14px 40px 14px 12px; border-radius:8px; border:1px solid #333; background:#1c1f24; color:#fff; font-size:1rem; box-sizing:border-box; }
-
-  .toggle-password { position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; user-select:none; fill:#888; width:22px; height:22px; transition:fill .3s; }
-  .toggle-password:hover { fill:#fcd535; }
-
-  p.password-rule { font-size:.9rem; color:#999; margin-top:-5px; margin-bottom:15px; }
-
-  .checkbox-inline { display:flex; align-items:flex-start; font-size:1rem; line-height:1.5; font-weight:600; color:#ccc; margin-bottom:15px; cursor:pointer; user-select:none; }
-  .checkbox-icon { font-size:18px; margin-right:5px; margin-top:3px; }
-  .checkbox-inline a { color:#fcd535; text-decoration:none; }
-  .checkbox-inline a:hover { text-decoration:underline; }
-
-  button { width:100%; padding:15px; background-color:#fcd535; border:none; border-radius:40px; font-size:1.1rem; font-weight:600; color:#0b0c10; cursor:not-allowed; opacity:.5; transition:.3s; }
-  button.active { cursor:pointer; opacity:1; }
-  button.active:hover { background-color:#ffd84d; }
-
-  .verify-screen { display:none; flex-direction:column; align-items:center; text-align:center; width:100%; }
-  .verify-header { display:flex; justify-content:flex-start; align-items:center; width:100%; margin-top:20px; }
-  .verify-header a { color:#fff; font-size:1.8rem; text-decoration:none; }
-
-  .envelope { width:60px; height:60px; margin:60px auto 20px auto; position:relative; }
-  .envelope svg { width:100%; height:100%; fill:#fff; }
-  .circle-dot { position:absolute; top:-5px; right:-5px; background-color:#fcd535; border-radius:50%; width:12px; height:12px; }
-
-  .info-text { color:#ccc; font-size:1rem; max-width:320px; margin-bottom:30px; }
-
-  .code-header { width:100%; display:flex; justify-content:space-between; color:#aaa; margin-bottom:10px; }
-  .resend { color:#fcd535; cursor:pointer; }
-
-  /* ===== NEW: use .code-cell divs instead of input elements ===== */
-  .code-inputs { display:flex; justify-content:center; gap:10px; margin-bottom:20px; }
-  .code-cell {
-    width:45px;
-    height:55px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:1.5rem;
-    border-radius:8px;
-    border:1px solid #333;
-    background:#1c1f24;
-    color:#fff;
-    user-select:none;
-  }
-  .code-cell.active { border-color:#fcd535; }
-
-  .footer-text { color:#999; font-size:1rem; margin-bottom:18px; }
-
-  .keypad { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; width:320px; margin:0 auto; margin-top:6px; }
-  .key { height:56px; border-radius:12px; background:#1c1f24; border:1px solid #333; display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:#fff; cursor:pointer; user-select:none; transition:transform .06s, background-color .12s; }
-  .key:active { transform:scale(.96); background-color:#22262b; }
-  .key.empty { background:transparent; border:none; cursor:default; }
-  .key.backspace svg { width:24px; height:24px; fill:#fff; }
-
-  @media (max-width:360px) {
-    .keypad { width:260px; gap:10px; }
-    .key { height:48px; font-size:1.15rem; border-radius:10px; }
-    .code-cell { width:38px; height:50px; font-size:1.3rem; }
-  }
+body { font-family: system-ui, sans-serif; background-color: #0b0c10; color:#fff; height:100vh; margin:0; display:flex; flex-direction:column; padding:10px 25px 25px 25px; }
+.header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.back-arrow { font-size:1.8rem; color:#fff; text-decoration:none; }
+.logo-text { font-weight:700; font-size:1.6rem; color:#fcd535; text-align:center; flex-grow:1; }
+.logo-image { width:130px; height:auto; }
+h1 { font-size:1.9rem; margin-top:0; margin-bottom:5px; text-align:left; }
+p.sub { color:#aaa; margin-bottom:20px; text-align:left; }
+label { display:block; font-size:1rem; margin-bottom:5px; }
+.input-group { position:relative; margin-bottom:15px; }
+input { width:100%; padding:14px 40px 14px 12px; border-radius:8px; border:1px solid #333; background:#1c1f24; color:#fff; font-size:1rem; box-sizing:border-box; }
+.toggle-password { position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; fill:#888; width:22px; height:22px; transition:fill .3s; }
+.toggle-password:hover { fill:#fcd535; }
+p.password-rule { font-size:.9rem; color:#999; margin-top:-5px; margin-bottom:15px; }
+.checkbox-inline { display:flex; align-items:flex-start; font-size:1rem; line-height:1.5; font-weight:600; color:#ccc; margin-bottom:15px; cursor:pointer; user-select:none; }
+.checkbox-icon { font-size:18px; margin-right:5px; margin-top:3px; }
+.checkbox-inline a { color:#fcd535; text-decoration:none; }
+.checkbox-inline a:hover { text-decoration:underline; }
+button { width:100%; padding:15px; background-color:#fcd535; border:none; border-radius:40px; font-size:1.1rem; font-weight:600; color:#0b0c10; cursor:not-allowed; opacity:.5; transition:.3s; }
+button.active { cursor:pointer; opacity:1; }
+button.active:hover { background-color:#ffd84d; }
+.verify-screen { display:none; flex-direction:column; align-items:center; text-align:center; width:100%; }
+.verify-header { display:flex; justify-content:flex-start; align-items:center; width:100%; margin-top:20px; }
+.verify-header a { color:#fff; font-size:1.8rem; text-decoration:none; }
+.info-text { color:#ccc; font-size:1rem; max-width:320px; margin-bottom:20px; }
+.code-header { width:100%; display:flex; justify-content:center; color:#aaa; margin-bottom:10px; }
+.code-inputs { display:flex; justify-content:center; gap:10px; margin-bottom:20px; }
+.code-cell { width:45px; height:55px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; border-radius:8px; border:1px solid #333; background:#1c1f24; color:#fff; user-select:none; }
+.code-cell.active { border-color:#fcd535; }
+.footer-text { color:#999; font-size:1rem; margin-bottom:18px; }
+.keypad { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; width:320px; margin:0 auto; margin-top:6px; }
+.key { height:56px; border-radius:12px; background:#1c1f24; border:1px solid #333; display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:#fff; cursor:pointer; user-select:none; transition:transform .06s, background-color .12s; }
+.key:active { transform:scale(.96); background-color:#22262b; }
+.key.empty { background:transparent; border:none; cursor:default; }
+.key.backspace svg { width:24px; height:24px; fill:#fff; }
+@media (max-width:360px) {
+  .keypad { width:260px; gap:10px; }
+  .key { height:48px; font-size:1.15rem; border-radius:10px; }
+  .code-cell { width:38px; height:50px; font-size:1.3rem; }
+}
 </style>
 </head>
 <body>
@@ -135,19 +93,13 @@
   <div class="verify-header">
     <a href="#" id="goBack">&lt;</a>
   </div>
-  <div class="envelope">
-    <svg viewBox="0 0 24 24"><path d="M2 4h20v16H2V4zm10 7L4 6v12h16V6l-8 5z"/></svg>
-    <div class="circle-dot"></div>
-  </div>
 
-  <div class="info-text">A verification code has been sent to your email address.</div>
+  <div class="info-text" id="pinInstruction">Create your 6-digit PIN</div>
 
   <div class="code-header">
-    <span>Verification Code</span>
-    <span class="resend" id="resendText">Resend Email (60s)</span>
+    <span>6-digit PIN</span>
   </div>
 
-  <!-- replaced inputs with plain divs (code cells) -->
   <div class="code-inputs" id="codeInputs">
     <div class="code-cell" data-index="0"></div>
     <div class="code-cell" data-index="1"></div>
@@ -157,7 +109,7 @@
     <div class="code-cell" data-index="5"></div>
   </div>
 
-  <div class="footer-text">Didn’t receive an email?</div>
+  <div class="footer-text" id="pinFooter">Enter your 6-digit PIN</div>
 
   <div class="keypad" id="keypad">
     <div class="key" data-key="1">1</div>
@@ -180,7 +132,6 @@
 </div>
 
 <script>
-/* JS adapted to use .code-cell divs so text always shows (works on Safari) */
 const email = document.getElementById('email');
 const password = document.getElementById('password');
 const agree = document.getElementById('agree');
@@ -190,10 +141,13 @@ const checkboxIcon = document.getElementById('checkboxIcon');
 const checkboxWrapper = document.getElementById('checkboxWrapper');
 const signupScreen = document.querySelector('.signup-screen');
 const verifyScreen = document.getElementById('verifyScreen');
-const resendText = document.getElementById('resendText');
-const goBack = document.getElementById('goBack');
 const codeCells = Array.from(document.querySelectorAll('.code-cell'));
-const keypad = document.getElementById('keypad');
+const goBack = document.getElementById('goBack');
+const pinInstruction = document.getElementById('pinInstruction');
+const pinFooter = document.getElementById('pinFooter');
+
+let firstPin = '';
+let confirming = false;
 
 function validateForm() {
   if (email.value && password.value && agree.checked) {
@@ -214,47 +168,25 @@ checkboxWrapper.addEventListener('click', () => {
 });
 
 togglePassword.addEventListener('click', () => {
-  const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-  password.setAttribute('type', type);
+  password.type = password.type === 'password' ? 'text' : 'password';
 });
 
 document.getElementById('signupForm').addEventListener('submit', (e) => {
   e.preventDefault();
   signupScreen.style.display = 'none';
   verifyScreen.style.display = 'flex';
-  startCountdown();
   highlightNext();
 });
 
 goBack.addEventListener('click', (e) => {
   e.preventDefault();
-  // clear cells when going back
-  clearAllCells();
-  verifyScreen.style.display = 'none';
-  signupScreen.style.display = 'block';
+  resetPinFlow();
 });
-
-function startCountdown() {
-  let timeLeft = 60;
-  resendText.textContent = `Resend Email (${timeLeft}s)`;
-  resendText.style.pointerEvents = 'none';
-  const timer = setInterval(() => {
-    timeLeft--;
-    resendText.textContent = `Resend Email (${timeLeft}s)`;
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      resendText.textContent = "Resend Email";
-      resendText.style.pointerEvents = 'auto';
-      resendText.addEventListener('click', startCountdown, { once: true });
-    }
-  }, 1000);
-}
 
 function highlightNext() {
   codeCells.forEach(c => c.classList.remove('active'));
   const next = codeCells.find(c => !c.dataset.digit);
   if (next) next.classList.add('active');
-  else codeCells[codeCells.length - 1].classList.add('active');
 }
 
 function clearAllCells() {
@@ -266,11 +198,19 @@ function clearAllCells() {
   highlightNext();
 }
 
-// main keypad logic using div cells (works in Safari)
-function updateVerifyBoxes(val) {
+function resetPinFlow() {
+  firstPin = '';
+  confirming = false;
+  pinInstruction.textContent = "Create your 6-digit PIN";
+  pinFooter.textContent = "Enter your 6-digit PIN";
+  clearAllCells();
+  verifyScreen.style.display = 'none';
+  signupScreen.style.display = 'block';
+}
+
+function updatePin(val) {
   if (val === 'back') {
-    // remove last filled
-    for (let i = codeCells.length - 1; i >= 0; i--) {
+    for (let i = codeCells.length-1; i>=0; i--) {
       if (codeCells[i].dataset.digit) {
         delete codeCells[i].dataset.digit;
         codeCells[i].textContent = '';
@@ -280,34 +220,46 @@ function updateVerifyBoxes(val) {
     }
     return;
   }
-
   if (!/^\d$/.test(val)) return;
-
-  for (let i = 0; i < codeCells.length; i++) {
+  for (let i=0;i<codeCells.length;i++) {
     if (!codeCells[i].dataset.digit) {
       codeCells[i].dataset.digit = val;
-      codeCells[i].textContent = val; // <--- guaranteed to show in Safari & other browsers
+      codeCells[i].textContent = val; // show number briefly
       highlightNext();
+      setTimeout(()=>{ codeCells[i].textContent = '•'; },500); // turn into dot
       break;
     }
   }
-
-  const code = codeCells.map(c => c.dataset.digit || '').join('');
-  if (code.length === codeCells.length) {
-    console.log('Entered Code:', code);
-    // TODO: trigger verification request here
+  const pin = codeCells.map(c => c.dataset.digit || '').join('');
+  if (pin.length === 6) {
+    if (!confirming) {
+      firstPin = pin;
+      confirming = true;
+      pinFooter.textContent = "Confirm your 6-digit PIN";
+      clearAllCells();
+    } else {
+      if (pin === firstPin) {
+        alert("PIN set successfully! Account created.");
+        resetPinFlow();
+      } else {
+        alert("PINs do not match. Try again.");
+        firstPin = '';
+        confirming = false;
+        pinFooter.textContent = "Enter your 6-digit PIN";
+        clearAllCells();
+      }
+    }
   }
 }
 
-keypad.addEventListener('click', (e) => {
+document.getElementById('keypad').addEventListener('click', (e)=>{
   const key = e.target.closest('.key');
-  if (!key || key.classList.contains('empty')) return;
-  const val = key.dataset.key;
-  updateVerifyBoxes(val);
+  if(!key || key.classList.contains('empty')) return;
+  updatePin(key.dataset.key);
 });
 
-// initialize highlight on load
 highlightNext();
 </script>
+
 </body>
 </html>
