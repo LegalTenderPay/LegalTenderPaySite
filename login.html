@@ -132,6 +132,7 @@ toggleLoginPassword.addEventListener('click', () => {
   loginPassword.type = loginPassword.type === 'password' ? 'text' : 'password';
 });
 
+// Handle login form submission
 loginForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
@@ -140,14 +141,19 @@ loginForm.addEventListener('submit', (e) => {
 
   const storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
 
+  // Find the user by email and password
   const user = storedUsers.find(u => u.email === email && u.password === password);
 
   if(user) {
-    // Login successful
+    // Login successful: show the user's name
     loginNotice.style.display = 'block';
     loginNotice.style.color = '#0b0c10';
     loginNotice.style.backgroundColor = '#fcd535';
-    loginNotice.textContent = `Welcome back, ${email}!`;
+    loginNotice.textContent = `Welcome back, ${user.name}!`;
+    
+    // Optionally store logged-in user info for dashboard
+    localStorage.setItem('loggedInUser', JSON.stringify(user));
+
     setTimeout(() => {
       window.location.href = 'dashboard.html'; // Redirect to your dashboard or homepage
     }, 1500);
