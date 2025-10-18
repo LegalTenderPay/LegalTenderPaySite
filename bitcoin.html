@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Login — LegalTenderPay</title>
+<title>Purchase Bitcoins — LegalTenderPay</title>
 <style>
   body {
     font-family: system-ui, sans-serif;
@@ -41,34 +41,24 @@
     margin-bottom: 15px;
     font-weight: 700;
   }
-  form {
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    max-width: 360px;
-    margin: 0 auto;
+  p.subtitle {
+    color: #ffffff;
+    font-size: 1.3rem;
+    margin-bottom: 60px;
+    font-weight: 500;
   }
-  input {
-    padding: 14px 12px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #333;
-    background: #1c1f24;
-    color: #fff;
-    font-size: 1rem;
-  }
-  button {
-    padding: 15px;
+  a.login-btn {
+    display: inline-block;
     background-color: #fcd535;
-    border: none;
-    border-radius: 40px;
-    font-size: 1.1rem;
-    font-weight: 600;
     color: #0b0c10;
-    cursor: pointer;
-    transition: background 0.3s;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 40px;
+    padding: 15px 60px;
+    font-size: 1.1rem;
+    transition: background 0.3s ease;
   }
-  button:hover {
+  a.login-btn:hover {
     background-color: #ffd84d;
   }
   p.signup {
@@ -92,42 +82,12 @@
     <img src="E270B287-284E-4BDE-B744-9A9039B2FDE0.jpeg" alt="LegalTenderPay Bitcoin Logo">
   </div>
 
-  <h1>Log In</h1>
+  <h1>Purchase Bitcoins</h1>
+  <p class="subtitle">Buy, Sell, Trade & Get Paid</p>
 
-  <form id="loginForm">
-    <input type="email" id="email" placeholder="Email" required>
-    <input type="password" id="password" placeholder="Password" required>
-    <button type="submit">Log In</button>
-  </form>
+  <a href="#" class="login-btn">Log In</a>
 
   <p class="signup">No account yet? <a href="signup.html">Sign up now.</a></p>
-
-  <script>
-    const loginForm = document.getElementById('loginForm');
-
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      // For demo purposes, you can check against an array of "existing users"
-      const existingUsers = ["test@gmail.com", "user@gmail.com", "example@gmail.com"];
-      
-      if (!existingUsers.includes(email.toLowerCase())) {
-        alert("No account found with this email.");
-        return;
-      }
-
-      if (!password) {
-        alert("Please enter your password.");
-        return;
-      }
-
-      alert("Login successful!");
-      // Redirect to main dashboard or homepage after login
-      // window.location.href = "dashboard.html";
-    });
-  </script>
 
 </body>
 </html>
