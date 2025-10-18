@@ -217,6 +217,8 @@
     background-color: #1c1f24;
     color: #fff;
     caret-color: transparent;
+pointer-events: none; /* Prevents typing manually */
+  user-select: none; /* Prevents selecting text */
   }
 
   .code-inputs input.active {
@@ -327,14 +329,14 @@
     <span>Verification Code</span>
     <span class="resend" id="resendText">Resend Email (60s)</span>
   </div>
-  <div class="code-inputs" id="codeInputs">
-    <input type="text" maxlength="1" readonly />
-    <input type="text" maxlength="1" readonly />
-    <input type="text" maxlength="1" readonly />
-    <input type="text" maxlength="1" readonly />
-    <input type="text" maxlength="1" readonly />
-    <input type="text" maxlength="1" readonly />
-  </div>
+<div class="code-inputs" id="codeInputs">
+  <input type="text" maxlength="1" />
+  <input type="text" maxlength="1" />
+  <input type="text" maxlength="1" />
+  <input type="text" maxlength="1" />
+  <input type="text" maxlength="1" />
+  <input type="text" maxlength="1" />
+</div>
   <div class="footer-text">Didn’t receive an email?</div>
 
   <div class="keypad" id="keypad">
