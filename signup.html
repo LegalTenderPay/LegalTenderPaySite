@@ -17,258 +17,74 @@
     padding: 10px 25px 25px 25px;
   }
 
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  .header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+  .back-arrow { font-size:1.8rem; color:#fff; text-decoration:none; }
+  .logo-text { font-weight:700; font-size:1.6rem; color:#fcd535; text-align:center; flex-grow:1; }
+  .logo-image { width:130px; height:auto; }
+
+  h1 { font-size:1.9rem; margin-top:0; margin-bottom:5px; text-align:left; }
+  p.sub { color:#aaa; margin-bottom:20px; text-align:left; }
+  label { display:block; font-size:1rem; margin-bottom:5px; }
+  .input-group { position:relative; margin-bottom:15px; }
+
+  input { width:100%; padding:14px 40px 14px 12px; border-radius:8px; border:1px solid #333; background:#1c1f24; color:#fff; font-size:1rem; box-sizing:border-box; }
+
+  .toggle-password { position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; user-select:none; fill:#888; width:22px; height:22px; transition:fill .3s; }
+  .toggle-password:hover { fill:#fcd535; }
+
+  p.password-rule { font-size:.9rem; color:#999; margin-top:-5px; margin-bottom:15px; }
+
+  .checkbox-inline { display:flex; align-items:flex-start; font-size:1rem; line-height:1.5; font-weight:600; color:#ccc; margin-bottom:15px; cursor:pointer; user-select:none; }
+  .checkbox-icon { font-size:18px; margin-right:5px; margin-top:3px; }
+  .checkbox-inline a { color:#fcd535; text-decoration:none; }
+  .checkbox-inline a:hover { text-decoration:underline; }
+
+  button { width:100%; padding:15px; background-color:#fcd535; border:none; border-radius:40px; font-size:1.1rem; font-weight:600; color:#0b0c10; cursor:not-allowed; opacity:.5; transition:.3s; }
+  button.active { cursor:pointer; opacity:1; }
+  button.active:hover { background-color:#ffd84d; }
+
+  .verify-screen { display:none; flex-direction:column; align-items:center; text-align:center; width:100%; }
+  .verify-header { display:flex; justify-content:flex-start; align-items:center; width:100%; margin-top:20px; }
+  .verify-header a { color:#fff; font-size:1.8rem; text-decoration:none; }
+
+  .envelope { width:60px; height:60px; margin:60px auto 20px auto; position:relative; }
+  .envelope svg { width:100%; height:100%; fill:#fff; }
+  .circle-dot { position:absolute; top:-5px; right:-5px; background-color:#fcd535; border-radius:50%; width:12px; height:12px; }
+
+  .info-text { color:#ccc; font-size:1rem; max-width:320px; margin-bottom:30px; }
+
+  .code-header { width:100%; display:flex; justify-content:space-between; color:#aaa; margin-bottom:10px; }
+  .resend { color:#fcd535; cursor:pointer; }
+
+  /* ===== NEW: use .code-cell divs instead of input elements ===== */
+  .code-inputs { display:flex; justify-content:center; gap:10px; margin-bottom:20px; }
+  .code-cell {
+    width:45px;
+    height:55px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.5rem;
+    border-radius:8px;
+    border:1px solid #333;
+    background:#1c1f24;
+    color:#fff;
+    user-select:none;
   }
+  .code-cell.active { border-color:#fcd535; }
 
-  .back-arrow {
-    font-size: 1.8rem;
-    color: #fff;
-    text-decoration: none;
-  }
+  .footer-text { color:#999; font-size:1rem; margin-bottom:18px; }
 
-  .logo-text {
-    font-weight: 700;
-    font-size: 1.6rem;
-    color: #fcd535;
-    text-align: center;
-    flex-grow: 1;
-  }
+  .keypad { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; width:320px; margin:0 auto; margin-top:6px; }
+  .key { height:56px; border-radius:12px; background:#1c1f24; border:1px solid #333; display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:#fff; cursor:pointer; user-select:none; transition:transform .06s, background-color .12s; }
+  .key:active { transform:scale(.96); background-color:#22262b; }
+  .key.empty { background:transparent; border:none; cursor:default; }
+  .key.backspace svg { width:24px; height:24px; fill:#fff; }
 
-  .logo-image {
-    width: 130px;
-    height: auto;
-  }
-
-  h1 {
-    font-size: 1.9rem;
-    margin-top: 0;
-    margin-bottom: 5px;
-    text-align: left;
-  }
-
-  p.sub {
-    color: #aaa;
-    margin-bottom: 20px;
-    text-align: left;
-  }
-
-  label {
-    display: block;
-    font-size: 1rem;
-    margin-bottom: 5px;
-  }
-
-  .input-group {
-    position: relative;
-    margin-bottom: 15px;
-  }
-
-  input {
-    width: 100%;
-    padding: 14px 40px 14px 12px;
-    border-radius: 8px;
-    border: 1px solid #333;
-    background-color: #1c1f24;
-    color: #fff;
-    font-size: 1rem;
-    box-sizing: border-box;
-  }
-
-  .toggle-password {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    user-select: none;
-    fill: #888;
-    width: 22px;
-    height: 22px;
-    transition: fill 0.3s ease;
-  }
-  .toggle-password:hover { fill: #fcd535; }
-
-  p.password-rule {
-    font-size: 0.9rem;
-    color: #999;
-    margin-top: -5px;
-    margin-bottom: 15px;
-  }
-
-  .checkbox-inline {
-    display: flex;
-    align-items: flex-start;
-    font-size: 1rem;
-    line-height: 1.5;
-    font-weight: 600;
-    color: #ccc;
-    margin-bottom: 15px;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .checkbox-inline span.checkbox-icon {
-    font-size: 18px;
-    margin-right: 5px;
-    margin-top: 3px;
-  }
-
-  .checkbox-inline a {
-    color: #fcd535;
-    text-decoration: none;
-  }
-
-  .checkbox-inline a:hover { text-decoration: underline; }
-
-  button {
-    width: 100%;
-    padding: 15px;
-    background-color: #fcd535;
-    border: none;
-    border-radius: 40px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #0b0c10;
-    cursor: not-allowed;
-    opacity: 0.5;
-    transition: 0.3s ease;
-  }
-
-  button.active { cursor: pointer; opacity: 1; }
-  button.active:hover { background-color: #ffd84d; }
-
-  .verify-screen {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-  }
-
-  .verify-header {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    width: 100%;
-    margin-top: 20px;
-  }
-
-  .verify-header a {
-    color: #fff;
-    font-size: 1.8rem;
-    text-decoration: none;
-  }
-
-  .envelope {
-    width: 60px;
-    height: 60px;
-    margin: 60px auto 20px auto;
-    position: relative;
-  }
-  .envelope svg { width: 100%; height: 100%; fill: #fff; }
-  .circle-dot {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background-color: #fcd535;
-    border-radius: 50%;
-    width: 12px;
-    height: 12px;
-  }
-
-  .info-text {
-    color: #ccc;
-    font-size: 1rem;
-    max-width: 320px;
-    margin-bottom: 30px;
-  }
-
-  .code-header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    color: #aaa;
-    margin-bottom: 10px;
-  }
-
-  .resend {
-    color: #fcd535;
-    cursor: pointer;
-  }
-
-  .code-inputs {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-
-  .code-inputs input {
-    width: 45px;
-    height: 55px;
-    text-align: center;
-    font-size: 1.5rem;
-    border: 1px solid #333;
-    border-radius: 8px;
-    background-color: #1c1f24;
-    color: #fff;
-    caret-color: transparent;
-    pointer-events: none;
-    user-select: none;
-    appearance: none;
-  }
-
-  .code-inputs input.active {
-    border-color: #fcd535;
-  }
-
-  .footer-text { color: #999; font-size: 1rem; margin-bottom: 18px; }
-
-  .keypad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    width: 320px;
-    margin: 0 auto;
-    margin-top: 6px;
-  }
-
-  .key {
-    height: 56px;
-    border-radius: 12px;
-    background-color: #1c1f24;
-    border: 1px solid #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-    color: #fff;
-    cursor: pointer;
-    user-select: none;
-    transition: transform 0.06s ease, background-color 0.12s;
-  }
-
-  .key:active {
-    transform: scale(0.96);
-    background-color: #22262b;
-  }
-
-  .key.empty { background: transparent; border: none; cursor: default; }
-
-  .key.backspace svg {
-    width: 24px;
-    height: 24px;
-    fill: #fff;
-  }
-
-  @media (max-width: 360px) {
-    .keypad { width: 260px; gap: 10px; }
-    .key { height: 48px; font-size: 1.15rem; border-radius: 10px; }
-    .code-inputs input { width: 38px; height: 50px; font-size: 1.3rem; }
+  @media (max-width:360px) {
+    .keypad { width:260px; gap:10px; }
+    .key { height:48px; font-size:1.15rem; border-radius:10px; }
+    .code-cell { width:38px; height:50px; font-size:1.3rem; }
   }
 </style>
 </head>
@@ -323,21 +139,22 @@
     <svg viewBox="0 0 24 24"><path d="M2 4h20v16H2V4zm10 7L4 6v12h16V6l-8 5z"/></svg>
     <div class="circle-dot"></div>
   </div>
-  <div class="info-text">
-    A verification code has been sent to your email address.
-  </div>
+
+  <div class="info-text">A verification code has been sent to your email address.</div>
+
   <div class="code-header">
     <span>Verification Code</span>
     <span class="resend" id="resendText">Resend Email (60s)</span>
   </div>
 
+  <!-- replaced inputs with plain divs (code cells) -->
   <div class="code-inputs" id="codeInputs">
-    <input type="text" maxlength="1" />
-    <input type="text" maxlength="1" />
-    <input type="text" maxlength="1" />
-    <input type="text" maxlength="1" />
-    <input type="text" maxlength="1" />
-    <input type="text" maxlength="1" />
+    <div class="code-cell" data-index="0"></div>
+    <div class="code-cell" data-index="1"></div>
+    <div class="code-cell" data-index="2"></div>
+    <div class="code-cell" data-index="3"></div>
+    <div class="code-cell" data-index="4"></div>
+    <div class="code-cell" data-index="5"></div>
   </div>
 
   <div class="footer-text">Didn’t receive an email?</div>
@@ -363,6 +180,7 @@
 </div>
 
 <script>
+/* JS adapted to use .code-cell divs so text always shows (works on Safari) */
 const email = document.getElementById('email');
 const password = document.getElementById('password');
 const agree = document.getElementById('agree');
@@ -374,7 +192,7 @@ const signupScreen = document.querySelector('.signup-screen');
 const verifyScreen = document.getElementById('verifyScreen');
 const resendText = document.getElementById('resendText');
 const goBack = document.getElementById('goBack');
-const inputs = Array.from(document.querySelectorAll('.code-inputs input'));
+const codeCells = Array.from(document.querySelectorAll('.code-cell'));
 const keypad = document.getElementById('keypad');
 
 function validateForm() {
@@ -410,6 +228,8 @@ document.getElementById('signupForm').addEventListener('submit', (e) => {
 
 goBack.addEventListener('click', (e) => {
   e.preventDefault();
+  // clear cells when going back
+  clearAllCells();
   verifyScreen.style.display = 'none';
   signupScreen.style.display = 'block';
 });
@@ -431,39 +251,51 @@ function startCountdown() {
 }
 
 function highlightNext() {
-  inputs.forEach(i => i.classList.remove('active'));
-  const next = inputs.find(i => !i.dataset.digit);
+  codeCells.forEach(c => c.classList.remove('active'));
+  const next = codeCells.find(c => !c.dataset.digit);
   if (next) next.classList.add('active');
-  else inputs[inputs.length - 1].classList.add('active');
+  else codeCells[codeCells.length - 1].classList.add('active');
 }
 
-// ✅ Safari fix — ensure numbers appear visually
+function clearAllCells() {
+  codeCells.forEach(c => {
+    delete c.dataset.digit;
+    c.textContent = '';
+    c.classList.remove('active');
+  });
+  highlightNext();
+}
+
+// main keypad logic using div cells (works in Safari)
 function updateVerifyBoxes(val) {
   if (val === 'back') {
-    for (let i = inputs.length - 1; i >= 0; i--) {
-      if (inputs[i].dataset.digit) {
-        inputs[i].dataset.digit = '';
-        inputs[i].value = '';
-        inputs[i].textContent = '';
+    // remove last filled
+    for (let i = codeCells.length - 1; i >= 0; i--) {
+      if (codeCells[i].dataset.digit) {
+        delete codeCells[i].dataset.digit;
+        codeCells[i].textContent = '';
         highlightNext();
         return;
       }
     }
-  } else if (/^\d$/.test(val)) {
-    for (let i = 0; i < inputs.length; i++) {
-      if (!inputs[i].dataset.digit) {
-        inputs[i].dataset.digit = val;
-        inputs[i].value = val;
-        inputs[i].textContent = val; // Safari visual fix
-        highlightNext();
-        break;
-      }
+    return;
+  }
+
+  if (!/^\d$/.test(val)) return;
+
+  for (let i = 0; i < codeCells.length; i++) {
+    if (!codeCells[i].dataset.digit) {
+      codeCells[i].dataset.digit = val;
+      codeCells[i].textContent = val; // <--- guaranteed to show in Safari & other browsers
+      highlightNext();
+      break;
     }
   }
 
-  const code = inputs.map(i => i.dataset.digit || '').join('');
-  if (code.length === inputs.length) {
-    console.log("Entered Code:", code);
+  const code = codeCells.map(c => c.dataset.digit || '').join('');
+  if (code.length === codeCells.length) {
+    console.log('Entered Code:', code);
+    // TODO: trigger verification request here
   }
 }
 
@@ -473,6 +305,9 @@ keypad.addEventListener('click', (e) => {
   const val = key.dataset.key;
   updateVerifyBoxes(val);
 });
+
+// initialize highlight on load
+highlightNext();
 </script>
 </body>
 </html>
