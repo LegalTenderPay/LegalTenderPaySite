@@ -26,15 +26,17 @@ button { width:100%; padding:15px; background-color:#fcd535; border:none; border
 button.active { cursor:pointer; opacity:1; }
 button.active:hover { background-color:#ffd84d; }
 
-.verify-screen { display:none; flex-direction:column; align-items:center; text-align:center; width:100%; padding-top:0; }
-.verify-header { display:flex; justify-content:flex-start; align-items:center; width:100%; margin-top:10px; }
+/* VERIFY SCREEN */
+.verify-screen { display:none; flex-direction:column; align-items:center; text-align:center; width:100%; position:relative; padding-top:20px; }
+.verify-header { position:absolute; top:10px; left:10px; display:flex; justify-content:flex-start; align-items:center; }
 .verify-header a { color:#fff; font-size:1.8rem; text-decoration:none; }
 .info-text { color:#ccc; font-size:1rem; max-width:320px; margin-bottom:15px; }
+
 /* Logo Box */
 .pin-logo-box {
   width: 100px;
   height: 100px;
-  margin: 30px auto 15px auto; /* space from top */
+  margin: 80px auto 15px auto; /* move logo box down */
   border: 2px dashed #555; 
   border-radius: 12px;
   display: flex;
@@ -47,11 +49,12 @@ button.active:hover { background-color:#ffd84d; }
   max-height: 80%;
   object-fit: contain;
 }
+
 /* PIN Instruction */
 #pinInstruction {
-  font-size: 1.5rem; /* smaller than before */
+  font-size: 1.5rem;
   font-weight: 700;
-  color: #fff; /* white color */
+  color: #fff; /* white */
   margin-bottom: 10px;
   text-align: center;
 }
@@ -65,6 +68,7 @@ button.active:hover { background-color:#ffd84d; }
 .key:active { transform:scale(.96); background-color:#22262b; }
 .key.empty { background:transparent; border:none; cursor:default; }
 .key.backspace svg { width:24px; height:24px; fill:#fff; }
+
 @media (max-width:360px) {
   .keypad { width:260px; gap:10px; }
   .key { height:48px; font-size:1.15rem; border-radius:10px; }
