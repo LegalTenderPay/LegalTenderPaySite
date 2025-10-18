@@ -18,7 +18,7 @@ input { width:100%; padding:14px 40px 14px 12px; border-radius:8px; border:1px s
 .toggle-password { position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; fill:#888; width:22px; height:22px; transition:fill .3s; }
 .toggle-password:hover { fill:#fcd535; }
 p.password-rule { font-size:.9rem; color:#999; margin-top:-5px; margin-bottom:15px; }
-p#emailNotice { color:#fcd535; font-size:0.9rem; margin-top:5px; display:none; } /* Yellow notice text */
+p#emailNotice { color:#0b0c10; background-color:#fcd535; font-size:0.9rem; margin-top:5px; padding:5px 10px; border-radius:5px; display:none; } /* Yellow notice text */
 .checkbox-inline { display:flex; align-items:flex-start; font-size:1rem; line-height:1.5; font-weight:600; color:#ccc; margin-bottom:15px; cursor:pointer; user-select:none; }
 .checkbox-icon { font-size:18px; margin-right:5px; margin-top:3px; }
 .checkbox-inline a { color:#fcd535; text-decoration:none; }
@@ -72,9 +72,29 @@ button.active:hover { background-color:#ffd84d; }
   .key { height:48px; font-size:1.15rem; border-radius:10px; }
   .code-cell { width:38px; height:50px; font-size:1.3rem; }
 }
+
+/* Notification */
+#notification {
+  display:none;
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background-color:#fcd535;
+  color:#0b0c10;
+  padding:15px 25px;
+  border-radius:10px;
+  font-weight:600;
+  z-index:1000;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  text-align:center;
+}
 </style>
 </head>
 <body>
+
+<!-- Notification -->
+<div id="notification"></div>
 
 <div class="signup-screen">
   <div class="header">
@@ -179,6 +199,7 @@ const goBack = document.getElementById('goBack');
 const pinInstruction = document.getElementById('pinInstruction');
 const pinFooter = document.getElementById('pinFooter');
 const emailNotice = document.getElementById('emailNotice');
+const notification = document.getElementById('notification');
 
 let firstPin = '';
 let confirming = false;
@@ -212,6 +233,15 @@ checkboxWrapper.addEventListener('click', () => {
 togglePassword.addEventListener('click', () => {
   password.type = password.type === 'password' ? 'text' : 'password';
 });
+
+// Notification helper
+function showNotification(message, duration = 3000) {
+  notification.textContent = message;
+  notification.style.display = 'block';
+  setTimeout(() => {
+    notification.style.display = 'none';
+  }, duration);
+}
 
 // Handle form submission
 document.getElementById('signupForm').addEventListener('submit', (e) => {
@@ -301,7 +331,7 @@ function updatePin(val) {
       clearAllCells();
     } else {
       if (pin === firstPin) {
-        alert("PIN set successfully! Account created.");
+        showNotification("PIN set successfully! Account created.");
         resetPinFlow();
       } else {
         alert("PINs do not match. Try again.");
