@@ -18,6 +18,7 @@ input { width:100%; padding:14px 40px 14px 12px; border-radius:8px; border:1px s
 .toggle-password { position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; fill:#888; width:22px; height:22px; transition:fill .3s; }
 .toggle-password:hover { fill:#fcd535; }
 p.password-rule { font-size:.9rem; color:#999; margin-top:-5px; margin-bottom:15px; }
+p#emailNotice { color:#fcd535; font-size:0.9rem; margin-top:5px; display:none; } /* Yellow notice text */
 .checkbox-inline { display:flex; align-items:flex-start; font-size:1rem; line-height:1.5; font-weight:600; color:#ccc; margin-bottom:15px; cursor:pointer; user-select:none; }
 .checkbox-icon { font-size:18px; margin-right:5px; margin-top:3px; }
 .checkbox-inline a { color:#fcd535; text-decoration:none; }
@@ -89,6 +90,7 @@ button.active:hover { background-color:#ffd84d; }
     <label for="email">Email</label>
     <div class="input-group">
       <input type="email" id="email" placeholder="Enter your email" required>
+      <p id="emailNotice"></p>
     </div>
 
     <label for="password">Password</label>
@@ -176,6 +178,7 @@ const codeCells = Array.from(document.querySelectorAll('.code-cell'));
 const goBack = document.getElementById('goBack');
 const pinInstruction = document.getElementById('pinInstruction');
 const pinFooter = document.getElementById('pinFooter');
+const emailNotice = document.getElementById('emailNotice');
 
 let firstPin = '';
 let confirming = false;
@@ -219,8 +222,11 @@ document.getElementById('signupForm').addEventListener('submit', (e) => {
 
   // Check if email already exists
   if(storedEmails.includes(userEmail)) {
-    alert("This email already has an existing account.");
+    emailNotice.textContent = "This email already has an existing account.";
+    emailNotice.style.display = 'block';
     return;
+  } else {
+    emailNotice.style.display = 'none';
   }
 
   // Save email to localStorage
