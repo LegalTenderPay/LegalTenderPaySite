@@ -217,8 +217,11 @@
     background-color: #1c1f24;
     color: #fff;
     caret-color: transparent;
-pointer-events: none; /* Prevents typing manually */
-  user-select: none; /* Prevents selecting text */
+
+    /* ✅ Critical visual fix for all browsers */
+    pointer-events: none;
+    user-select: none;
+    appearance: none;
   }
 
   .code-inputs input.active {
@@ -427,23 +430,20 @@ function startCountdown() {
   }, 1000);
 }
 
-// --- Verification Input Logic ---
 function highlightNext() {
   inputs.forEach(i => i.classList.remove('active'));
   const next = inputs.find(i => !i.value);
-  if (next) {
-    next.classList.add('active');
-  } else {
-    inputs[inputs.length - 1].classList.add('active');
-  }
+  if (next) next.classList.add('active');
+  else inputs[inputs.length - 1].classList.add('active');
 }
 
-// Ensure visual updates after every key press
+// ✅ FIX: ensure numbers appear visually in all browsers
 function updateVerifyBoxes(val) {
   if (val === 'back') {
     for (let i = inputs.length - 1; i >= 0; i--) {
       if (inputs[i].value !== '') {
         inputs[i].value = '';
+        inputs[i].setAttribute('value', '');
         highlightNext();
         return;
       }
@@ -452,21 +452,19 @@ function updateVerifyBoxes(val) {
     for (let i = 0; i < inputs.length; i++) {
       if (inputs[i].value === '') {
         inputs[i].value = val;
+        inputs[i].setAttribute('value', val); // ✅ force re-render
         highlightNext();
         break;
       }
     }
   }
 
-  // Optional: log or check when all digits are filled
   const code = inputs.map(i => i.value).join('');
   if (code.length === inputs.length) {
     console.log("Entered Code:", code);
-    // You can trigger your verification check here
   }
 }
 
-// Add click listener for keypad
 keypad.addEventListener('click', (e) => {
   const key = e.target.closest('.key');
   if (!key || key.classList.contains('empty')) return;
