@@ -17,6 +17,7 @@
     justify-content: center;
     align-items: center;
   }
+
   .logo-box {
     position: absolute;
     top: 14%;
@@ -30,6 +31,7 @@
     height: 100%;
     object-fit: contain;
   }
+
   h1 {
     color: #fcd535;
     font-size: 1.9rem;
@@ -37,6 +39,7 @@
     margin-bottom: 15px;
     font-weight: 700;
   }
+
   form {
     display: flex;
     flex-direction: column;
@@ -44,10 +47,14 @@
     max-width: 360px;
     margin: 0 auto;
   }
-  .input-group {
+
+  .input-group, .profile-field {
     position: relative;
+    display: flex;
+    align-items: center;
     margin-bottom: 15px;
   }
+
   input {
     padding: 14px 12px;
     padding-right: 40px;
@@ -59,6 +66,7 @@
     width: 100%;
     box-sizing: border-box;
   }
+
   label {
     display: block;
     text-align: left;
@@ -67,6 +75,7 @@
     font-weight: 600;
     font-size: 0.95rem;
   }
+
   .toggle-password {
     position: absolute;
     right: 12px;
@@ -76,11 +85,21 @@
     fill: #888;
     width: 22px;
     height: 22px;
-    transition: fill .3s;
+    transition: fill 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: all;
   }
+
   .toggle-password:hover {
     fill: #fcd535;
   }
+
+  .toggle-password.active {
+    fill: #fcd535;
+  }
+
   button {
     padding: 15px;
     background-color: #fcd535;
@@ -92,9 +111,11 @@
     cursor: pointer;
     transition: background 0.3s;
   }
+
   button:hover {
     background-color: #ffd84d;
   }
+
   #loginNotice, #profileNotice {
     color: #fcd535;
     margin-bottom: 15px;
@@ -114,6 +135,7 @@
     align-items: center;
     justify-content: center;
   }
+
   .user-circle {
     position: absolute;
     top: 25px;
@@ -130,6 +152,7 @@
     font-size: 1rem;
     cursor: pointer;
   }
+
   .dashboard-buttons {
     display: flex;
     flex-direction: column;
@@ -138,6 +161,7 @@
     max-width: 300px;
     margin-top: 120px;
   }
+
   .dashboard-buttons button {
     background-color: #fcd535;
     color: #0b0c10;
@@ -148,6 +172,7 @@
     cursor: pointer;
     transition: background 0.3s;
   }
+
   .dashboard-buttons button:hover {
     background-color: #ffd84d;
   }
@@ -162,6 +187,7 @@
     max-width: 360px;
     margin: 0 auto;
   }
+
   .back-btn {
     position: absolute;
     top: 25px;
@@ -171,15 +197,18 @@
     cursor: pointer;
     user-select: none;
   }
+
   #profileSection h2 {
     color: #fcd535;
     margin-bottom: 20px;
   }
+
   .profile-field {
     width: 100%;
     margin-bottom: 20px;
     position: relative;
   }
+
   .profile-field input {
     width: 100%;
     padding: 14px 12px;
@@ -262,125 +291,27 @@
   </div>
 
 <script>
-const loginForm = document.getElementById('loginForm');
-const loginEmail = document.getElementById('loginEmail');
-const loginPassword = document.getElementById('loginPassword');
-const loginNotice = document.getElementById('loginNotice');
-const toggleLoginPassword = document.getElementById('toggleLoginPassword');
-const dashboard = document.getElementById('dashboard');
-const userCircle = document.getElementById('userCircle');
-const profileSection = document.getElementById('profileSection');
-const backToDashboard = document.getElementById('backToDashboard');
-const profileName = document.getElementById('profileName');
-const profileEmail = document.getElementById('profileEmail');
-const profilePassword = document.getElementById('profilePassword');
-const profilePin = document.getElementById('profilePin');
-const toggleProfilePassword = document.getElementById('toggleProfilePassword');
-const toggleProfilePin = document.getElementById('toggleProfilePin');
-const saveProfileBtn = document.getElementById('saveProfileBtn');
-const profileNotice = document.getElementById('profileNotice');
-
-toggleLoginPassword.addEventListener('click', () => {
-  loginPassword.type = loginPassword.type === 'password' ? 'text' : 'password';
-});
-
-toggleProfilePassword.addEventListener('click', () => {
-  profilePassword.type = profilePassword.type === 'password' ? 'text' : 'password';
-});
-
-toggleProfilePin.addEventListener('click', () => {
-  profilePin.type = profilePin.type === 'password' ? 'text' : 'password';
-});
-
-loginForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  const email = loginEmail.value.toLowerCase().trim();
-  const password = loginPassword.value;
-
-  const storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-  const user = storedUsers.find(u => u.email === email && u.password === password);
-
-  if (user) {
-    loginNotice.style.display = 'block';
-    loginNotice.style.color = '#0b0c10';
-    loginNotice.style.backgroundColor = '#fcd535';
-    loginNotice.textContent = `Welcome back, ${user.name}!`;
-    localStorage.setItem('loggedInUser', JSON.stringify(user));
-
-    setTimeout(() => {
-      document.querySelector('h1').style.display = 'none';
-      document.querySelector('.logo-box').style.display = 'none';
-      loginForm.style.display = 'none';
-      loginNotice.style.display = 'none';
-      dashboard.style.display = 'flex';
-      userCircle.textContent = user.name.split(' ')[0];
-    }, 1200);
+const toggleVisibility = (input, icon) => {
+  if (input.type === "password") {
+    input.type = "text";
+    icon.classList.add("active");
   } else {
-    loginNotice.style.display = 'block';
-    loginNotice.style.color = '#fcd535';
-    loginNotice.style.backgroundColor = '#0b0c10';
-    loginNotice.textContent = 'Invalid email or password.';
+    input.type = "password";
+    icon.classList.remove("active");
   }
-});
+};
 
-// Open Profile
-userCircle.addEventListener('click', () => {
-  dashboard.style.display = 'none';
-  profileSection.style.display = 'flex';
-  const user = JSON.parse(localStorage.getItem('loggedInUser'));
-  if (user) {
-    profileName.value = user.name;
-    profileEmail.value = user.email;
-    profilePassword.value = user.password;
-    profilePin.value = user.pin || "";
-  }
-});
+document.getElementById("toggleLoginPassword").addEventListener("click", () =>
+  toggleVisibility(document.getElementById("loginPassword"), document.getElementById("toggleLoginPassword"))
+);
 
-// Back to Dashboard
-backToDashboard.addEventListener('click', () => {
-  profileSection.style.display = 'none';
-  dashboard.style.display = 'flex';
-});
+document.getElementById("toggleProfilePassword").addEventListener("click", () =>
+  toggleVisibility(document.getElementById("profilePassword"), document.getElementById("toggleProfilePassword"))
+);
 
-// Show styled profile notice
-function showProfileNotice(message, success = true) {
-  profileNotice.style.display = 'block';
-  profileNotice.textContent = message;
-  if (success) {
-    profileNotice.style.backgroundColor = '#fcd535';
-    profileNotice.style.color = '#0b0c10';
-  } else {
-    profileNotice.style.backgroundColor = '#0b0c10';
-    profileNotice.style.color = '#fcd535';
-  }
-  setTimeout(() => { profileNotice.style.display = 'none'; }, 2000);
-}
-
-// Save Profile
-saveProfileBtn.addEventListener('click', () => {
-  const updatedName = profileName.value.trim();
-  const updatedEmail = profileEmail.value.trim().toLowerCase();
-  const updatedPassword = profilePassword.value;
-
-  let storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-  const currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
-
-  const index = storedUsers.findIndex(u => u.email === currentUser.email);
-  if (index !== -1) {
-    storedUsers[index] = {
-      ...storedUsers[index],
-      name: updatedName,
-      email: updatedEmail,
-      password: updatedPassword
-    };
-    localStorage.setItem('registeredUsers', JSON.stringify(storedUsers));
-    localStorage.setItem('loggedInUser', JSON.stringify(storedUsers[index]));
-    userCircle.textContent = updatedName.split(' ')[0];
-    showProfileNotice('Profile updated successfully!', true);
-  }
-});
+document.getElementById("toggleProfilePin").addEventListener("click", () =>
+  toggleVisibility(document.getElementById("profilePin"), document.getElementById("toggleProfilePin"))
+);
 </script>
-
 </body>
 </html>
