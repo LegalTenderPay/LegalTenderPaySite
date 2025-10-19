@@ -139,6 +139,19 @@
   .dashboard-buttons button:hover {
     background-color: #ffd84d;
   }
+
+  /* Profile Edit Section */
+  #editProfile {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 360px;
+    margin-top: 40px;
+  }
+  #editProfile input {
+    margin-bottom: 12px;
+  }
 </style>
 </head>
 <body>
@@ -168,11 +181,22 @@
   <div id="dashboard">
     <div class="user-circle" id="userCircle"></div>
     <div class="dashboard-buttons">
-      <button id="sendBtn">Send Anonymously </button>
-      <button id="claimBtn">Claim Anonymously </button>
+      <button id="sendBtn">Send Anonymously</button>
+      <button id="claimBtn">Claim Anonymously</button>
       <button id="purchaseWebBtn">Purchase to website</button>
       <button id="purchasePaidBtn">Purchase & Get Paid in #</button>
+      <button id="editProfileBtn">Edit Profile</button>
     </div>
+  </div>
+
+  <!-- Edit Profile Section -->
+  <div id="editProfile">
+    <input type="text" id="editName" placeholder="Full Name">
+    <input type="email" id="editEmail" placeholder="Email">
+    <input type="password" id="editPassword" placeholder="Password">
+    <input type="password" id="editPin" placeholder="PIN">
+    <button id="saveProfileBtn">Save Changes</button>
+    <button id="cancelEditBtn">Cancel</button>
   </div>
 
 <script>
@@ -183,6 +207,10 @@ const loginNotice = document.getElementById('loginNotice');
 const toggleLoginPassword = document.getElementById('toggleLoginPassword');
 const dashboard = document.getElementById('dashboard');
 const userCircle = document.getElementById('userCircle');
+const editProfileSection = document.getElementById('editProfile');
+const editProfileBtn = document.getElementById('editProfileBtn');
+const saveProfileBtn = document.getElementById('saveProfileBtn');
+const cancelEditBtn = document.getElementById('cancelEditBtn');
 
 toggleLoginPassword.addEventListener('click', () => {
   loginPassword.type = loginPassword.type === 'password' ? 'text' : 'password';
@@ -195,7 +223,6 @@ loginForm.addEventListener('submit', (e) => {
   const password = loginPassword.value;
 
   const storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-
   const user = storedUsers.find(u => u.email === email && u.password === password);
 
   if(user) {
@@ -219,6 +246,46 @@ loginForm.addEventListener('submit', (e) => {
     loginNotice.style.backgroundColor = '#0b0c10';
     loginNotice.textContent = 'Invalid email or password.';
   }
+});
+
+// --- Edit Profile Section ---
+editProfileBtn.addEventListener('click', () => {
+  dashboard.style.display = 'none';
+  editProfileSection.style.display = 'flex';
+
+  const user = JSON.parse(localStorage.getItem('loggedInUser'));
+  if(user) {
+    document.getElementById('editName').value = user.name || '';
+    document.getElementById('editEmail').value = user.email || '';
+    document.getElementById('editPassword').value = user.password || '';
+    document.getElementById('editPin').value = user.pin || '';
+  }
+});
+
+saveProfileBtn.addEventListener('click', () => {
+  const updatedName = document.getElementById('editName').value.trim();
+  const updatedEmail = document.getElementById('editEmail').value.trim().toLowerCase();
+  const updatedPassword = document.getElementById('editPassword').value.trim();
+  const updatedPin = document.getElementById('editPin').value.trim();
+
+  let users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+  let loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
+  const index = users.findIndex(u => u.email === loggedInUser.email);
+  if(index !== -1) {
+    users[index] = { name: updatedName, email: updatedEmail, password: updatedPassword, pin: updatedPin };
+    localStorage.setItem('registeredUsers', JSON.stringify(users));
+    localStorage.setItem('loggedInUser', JSON.stringify(users[index]));
+  }
+
+  userCircle.textContent = updatedName.split(' ')[0];
+  editProfileSection.style.display = 'none';
+  dashboard.style.display = 'flex';
+});
+
+cancelEditBtn.addEventListener('click', () => {
+  editProfileSection.style.display = 'none';
+  dashboard.style.display = 'flex';
 });
 </script>
 
