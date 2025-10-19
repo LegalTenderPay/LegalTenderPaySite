@@ -189,6 +189,11 @@
     color: #fff;
     font-size: 1rem;
   }
+  .profile-field input[readonly] {
+    background-color: #1c1f24;
+    color: #aaa;
+    cursor: default;
+  }
 </style>
 </head>
 <body>
@@ -251,7 +256,7 @@
 
     <div class="profile-field">
       <label for="profilePin">PIN</label>
-      <input type="password" id="profilePin" placeholder="Enter 4-digit PIN" maxlength="4">
+      <input type="password" id="profilePin" placeholder="6-digit PIN" maxlength="6" readonly>
       <svg id="toggleProfilePin" class="toggle-password" viewBox="0 0 24 24">
         <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>
       </svg>
@@ -305,7 +310,13 @@ loginForm.addEventListener('submit', (e) => {
     loginNotice.style.color = '#0b0c10';
     loginNotice.style.backgroundColor = '#fcd535';
     loginNotice.textContent = `Welcome back, ${user.name}!`;
-    localStorage.setItem('loggedInUser', JSON.stringify(user));
+
+    localStorage.setItem('loggedInUser', JSON.stringify({
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      pin: user.pin || ""
+    }));
 
     setTimeout(() => {
       document.querySelector('h1').style.display = 'none';
@@ -323,7 +334,6 @@ loginForm.addEventListener('submit', (e) => {
   }
 });
 
-// Open Profile
 userCircle.addEventListener('click', () => {
   dashboard.style.display = 'none';
   profileSection.style.display = 'flex';
@@ -336,13 +346,11 @@ userCircle.addEventListener('click', () => {
   }
 });
 
-// Back to Dashboard
 backToDashboard.addEventListener('click', () => {
   profileSection.style.display = 'none';
   dashboard.style.display = 'flex';
 });
 
-// Styled popup function
 function showProfileNotice(message, success = true) {
   profileNotice.style.display = 'block';
   profileNotice.textContent = message;
@@ -356,19 +364,18 @@ function showProfileNotice(message, success = true) {
   setTimeout(() => { profileNotice.style.display = 'none'; }, 2000);
 }
 
-// Save Profile
 saveProfileBtn.addEventListener('click', () => {
   const updatedName = profileName.value.trim();
   const updatedEmail = profileEmail.value.trim().toLowerCase();
   const updatedPassword = profilePassword.value;
-  const updatedPin = profilePin.value.trim();
-
-  let storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
   const currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
-
+  const storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
   const index = storedUsers.findIndex(u => u.email === currentUser.email);
+
   if (index !== -1) {
-    storedUsers[index] = { name: updatedName, email: updatedEmail, password: updatedPassword, pin: updatedPin };
+    storedUsers[index].name = updatedName;
+    storedUsers[index].email = updatedEmail;
+    storedUsers[index].password = updatedPassword;
     localStorage.setItem('registeredUsers', JSON.stringify(storedUsers));
     localStorage.setItem('loggedInUser', JSON.stringify(storedUsers[index]));
     userCircle.textContent = updatedName.split(' ')[0];
