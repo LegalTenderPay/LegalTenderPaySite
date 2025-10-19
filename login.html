@@ -69,7 +69,7 @@
   }
   .toggle-password {
     position: absolute;
-    right: 10px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
@@ -188,6 +188,7 @@
     background: #1c1f24;
     color: #fff;
     font-size: 1rem;
+    box-sizing: border-box;
   }
 </style>
 </head>
@@ -251,7 +252,10 @@
 
     <div class="profile-field">
       <label for="profilePin">PIN</label>
-      <input type="text" id="profilePin" placeholder="6-digit PIN" maxlength="6" readonly>
+      <input type="password" id="profilePin" placeholder="6-digit PIN" maxlength="6" readonly>
+      <svg id="toggleProfilePin" class="toggle-password" viewBox="0 0 24 24">
+        <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>
+      </svg>
     </div>
 
     <button id="saveProfileBtn">Save Changes</button>
@@ -272,6 +276,7 @@ const profileEmail = document.getElementById('profileEmail');
 const profilePassword = document.getElementById('profilePassword');
 const profilePin = document.getElementById('profilePin');
 const toggleProfilePassword = document.getElementById('toggleProfilePassword');
+const toggleProfilePin = document.getElementById('toggleProfilePin');
 const saveProfileBtn = document.getElementById('saveProfileBtn');
 const profileNotice = document.getElementById('profileNotice');
 
@@ -281,6 +286,10 @@ toggleLoginPassword.addEventListener('click', () => {
 
 toggleProfilePassword.addEventListener('click', () => {
   profilePassword.type = profilePassword.type === 'password' ? 'text' : 'password';
+});
+
+toggleProfilePin.addEventListener('click', () => {
+  profilePin.type = profilePin.type === 'password' ? 'text' : 'password';
 });
 
 loginForm.addEventListener('submit', (e) => {
@@ -334,7 +343,7 @@ backToDashboard.addEventListener('click', () => {
   dashboard.style.display = 'flex';
 });
 
-// Styled popup function
+// Show styled profile notice
 function showProfileNotice(message, success = true) {
   profileNotice.style.display = 'block';
   profileNotice.textContent = message;
