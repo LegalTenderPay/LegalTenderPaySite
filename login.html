@@ -117,6 +117,7 @@
     justify-content: center;
     font-weight: 700;
     font-size: 1rem;
+    cursor: pointer;
   }
   .dashboard-buttons {
     display: flex;
@@ -140,17 +141,41 @@
     background-color: #ffd84d;
   }
 
-  /* Profile Edit Section */
-  #editProfile {
+  /* Profile Section */
+  #profileSection {
     display: none;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     width: 90%;
     max-width: 360px;
-    margin-top: 40px;
+    margin: 0 auto;
   }
-  #editProfile input {
-    margin-bottom: 12px;
+  .back-btn {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    font-size: 1.8rem;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+  }
+  #profileSection h2 {
+    color: #fcd535;
+    margin-bottom: 20px;
+  }
+  .profile-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .profile-field input {
+    width: 100%;
+    padding: 14px 12px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #1c1f24;
+    color: #fff;
+    font-size: 1rem;
   }
 </style>
 </head>
@@ -185,18 +210,23 @@
       <button id="claimBtn">Claim Anonymously</button>
       <button id="purchaseWebBtn">Purchase to website</button>
       <button id="purchasePaidBtn">Purchase & Get Paid in #</button>
-      <button id="editProfileBtn">Edit Profile</button>
     </div>
   </div>
 
-  <!-- Edit Profile Section -->
-  <div id="editProfile">
-    <input type="text" id="editName" placeholder="Full Name">
-    <input type="email" id="editEmail" placeholder="Email">
-    <input type="password" id="editPassword" placeholder="Password">
-    <input type="password" id="editPin" placeholder="PIN">
+  <!-- Profile Section -->
+  <div id="profileSection">
+    <div class="back-btn" id="backToDashboard">&lt;</div>
+    <h2>Profile</h2>
+    <div class="profile-field">
+      <input type="text" id="profileName" placeholder="Full Name">
+    </div>
+    <div class="profile-field">
+      <input type="email" id="profileEmail" placeholder="Email">
+    </div>
+    <div class="profile-field">
+      <input type="password" id="profilePassword" placeholder="Password">
+    </div>
     <button id="saveProfileBtn">Save Changes</button>
-    <button id="cancelEditBtn">Cancel</button>
   </div>
 
 <script>
@@ -207,10 +237,12 @@ const loginNotice = document.getElementById('loginNotice');
 const toggleLoginPassword = document.getElementById('toggleLoginPassword');
 const dashboard = document.getElementById('dashboard');
 const userCircle = document.getElementById('userCircle');
-const editProfileSection = document.getElementById('editProfile');
-const editProfileBtn = document.getElementById('editProfileBtn');
+const profileSection = document.getElementById('profileSection');
+const backToDashboard = document.getElementById('backToDashboard');
+const profileName = document.getElementById('profileName');
+const profileEmail = document.getElementById('profileEmail');
+const profilePassword = document.getElementById('profilePassword');
 const saveProfileBtn = document.getElementById('saveProfileBtn');
-const cancelEditBtn = document.getElementById('cancelEditBtn');
 
 toggleLoginPassword.addEventListener('click', () => {
   loginPassword.type = loginPassword.type === 'password' ? 'text' : 'password';
@@ -225,7 +257,7 @@ loginForm.addEventListener('submit', (e) => {
   const storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
   const user = storedUsers.find(u => u.email === email && u.password === password);
 
-  if(user) {
+  if (user) {
     loginNotice.style.display = 'block';
     loginNotice.style.color = '#0b0c10';
     loginNotice.style.backgroundColor = '#fcd535';
@@ -248,44 +280,41 @@ loginForm.addEventListener('submit', (e) => {
   }
 });
 
-// --- Edit Profile Section ---
-editProfileBtn.addEventListener('click', () => {
+// Open Profile
+userCircle.addEventListener('click', () => {
   dashboard.style.display = 'none';
-  editProfileSection.style.display = 'flex';
-
+  profileSection.style.display = 'flex';
   const user = JSON.parse(localStorage.getItem('loggedInUser'));
-  if(user) {
-    document.getElementById('editName').value = user.name || '';
-    document.getElementById('editEmail').value = user.email || '';
-    document.getElementById('editPassword').value = user.password || '';
-    document.getElementById('editPin').value = user.pin || '';
+  if (user) {
+    profileName.value = user.name;
+    profileEmail.value = user.email;
+    profilePassword.value = user.password;
   }
 });
 
+// Back to Dashboard
+backToDashboard.addEventListener('click', () => {
+  profileSection.style.display = 'none';
+  dashboard.style.display = 'flex';
+});
+
+// Save Profile
 saveProfileBtn.addEventListener('click', () => {
-  const updatedName = document.getElementById('editName').value.trim();
-  const updatedEmail = document.getElementById('editEmail').value.trim().toLowerCase();
-  const updatedPassword = document.getElementById('editPassword').value.trim();
-  const updatedPin = document.getElementById('editPin').value.trim();
+  const updatedName = profileName.value.trim();
+  const updatedEmail = profileEmail.value.trim().toLowerCase();
+  const updatedPassword = profilePassword.value;
 
-  let users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-  let loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+  let storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+  const currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
-  const index = users.findIndex(u => u.email === loggedInUser.email);
-  if(index !== -1) {
-    users[index] = { name: updatedName, email: updatedEmail, password: updatedPassword, pin: updatedPin };
-    localStorage.setItem('registeredUsers', JSON.stringify(users));
-    localStorage.setItem('loggedInUser', JSON.stringify(users[index]));
+  const index = storedUsers.findIndex(u => u.email === currentUser.email);
+  if (index !== -1) {
+    storedUsers[index] = { name: updatedName, email: updatedEmail, password: updatedPassword };
+    localStorage.setItem('registeredUsers', JSON.stringify(storedUsers));
+    localStorage.setItem('loggedInUser', JSON.stringify(storedUsers[index]));
+    userCircle.textContent = updatedName.split(' ')[0];
+    alert('Profile updated successfully!');
   }
-
-  userCircle.textContent = updatedName.split(' ')[0];
-  editProfileSection.style.display = 'none';
-  dashboard.style.display = 'flex';
-});
-
-cancelEditBtn.addEventListener('click', () => {
-  editProfileSection.style.display = 'none';
-  dashboard.style.display = 'flex';
 });
 </script>
 
