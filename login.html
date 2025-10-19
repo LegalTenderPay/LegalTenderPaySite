@@ -95,6 +95,50 @@
     padding: 10px;
     border-radius: 5px;
   }
+
+  /* Dashboard styles */
+  #dashboard {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .user-circle {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    background-color: #fcd535;
+    color: #0b0c10;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .dashboard-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 90%;
+    max-width: 300px;
+    margin-top: 120px;
+  }
+  .dashboard-buttons button {
+    background-color: #fcd535;
+    color: #0b0c10;
+    border-radius: 40px;
+    padding: 15px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .dashboard-buttons button:hover {
+    background-color: #ffd84d;
+  }
 </style>
 </head>
 <body>
@@ -120,12 +164,25 @@
     <button type="submit">Log In</button>
   </form>
 
+  <!-- Dashboard Section -->
+  <div id="dashboard">
+    <div class="user-circle" id="userCircle"></div>
+    <div class="dashboard-buttons">
+      <button id="sendBtn">Send Anonymously </button>
+      <button id="claimBtn">Claim Anonymously </button>
+      <button id="purchaseWebBtn">Purchase to website</button>
+      <button id="purchasePaidBtn">Purchase & Get Paid in #</button>
+    </div>
+  </div>
+
 <script>
 const loginForm = document.getElementById('loginForm');
 const loginEmail = document.getElementById('loginEmail');
 const loginPassword = document.getElementById('loginPassword');
 const loginNotice = document.getElementById('loginNotice');
 const toggleLoginPassword = document.getElementById('toggleLoginPassword');
+const dashboard = document.getElementById('dashboard');
+const userCircle = document.getElementById('userCircle');
 
 toggleLoginPassword.addEventListener('click', () => {
   loginPassword.type = loginPassword.type === 'password' ? 'text' : 'password';
@@ -149,8 +206,13 @@ loginForm.addEventListener('submit', (e) => {
     localStorage.setItem('loggedInUser', JSON.stringify(user));
 
     setTimeout(() => {
-      window.location.href = 'dashboard.html';
-    }, 1500);
+      document.querySelector('h1').style.display = 'none';
+      document.querySelector('.logo-box').style.display = 'none';
+      loginForm.style.display = 'none';
+      loginNotice.style.display = 'none';
+      dashboard.style.display = 'flex';
+      userCircle.textContent = user.name.split(' ')[0];
+    }, 1200);
   } else {
     loginNotice.style.display = 'block';
     loginNotice.style.color = '#fcd535';
