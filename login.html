@@ -59,6 +59,14 @@
     width: 100%;
     box-sizing: border-box;
   }
+  label {
+    display: block;
+    text-align: left;
+    margin-bottom: 6px;
+    color: #fcd535;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
   .toggle-password {
     position: absolute;
     right: 10px;
@@ -87,13 +95,16 @@
   button:hover {
     background-color: #ffd84d;
   }
-  #loginNotice {
+  #loginNotice, #profileNotice {
     color: #fcd535;
     margin-bottom: 15px;
     font-weight: 600;
     display: none;
     padding: 10px;
     border-radius: 5px;
+    text-align: center;
+    width: 90%;
+    max-width: 360px;
   }
 
   /* Dashboard styles */
@@ -166,7 +177,8 @@
   }
   .profile-field {
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    position: relative;
   }
   .profile-field input {
     width: 100%;
@@ -217,15 +229,34 @@
   <div id="profileSection">
     <div class="back-btn" id="backToDashboard">&lt;</div>
     <h2>Profile</h2>
+    <div id="profileNotice"></div>
+
     <div class="profile-field">
+      <label for="profileName">Name</label>
       <input type="text" id="profileName" placeholder="Full Name">
     </div>
+
     <div class="profile-field">
+      <label for="profileEmail">Email</label>
       <input type="email" id="profileEmail" placeholder="Email">
     </div>
+
     <div class="profile-field">
+      <label for="profilePassword">Password</label>
       <input type="password" id="profilePassword" placeholder="Password">
+      <svg id="toggleProfilePassword" class="toggle-password" viewBox="0 0 24 24">
+        <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>
+      </svg>
     </div>
+
+    <div class="profile-field">
+      <label for="profilePin">PIN</label>
+      <input type="password" id="profilePin" placeholder="Enter 4-digit PIN" maxlength="4">
+      <svg id="toggleProfilePin" class="toggle-password" viewBox="0 0 24 24">
+        <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>
+      </svg>
+    </div>
+
     <button id="saveProfileBtn">Save Changes</button>
   </div>
 
@@ -242,10 +273,22 @@ const backToDashboard = document.getElementById('backToDashboard');
 const profileName = document.getElementById('profileName');
 const profileEmail = document.getElementById('profileEmail');
 const profilePassword = document.getElementById('profilePassword');
+const profilePin = document.getElementById('profilePin');
+const toggleProfilePassword = document.getElementById('toggleProfilePassword');
+const toggleProfilePin = document.getElementById('toggleProfilePin');
 const saveProfileBtn = document.getElementById('saveProfileBtn');
+const profileNotice = document.getElementById('profileNotice');
 
 toggleLoginPassword.addEventListener('click', () => {
   loginPassword.type = loginPassword.type === 'password' ? 'text' : 'password';
+});
+
+toggleProfilePassword.addEventListener('click', () => {
+  profilePassword.type = profilePassword.type === 'password' ? 'text' : 'password';
+});
+
+toggleProfilePin.addEventListener('click', () => {
+  profilePin.type = profilePin.type === 'password' ? 'text' : 'password';
 });
 
 loginForm.addEventListener('submit', (e) => {
@@ -289,6 +332,7 @@ userCircle.addEventListener('click', () => {
     profileName.value = user.name;
     profileEmail.value = user.email;
     profilePassword.value = user.password;
+    profilePin.value = user.pin || "";
   }
 });
 
@@ -298,22 +342,37 @@ backToDashboard.addEventListener('click', () => {
   dashboard.style.display = 'flex';
 });
 
+// Styled popup function
+function showProfileNotice(message, success = true) {
+  profileNotice.style.display = 'block';
+  profileNotice.textContent = message;
+  if (success) {
+    profileNotice.style.backgroundColor = '#fcd535';
+    profileNotice.style.color = '#0b0c10';
+  } else {
+    profileNotice.style.backgroundColor = '#0b0c10';
+    profileNotice.style.color = '#fcd535';
+  }
+  setTimeout(() => { profileNotice.style.display = 'none'; }, 2000);
+}
+
 // Save Profile
 saveProfileBtn.addEventListener('click', () => {
   const updatedName = profileName.value.trim();
   const updatedEmail = profileEmail.value.trim().toLowerCase();
   const updatedPassword = profilePassword.value;
+  const updatedPin = profilePin.value.trim();
 
   let storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
   const currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
   const index = storedUsers.findIndex(u => u.email === currentUser.email);
   if (index !== -1) {
-    storedUsers[index] = { name: updatedName, email: updatedEmail, password: updatedPassword };
+    storedUsers[index] = { name: updatedName, email: updatedEmail, password: updatedPassword, pin: updatedPin };
     localStorage.setItem('registeredUsers', JSON.stringify(storedUsers));
     localStorage.setItem('loggedInUser', JSON.stringify(storedUsers[index]));
     userCircle.textContent = updatedName.split(' ')[0];
-    alert('Profile updated successfully!');
+    showProfileNotice('Profile updated successfully!', true);
   }
 });
 </script>
