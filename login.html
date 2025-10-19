@@ -50,9 +50,16 @@
 
   .input-group, .profile-field {
     position: relative;
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    color: #fcd535;
+    font-weight: 600;
+    font-size: 0.95rem;
   }
 
   input {
@@ -67,15 +74,6 @@
     box-sizing: border-box;
   }
 
-  label {
-    display: block;
-    text-align: left;
-    margin-bottom: 6px;
-    color: #fcd535;
-    font-weight: 600;
-    font-size: 0.95rem;
-  }
-
   .toggle-password {
     position: absolute;
     right: 12px;
@@ -86,10 +84,6 @@
     width: 22px;
     height: 22px;
     transition: fill 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: all;
   }
 
   .toggle-password:hover {
@@ -201,7 +195,6 @@
 
   .profile-field {
     width: 100%;
-    margin-bottom: 20px;
     position: relative;
   }
 
@@ -277,7 +270,7 @@
 
     <div class="profile-field">
       <label for="profilePin">PIN</label>
-      <input type="password" id="profilePin" placeholder="6-digit PIN" maxlength="6" readonly>
+      <input type="text" id="profilePin" placeholder="6-digit PIN" maxlength="6" readonly>
       <svg id="toggleProfilePin" class="toggle-password" viewBox="0 0 24 24">
         <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"></path>
       </svg>
@@ -314,9 +307,10 @@ toggleProfilePassword.addEventListener('click', () => {
 });
 
 toggleProfilePin.addEventListener('click', () => {
-  profilePin.type = profilePin.type === 'password' ? 'text' : 'password';
+  profilePin.type = profilePin.type === 'text' ? 'password' : 'text';
 });
 
+// Login
 loginForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
@@ -340,7 +334,7 @@ loginForm.addEventListener('submit', (e) => {
       loginNotice.style.display = 'none';
       dashboard.style.display = 'flex';
       userCircle.textContent = user.name.split(' ')[0];
-    }, 1200);
+    }, 1000);
   } else {
     loginNotice.style.display = 'block';
     loginNotice.style.color = '#fcd535';
@@ -362,13 +356,13 @@ userCircle.addEventListener('click', () => {
   }
 });
 
-// Back to Dashboard
+// Back
 backToDashboard.addEventListener('click', () => {
   profileSection.style.display = 'none';
   dashboard.style.display = 'flex';
 });
 
-// Styled popup function
+// Show notice
 function showProfileNotice(message, success = true) {
   profileNotice.style.display = 'block';
   profileNotice.textContent = message;
@@ -382,7 +376,7 @@ function showProfileNotice(message, success = true) {
   setTimeout(() => { profileNotice.style.display = 'none'; }, 2000);
 }
 
-// Save Profile
+// Save changes
 saveProfileBtn.addEventListener('click', () => {
   const updatedName = profileName.value.trim();
   const updatedEmail = profileEmail.value.trim().toLowerCase();
@@ -397,7 +391,8 @@ saveProfileBtn.addEventListener('click', () => {
       ...storedUsers[index],
       name: updatedName,
       email: updatedEmail,
-      password: updatedPassword
+      password: updatedPassword,
+      pin: profilePin.value
     };
     localStorage.setItem('registeredUsers', JSON.stringify(storedUsers));
     localStorage.setItem('loggedInUser', JSON.stringify(storedUsers[index]));
