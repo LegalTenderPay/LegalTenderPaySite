@@ -107,7 +107,7 @@
   }
   button:hover { background-color: #ffd84d; }
 
-  #loginNotice, #profileNotice {
+  #loginNotice, #profileNotice, #profileEmailNotice {
     color: #fcd535;
     margin-bottom: 15px;
     font-weight: 600;
@@ -304,6 +304,16 @@
     color: #0b0c10;
   }
 
+  /* ---------- Email validation notice ---------- */
+  #profileEmailNotice {
+    color:#0b0c10;
+    background:#fcd535;
+    font-size:0.9rem;
+    padding:5px 10px;
+    border-radius:5px;
+    display:none;
+  }
+
   @media (max-width: 420px) {
     .hi-text { left: 92px; top: 32px; font-size: .95rem; }
     .history-icon { right: 10px; top: 20px; font-size: 1.2rem; width:32px; height:32px; }
@@ -373,6 +383,7 @@
 
     <label for="profileEmail">Email</label>
     <input type="email" id="profileEmail" placeholder="Email">
+    <div id="profileEmailNotice"></div>
 
     <label for="profilePassword">Password</label>
     <div style="position:relative;">
@@ -384,7 +395,7 @@
 
     <label for="profilePin">PIN</label>
     <div style="position:relative;">
-      <input type="password" id="profilePin" placeholder="6-digit PIN" maxlength="6" readonly>
+      <input type="password" id="profilePin" placeholder="6-digit PIN" maxlength="6">
       <svg id="toggleProfilePin" class="toggle-password" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
       </svg>
@@ -427,6 +438,7 @@ const toggleProfilePassword = document.getElementById('toggleProfilePassword');
 const toggleProfilePin = document.getElementById('toggleProfilePin');
 const saveProfileBtn = document.getElementById('saveProfileBtn');
 const profileNotice = document.getElementById('profileNotice');
+const profileEmailNotice = document.getElementById('profileEmailNotice');
 const logoutBtn = document.getElementById('logoutBtn');
 const historyIcon = document.getElementById('historyIcon');
 
@@ -476,46 +488,98 @@ function openProfile() {
   profilePassword.value = user.password || '';
   profilePin.value = user.pin || '';
   profileCircle.textContent = getInitials(user.name);
+  validateProfileEmail(); // initialize save button
 }
 userCircle.onclick = openProfile;
 hiText.onclick = openProfile;
 backToDashboard.onclick = () => { profileSection.style.display = 'none'; dashboard.style.display = 'flex'; };
 
-/* Save profile with email uniqueness check */
+/* ---------- EMAIL VALIDATION ---------- */
+function isValidEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
+function validateProfileEmail() {
+  const email = profileEmail.value.trim().toLowerCase();
+  const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+  const logged = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+  const idx = users.findIndex(u => u.email === logged.email);
+
+   if (!email) {
+    profileEmailNotice.style.display = 'none';
+    saveProfileBtn.disabled = true;
+    return;
+  }
+
+  // Check if email format is valid
+  if (!isValidEmail(email)) {
+    profileEmailNotice.style.display = 'block';
+    profileEmailNotice.textContent = 'Invalid email format.';
+    saveProfileBtn.disabled = true;
+    return;
+  }
+
+  // Check if email is already used by another user
+  const duplicate = users.some((u, i) => u.email === email && i !== idx);
+  if (duplicate) {
+    profileEmailNotice.style.display = 'block';
+    profileEmailNotice.textContent = 'This email is already in use.';
+    saveProfileBtn.disabled = true;
+    return;
+  }
+
+  // All good
+  profileEmailNotice.style.display = 'none';
+  saveProfileBtn.disabled = false;
+}
+
+/* Listen to email input changes */
+profileEmail.addEventListener('input', validateProfileEmail);
+
+/* Save profile handler */
 saveProfileBtn.onclick = () => {
   const name = profileName.value.trim();
   const email = profileEmail.value.trim().toLowerCase();
-  const pass = profilePassword.value;
+  const password = profilePassword.value;
   const pin = profilePin.value;
-  if (!name || !email) return alert('Name and email required.');
+
+  if (!name || !email) {
+    profileNotice.style.display = 'block';
+    profileNotice.textContent = 'Name and email are required.';
+    profileNotice.style.background = '#fcd535';
+    profileNotice.style.color = '#0b0c10';
+    setTimeout(() => profileNotice.style.display = 'none', 3000);
+    return;
+  }
+
+  if (pin && !/^\d{6}$/.test(pin)) {
+    profileNotice.style.display = 'block';
+    profileNotice.textContent = 'PIN must be 6 digits.';
+    profileNotice.style.background = '#fcd535';
+    profileNotice.style.color = '#0b0c10';
+    setTimeout(() => profileNotice.style.display = 'none', 3000);
+    return;
+  }
 
   const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
   const logged = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
   const idx = users.findIndex(u => u.email === logged.email);
 
-  // CHECK IF EMAIL IS ALREADY USED BY ANOTHER USER
-  if (users.some((u, i) => u.email === email && i !== idx)) {
-    profileNotice.style.display = 'block';
-    profileNotice.style.color = '#0b0c10';
-    profileNotice.style.background = '#fcd535';
-    profileNotice.textContent = 'This email is already in use.';
-    setTimeout(() => profileNotice.style.display = 'none', 3000);
-    return;
-  }
-
-  // Save updates
   if (idx !== -1) {
-    users[idx] = { ...users[idx], name, email, password: pass, pin };
+    users[idx] = { ...users[idx], name, email, password, pin };
     localStorage.setItem('registeredUsers', JSON.stringify(users));
     localStorage.setItem('loggedInUser', JSON.stringify(users[idx]));
+
     userCircle.textContent = getInitials(name);
-    const f = getFirstName(name);
-    hiText.textContent = `Hi, ${f.charAt(0).toUpperCase() + f.slice(1)}`;
+    const first = getFirstName(name);
+    hiText.textContent = `Hi, ${first.charAt(0).toUpperCase() + first.slice(1)}`;
+
     profileNotice.style.display = 'block';
-   profileNotice.style.color = '#0b0c10';
     profileNotice.style.background = '#fcd535';
+    profileNotice.style.color = '#0b0c10';
     profileNotice.textContent = 'Profile updated successfully!';
-    setTimeout(()=>profileNotice.style.display='none',2000);
+    setTimeout(() => profileNotice.style.display = 'none', 2000);
   }
 };
 
@@ -526,7 +590,7 @@ logoutBtn.onclick = () => {
 };
 
 /* Keep logged in */
-(function(){
+(function() {
   const user = JSON.parse(localStorage.getItem('loggedInUser')||'{}');
   if(user.email){
     document.querySelector('h1').style.display='none';
@@ -541,23 +605,13 @@ logoutBtn.onclick = () => {
 })();
 
 /* ---------- Dashboard buttons navigation ---------- */
-document.getElementById('sendBtn').onclick = () => {
-  window.location.href = 'send.html';
-};
-document.getElementById('claimBtn').onclick = () => {
-  window.location.href = 'claim.html';
-};
-document.getElementById('purchaseWebBtn').onclick = () => {
-  window.location.href = 'purchase-website.html';
-};
-document.getElementById('purchasePaidBtn').onclick = () => {
-  window.location.href = 'purchase-paid.html';
-};
+document.getElementById('sendBtn').onclick = () => { window.location.href = 'send.html'; };
+document.getElementById('claimBtn').onclick = () => { window.location.href = 'claim.html'; };
+document.getElementById('purchaseWebBtn').onclick = () => { window.location.href = 'purchase-website.html'; };
+document.getElementById('purchasePaidBtn').onclick = () => { window.location.href = 'purchase-paid.html'; };
 
 /* ---------- History icon navigation ---------- */
-historyIcon.onclick = () => {
-  window.location.href = 'history.html';
-};
+historyIcon.onclick = () => { window.location.href = 'history.html'; };
 </script>
 </body>
 </html>
