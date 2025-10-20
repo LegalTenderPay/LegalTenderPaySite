@@ -126,13 +126,26 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    position: relative;
+    height: 100vh;
+  }
+
+  /* ---------- Back arrow beside profile ---------- */
+  .back-home {
+    position: absolute;
+    top: 25px;
+    left: 8px;
+    font-size: 1.6rem;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
   }
 
   /* ---------- User Circle ---------- */
   .user-circle {
     position: absolute;
     top: 18px;
-    left: 18px;
+    left: 38px;
     background-color: #fcd535;
     color: #0b0c10;
     border-radius: 50%;
@@ -151,8 +164,8 @@
   /* ---------- Hi text ---------- */
   .hi-text {
     position: absolute;
-    top: 33px; /* shifted down */
-    left: 78px;
+    top: 33px;
+    left: 100px;
     color: #fcd535;
     font-weight: 700;
     cursor: pointer;
@@ -167,10 +180,14 @@
     gap: 15px;
     width: 90%;
     max-width: 300px;
-    align-items: center; /* centered */
-    justify-content: center; /* centered vertically */
-    margin-top: 100px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
+
   .dashboard-buttons button {
     width: 100%;
     background-color: #fcd535;
@@ -260,7 +277,7 @@
   }
 
   @media (max-width: 420px) {
-    .hi-text { left: 72px; top: 32px; font-size: .95rem; }
+    .hi-text { left: 92px; top: 32px; font-size: .95rem; }
   }
 </style>
 </head>
@@ -293,6 +310,7 @@
 
 <!-- DASHBOARD -->
 <div id="dashboard">
+  <div class="back-home" id="backHome">&lt;</div>
   <div class="user-circle" id="userCircle"></div>
   <div class="hi-text" id="hiText"></div>
 
@@ -361,6 +379,7 @@ const toggleLoginPassword = document.getElementById('toggleLoginPassword');
 const dashboard = document.getElementById('dashboard');
 const userCircle = document.getElementById('userCircle');
 const hiText = document.getElementById('hiText');
+const backHome = document.getElementById('backHome');
 const profileSection = document.getElementById('profileSection');
 const backToDashboard = document.getElementById('backToDashboard');
 const profileCircle = document.getElementById('profileCircle');
@@ -405,7 +424,7 @@ loginForm.onsubmit = e => {
   document.querySelector('h1').style.display = 'none';
   document.querySelector('.logo-box').style.display = 'none';
   loginForm.style.display = 'none';
-  dashboard.style.display = 'block';
+  dashboard.style.display = 'flex';
 
   userCircle.textContent = getInitials(user.name);
   const first = getFirstName(user.name);
@@ -413,7 +432,12 @@ loginForm.onsubmit = e => {
   hiText.style.display = 'block';
 };
 
-/* Open and close profile */
+/* Back to homepage */
+backHome.onclick = () => {
+  window.location.href = "index.html"; // your main homepage file
+};
+
+/* Open & close profile */
 function openProfile() {
   dashboard.style.display = 'none';
   profileSection.style.display = 'block';
@@ -428,7 +452,7 @@ userCircle.onclick = openProfile;
 hiText.onclick = openProfile;
 backToDashboard.onclick = () => {
   profileSection.style.display = 'none';
-  dashboard.style.display = 'block';
+  dashboard.style.display = 'flex';
 };
 
 /* Save profile */
@@ -470,7 +494,7 @@ logoutBtn.onclick = () => {
     document.querySelector('h1').style.display='none';
     document.querySelector('.logo-box').style.display='none';
     loginForm.style.display='none';
-    dashboard.style.display='block';
+    dashboard.style.display='flex';
     userCircle.textContent=getInitials(user.name);
     const f=getFirstName(user.name);
     hiText.textContent=`Hi, ${f.charAt(0).toUpperCase()+f.slice(1)}`;
