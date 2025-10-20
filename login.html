@@ -124,10 +124,23 @@
     display: none;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     width: 100%;
     position: relative;
-    height: 100vh;
+    min-height: 100vh;
+    padding-top: 120px;
+    box-sizing: border-box;
+  }
+
+  /* Top logo in dashboard */
+  .dashboard-top-logo {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 25px;
+  }
+  .dashboard-top-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   /* ---------- Back arrow beside profile ---------- */
@@ -201,10 +214,6 @@
     max-width: 300px;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 
   .dashboard-buttons button {
@@ -303,7 +312,7 @@
 </head>
 <body>
 
-<!-- Logo -->
+<!-- Login Logo -->
 <div class="logo-box">
   <img src="E270B287-284E-4BDE-B744-9A9039B2FDE0.jpeg" alt="Logo">
 </div>
@@ -334,9 +343,12 @@
 
   <div class="user-circle" id="userCircle" title="Open profile"></div>
   <div class="hi-text" id="hiText" title="Open profile"></div>
-
-  <!-- transaction history icon (top-right) -->
   <div class="history-icon" id="historyIcon" title="Transaction history">📜</div>
+
+  <!-- Dashboard Top Logo -->
+  <div class="dashboard-top-logo">
+    <img src="E270B287-284E-4BDE-B744-9A9039B2FDE0.jpeg" alt="Dashboard Logo">
+  </div>
 
   <div class="dashboard-buttons">
     <button id="sendBtn">Send Anonymously</button>
@@ -419,15 +431,9 @@ const logoutBtn = document.getElementById('logoutBtn');
 const historyIcon = document.getElementById('historyIcon');
 
 /* Toggle password visibility */
-toggleLoginPassword.onclick = () => {
-  loginPassword.type = loginPassword.type === 'password' ? 'text' : 'password';
-};
-toggleProfilePassword.onclick = () => {
-  profilePassword.type = profilePassword.type === 'password' ? 'text' : 'password';
-};
-toggleProfilePin.onclick = () => {
-  profilePin.type = profilePin.type === 'password' ? 'text' : 'password';
-};
+toggleLoginPassword.onclick = () => { loginPassword.type = loginPassword.type === 'password' ? 'text' : 'password'; };
+toggleProfilePassword.onclick = () => { profilePassword.type = profilePassword.type === 'password' ? 'text' : 'password'; };
+toggleProfilePin.onclick = () => { profilePin.type = profilePin.type === 'password' ? 'text' : 'password'; };
 
 /* Login handler */
 loginForm.onsubmit = e => {
@@ -458,9 +464,7 @@ loginForm.onsubmit = e => {
 };
 
 /* Back to homepage */
-backHome.onclick = () => {
-  window.location.href = "index.html"; // your main homepage file
-};
+backHome.onclick = () => { window.location.href = "index.html"; };
 
 /* Open & close profile */
 function openProfile() {
@@ -475,10 +479,7 @@ function openProfile() {
 }
 userCircle.onclick = openProfile;
 hiText.onclick = openProfile;
-backToDashboard.onclick = () => {
-  profileSection.style.display = 'none';
-  dashboard.style.display = 'flex';
-};
+backToDashboard.onclick = () => { profileSection.style.display = 'none'; dashboard.style.display = 'flex'; };
 
 /* Save profile */
 saveProfileBtn.onclick = () => {
@@ -499,7 +500,7 @@ saveProfileBtn.onclick = () => {
     const f = getFirstName(name);
     hiText.textContent = `Hi, ${f.charAt(0).toUpperCase() + f.slice(1)}`;
     profileNotice.style.display = 'block';
-    profileNotice.style.color = '#0b0c10';
+   profileNotice.style.color = '#0b0c10';
     profileNotice.style.background = '#fcd535';
     profileNotice.textContent = 'Profile updated successfully!';
     setTimeout(()=>profileNotice.style.display='none',2000);
