@@ -481,7 +481,7 @@ userCircle.onclick = openProfile;
 hiText.onclick = openProfile;
 backToDashboard.onclick = () => { profileSection.style.display = 'none'; dashboard.style.display = 'flex'; };
 
-/* Save profile */
+/* Save profile with email uniqueness check */
 saveProfileBtn.onclick = () => {
   const name = profileName.value.trim();
   const email = profileEmail.value.trim().toLowerCase();
@@ -492,6 +492,18 @@ saveProfileBtn.onclick = () => {
   const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
   const logged = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
   const idx = users.findIndex(u => u.email === logged.email);
+
+  // CHECK IF EMAIL IS ALREADY USED BY ANOTHER USER
+  if (users.some((u, i) => u.email === email && i !== idx)) {
+    profileNotice.style.display = 'block';
+    profileNotice.style.color = '#0b0c10';
+    profileNotice.style.background = '#fcd535';
+    profileNotice.textContent = 'This email is already in use.';
+    setTimeout(() => profileNotice.style.display = 'none', 3000);
+    return;
+  }
+
+  // Save updates
   if (idx !== -1) {
     users[idx] = { ...users[idx], name, email, password: pass, pin };
     localStorage.setItem('registeredUsers', JSON.stringify(users));
