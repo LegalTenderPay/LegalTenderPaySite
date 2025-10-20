@@ -190,6 +190,7 @@ button.active:hover { background-color:#ffd84d; }
 </div>
 
 <script>
+// DOM references
 const nameInput = document.getElementById('name');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
@@ -215,14 +216,34 @@ function validatePassword(pwd) {
   return pwd.length >= 8 && /[A-Z]/.test(pwd) && (pwd.match(/\d/g) || []).length >= 2;
 }
 
+// Email format validation
+function validateEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
 // Enable/disable register button
 function validateForm() {
-  if (nameInput.value.trim() && email.value && validatePassword(password.value) && agree.checked) {
+  if (
+    nameInput.value.trim() &&
+    email.value &&
+    validateEmail(email.value) &&
+    validatePassword(password.value) &&
+    agree.checked
+  ) {
     registerBtn.disabled = false;
     registerBtn.classList.add('active');
+    emailNotice.style.display = 'none';
   } else {
     registerBtn.disabled = true;
     registerBtn.classList.remove('active');
+
+    if (email.value && !validateEmail(email.value)) {
+      emailNotice.textContent = "Please enter a valid email address.";
+      emailNotice.style.display = 'block';
+    } else {
+      emailNotice.style.display = 'none';
+    }
   }
 }
 
@@ -258,6 +279,13 @@ document.getElementById('signupForm').addEventListener('submit', (e) => {
   const userEmail = email.value.toLowerCase().trim();
   const userPassword = password.value;
 
+  // Validate email
+  if (!validateEmail(userEmail)) {
+    emailNotice.textContent = "Please enter a valid email address.";
+    emailNotice.style.display = 'block';
+    return;
+  }
+
   // Basic validations again
   if (!userName) { alert('Please enter your name.'); return; }
   if (!userEmail) { alert('Please enter your email.'); return; }
@@ -275,7 +303,6 @@ document.getElementById('signupForm').addEventListener('submit', (e) => {
   }
 
   // Temporarily store the name/email/password in memory (for use after pin)
-  // (we will write to localStorage only after pin is confirmed)
   sessionStorage.setItem('pendingSignup', JSON.stringify({
     name: userName,
     email: userEmail,
@@ -361,7 +388,7 @@ function updatePin(val) {
         }
 
         // Save user to localStorage
-        let storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+        let storedUsers = JSON.parse(localStorage .getItem('registeredUsers') || '[]');
         storedUsers.push({
           name: pending.name || '',
           email: pending.email,
