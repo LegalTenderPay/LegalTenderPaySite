@@ -173,7 +173,26 @@
     font-size: 1rem;
   }
 
-  /* ---------- Dashboard buttons ---------- */
+  /* ---------- Transaction (history) icon ---------- */
+  .history-icon {
+    position: absolute;
+    top: 22px;
+    right: 16px;
+    font-size: 1.4rem;
+    color: #fcd535;
+    cursor: pointer;
+    user-select: none;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: background 0.18s, transform 0.12s;
+  }
+  .history-icon:hover { background: rgba(252,213,53,0.12); transform: translateY(-1px); }
+
+  /* ---------- Dashboard buttons (centered) ---------- */
   .dashboard-buttons {
     display: flex;
     flex-direction: column;
@@ -278,6 +297,7 @@
 
   @media (max-width: 420px) {
     .hi-text { left: 92px; top: 32px; font-size: .95rem; }
+    .history-icon { right: 10px; top: 20px; font-size: 1.2rem; width:32px; height:32px; }
   }
 </style>
 </head>
@@ -300,7 +320,7 @@
 
   <div class="input-group">
     <input type="password" id="loginPassword" placeholder="Password" required>
-    <svg id="toggleLoginPassword" class="toggle-password" viewBox="0 0 24 24">
+    <svg id="toggleLoginPassword" class="toggle-password" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
     </svg>
   </div>
@@ -311,8 +331,12 @@
 <!-- DASHBOARD -->
 <div id="dashboard">
   <div class="back-home" id="backHome">&lt;</div>
-  <div class="user-circle" id="userCircle"></div>
-  <div class="hi-text" id="hiText"></div>
+
+  <div class="user-circle" id="userCircle" title="Open profile"></div>
+  <div class="hi-text" id="hiText" title="Open profile"></div>
+
+  <!-- transaction history icon (top-right) -->
+  <div class="history-icon" id="historyIcon" title="Transaction history">📜</div>
 
   <div class="dashboard-buttons">
     <button id="sendBtn">Send Anonymously</button>
@@ -341,7 +365,7 @@
     <label for="profilePassword">Password</label>
     <div style="position:relative;">
       <input type="password" id="profilePassword" placeholder="Password">
-      <svg id="toggleProfilePassword" class="toggle-password" viewBox="0 0 24 24">
+      <svg id="toggleProfilePassword" class="toggle-password" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
       </svg>
     </div>
@@ -349,7 +373,7 @@
     <label for="profilePin">PIN</label>
     <div style="position:relative;">
       <input type="password" id="profilePin" placeholder="6-digit PIN" maxlength="6" readonly>
-      <svg id="toggleProfilePin" class="toggle-password" viewBox="0 0 24 24">
+      <svg id="toggleProfilePin" class="toggle-password" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
       </svg>
     </div>
@@ -392,6 +416,7 @@ const toggleProfilePin = document.getElementById('toggleProfilePin');
 const saveProfileBtn = document.getElementById('saveProfileBtn');
 const profileNotice = document.getElementById('profileNotice');
 const logoutBtn = document.getElementById('logoutBtn');
+const historyIcon = document.getElementById('historyIcon');
 
 /* Toggle password visibility */
 toggleLoginPassword.onclick = () => {
@@ -514,6 +539,11 @@ document.getElementById('purchaseWebBtn').onclick = () => {
 };
 document.getElementById('purchasePaidBtn').onclick = () => {
   window.location.href = 'purchase-paid.html';
+};
+
+/* ---------- History icon navigation ---------- */
+historyIcon.onclick = () => {
+  window.location.href = 'history.html';
 };
 </script>
 </body>
