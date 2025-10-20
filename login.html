@@ -52,7 +52,7 @@
     margin: 0 auto;
   }
 
-  .input-group, .profile-field {
+  .input-group {
     position: relative;
     margin-bottom: 20px;
     text-align: left;
@@ -64,11 +64,12 @@
     color: #fcd535;
     font-weight: 600;
     font-size: 0.95rem;
+    text-align: left;
   }
 
   input {
     padding: 14px 12px;
-    padding-right: 44px; /* space for centered eye */
+    padding-right: 44px;
     border-radius: 8px;
     border: 1px solid #333;
     background: #1c1f24;
@@ -78,7 +79,7 @@
     box-sizing: border-box;
   }
 
-  /* centered eye / icon styling */
+  /* ---------- Eye icons ---------- */
   .toggle-password {
     position: absolute;
     right: 12px;
@@ -127,7 +128,7 @@
     width: 100%;
   }
 
-  /* user circle (smaller) */
+  /* ---------- User Circle ---------- */
   .user-circle {
     position: absolute;
     top: 18px;
@@ -135,8 +136,8 @@
     background-color: #fcd535;
     color: #0b0c10;
     border-radius: 50%;
-    width: 48px;  /* smaller */
-    height: 48px; /* smaller */
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -147,27 +148,31 @@
     user-select: none;
   }
 
-  /* hi text next to circle */
+  /* ---------- Hi text ---------- */
   .hi-text {
     position: absolute;
-    top: 22px;
-    left: 78px; /* to the right of the circle */
-    color: #fcd535; /* as requested - yellow */
+    top: 33px; /* shifted down */
+    left: 78px;
+    color: #fcd535;
     font-weight: 700;
     cursor: pointer;
     user-select: none;
     font-size: 1rem;
   }
 
+  /* ---------- Dashboard buttons ---------- */
   .dashboard-buttons {
     display: flex;
     flex-direction: column;
     gap: 15px;
     width: 90%;
     max-width: 300px;
+    align-items: center; /* centered */
+    justify-content: center; /* centered vertically */
     margin-top: 100px;
   }
   .dashboard-buttons button {
+    width: 100%;
     background-color: #fcd535;
     color: #0b0c10;
     border-radius: 40px;
@@ -179,7 +184,7 @@
   }
   .dashboard-buttons button:hover { background-color: #ffd84d; }
 
-  /* ---------- Profile screen ---------- */
+  /* ---------- Profile section ---------- */
   #profileSection {
     display: none;
     width: 100%;
@@ -196,6 +201,7 @@
     position: relative;
     margin-bottom: 16px;
   }
+
   .profile-header .back-btn {
     position: absolute;
     left: 18px;
@@ -205,6 +211,7 @@
     cursor: pointer;
     user-select: none;
   }
+
   .profile-title {
     color: #fcd535;
     font-weight: 700;
@@ -218,6 +225,7 @@
     width: 90%;
     max-width: 360px;
     margin: 0 auto;
+    text-align: left;
   }
 
   .profile-circle-large {
@@ -234,128 +242,125 @@
     margin: 6px auto 10px auto;
   }
 
-  /* small helper for spacing when showing fields */
-  .field-row { display: flex; flex-direction: column; gap: 6px; }
+  /* ---------- Logout button ---------- */
+  .logout-btn {
+    background-color: #1c1f24;
+    color: #fcd535;
+    border: 1px solid #fcd535;
+    border-radius: 40px;
+    font-size: 1rem;
+    padding: 12px 18px;
+    width: fit-content;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  .logout-btn:hover {
+    background-color: #fcd535;
+    color: #0b0c10;
+  }
 
-  /* small responsive adjustments */
   @media (max-width: 420px) {
-    .hi-text { left: 72px; top: 20px; font-size: .95rem; }
-    .user-circle { width: 46px; height: 46px; top: 16px; left: 16px; }
+    .hi-text { left: 72px; top: 32px; font-size: .95rem; }
   }
 </style>
 </head>
 <body>
 
-  <!-- logo -->
-  <div class="logo-box">
-    <img src="E270B287-284E-4BDE-B744-9A9039B2FDE0.jpeg" alt="Logo">
+<!-- Logo -->
+<div class="logo-box">
+  <img src="E270B287-284E-4BDE-B744-9A9039B2FDE0.jpeg" alt="Logo">
+</div>
+
+<h1>Log In</h1>
+
+<div id="loginNotice"></div>
+
+<!-- LOGIN FORM -->
+<form id="loginForm">
+  <div class="input-group">
+    <input type="email" id="loginEmail" placeholder="Email" required>
   </div>
 
-  <h1>Log In</h1>
+  <div class="input-group">
+    <input type="password" id="loginPassword" placeholder="Password" required>
+    <svg id="toggleLoginPassword" class="toggle-password" viewBox="0 0 24 24">
+      <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
+    </svg>
+  </div>
 
-  <div id="loginNotice"></div>
+  <button type="submit">Log In</button>
+</form>
 
-  <!-- LOGIN FORM -->
-  <form id="loginForm">
-    <div class="input-group">
-      <input type="email" id="loginEmail" placeholder="Email" required>
-    </div>
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="user-circle" id="userCircle"></div>
+  <div class="hi-text" id="hiText"></div>
 
-    <div class="input-group">
-      <input type="password" id="loginPassword" placeholder="Password" required>
-      <svg id="toggleLoginPassword" class="toggle-password" viewBox="0 0 24 24" aria-hidden="true" title="Show/Hide password">
+  <div class="dashboard-buttons">
+    <button id="sendBtn">Send Anonymously</button>
+    <button id="claimBtn">Claim Anonymously</button>
+    <button id="purchaseWebBtn">Purchase to website</button>
+    <button id="purchasePaidBtn">Purchase & Get Paid in #</button>
+  </div>
+</div>
+
+<!-- PROFILE SECTION -->
+<div id="profileSection">
+  <div class="profile-header">
+    <div class="back-btn" id="backToDashboard">&lt;</div>
+    <div class="profile-title">My Profile</div>
+  </div>
+
+  <div class="profile-content">
+    <div class="profile-circle-large" id="profileCircle"></div>
+
+    <label for="profileName">Name</label>
+    <input type="text" id="profileName" placeholder="Full Name">
+
+    <label for="profileEmail">Email</label>
+    <input type="email" id="profileEmail" placeholder="Email">
+
+    <label for="profilePassword">Password</label>
+    <div style="position:relative;">
+      <input type="password" id="profilePassword" placeholder="Password">
+      <svg id="toggleProfilePassword" class="toggle-password" viewBox="0 0 24 24">
         <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
       </svg>
     </div>
 
-    <button type="submit">Log In</button>
-  </form>
-
-  <!-- DASHBOARD (hidden until login) -->
-  <div id="dashboard">
-    <!-- small clickable initials circle -->
-    <div class="user-circle" id="userCircle" title="Open profile"></div>
-    <!-- Hi, FirstName clickable -->
-    <div class="hi-text" id="hiText" title="Open profile"></div>
-
-    <div class="dashboard-buttons">
-      <button id="sendBtn">Send Anonymously</button>
-      <button id="claimBtn">Claim Anonymously</button>
-      <button id="purchaseWebBtn">Purchase to website</button>
-      <button id="purchasePaidBtn">Purchase & Get Paid in #</button>
+    <label for="profilePin">PIN</label>
+    <div style="position:relative;">
+      <input type="password" id="profilePin" placeholder="6-digit PIN" maxlength="6" readonly>
+      <svg id="toggleProfilePin" class="toggle-password" viewBox="0 0 24 24">
+        <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
+      </svg>
     </div>
+
+    <button id="saveProfileBtn">Save Changes</button>
+    <button class="logout-btn" id="logoutBtn">Log Out</button>
+    <div id="profileNotice"></div>
   </div>
-
-  <!-- PROFILE SECTION (opens when circle or hi text clicked) -->
-  <div id="profileSection">
-    <div class="profile-header">
-      <div class="back-btn" id="backToDashboard">&lt;</div>
-      <div class="profile-title">My Profile</div>
-    </div>
-
-    <div class="profile-content">
-      <!-- large circle showing initials -->
-      <div class="profile-circle-large" id="profileCircle"></div>
-
-      <div class="field-row">
-        <label for="profileName">Name</label>
-        <input type="text" id="profileName" placeholder="Full Name">
-      </div>
-
-      <div class="field-row">
-        <label for="profileEmail">Email</label>
-        <input type="email" id="profileEmail" placeholder="Email">
-      </div>
-
-      <div class="field-row" style="position:relative;">
-        <label for="profilePassword">Password</label>
-        <input type="password" id="profilePassword" placeholder="Password">
-        <svg id="toggleProfilePassword" class="toggle-password" viewBox="0 0 24 24" aria-hidden="true" title="Show/Hide password">
-          <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
-        </svg>
-      </div>
-
-      <div class="field-row" style="position:relative;">
-        <label for="profilePin">PIN</label>
-        <!-- show as password by default but toggle available -->
-        <input type="password" id="profilePin" placeholder="6-digit PIN" maxlength="6" readonly>
-        <svg id="toggleProfilePin" class="toggle-password" viewBox="0 0 24 24" aria-hidden="true" title="Show/Hide PIN">
-          <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
-        </svg>
-      </div>
-
-      <div style="height:6px"></div>
-      <button id="saveProfileBtn">Save Changes</button>
-      <div id="profileNotice" style="display:none;margin-top:8px;"></div>
-    </div>
-  </div>
+</div>
 
 <script>
-/* ---------- Short helper functions ---------- */
 function getFirstName(full) {
-  if (!full) return '';
-  const parts = full.trim().split(/\s+/);
-  return parts[0] || '';
+  return full ? full.trim().split(/\s+/)[0] || '' : '';
 }
 function getInitials(full) {
   if (!full) return '';
   const parts = full.trim().split(/\s+/);
-  const a = (parts[0] && parts[0][0]) || '';
-  const b = (parts.length > 1 && parts[1][0]) || '';
-  return (a + b).toUpperCase();
+  return ((parts[0]?.[0] || '') + (parts[1]?.[0] || '')).toUpperCase();
 }
 
-/* ---------- DOM elements ---------- */
+/* DOM references */
 const loginForm = document.getElementById('loginForm');
 const loginEmail = document.getElementById('loginEmail');
 const loginPassword = document.getElementById('loginPassword');
 const loginNotice = document.getElementById('loginNotice');
 const toggleLoginPassword = document.getElementById('toggleLoginPassword');
-
 const dashboard = document.getElementById('dashboard');
 const userCircle = document.getElementById('userCircle');
 const hiText = document.getElementById('hiText');
-
 const profileSection = document.getElementById('profileSection');
 const backToDashboard = document.getElementById('backToDashboard');
 const profileCircle = document.getElementById('profileCircle');
@@ -367,184 +372,111 @@ const toggleProfilePassword = document.getElementById('toggleProfilePassword');
 const toggleProfilePin = document.getElementById('toggleProfilePin');
 const saveProfileBtn = document.getElementById('saveProfileBtn');
 const profileNotice = document.getElementById('profileNotice');
+const logoutBtn = document.getElementById('logoutBtn');
 
-/* ---------- Toggle password visibility for login ---------- */
-toggleLoginPassword.addEventListener('click', () => {
+/* Toggle password visibility */
+toggleLoginPassword.onclick = () => {
   loginPassword.type = loginPassword.type === 'password' ? 'text' : 'password';
-});
+};
+toggleProfilePassword.onclick = () => {
+  profilePassword.type = profilePassword.type === 'password' ? 'text' : 'password';
+};
+toggleProfilePin.onclick = () => {
+  profilePin.type = profilePin.type === 'password' ? 'text' : 'password';
+};
 
-/* ---------- Login handler ---------- */
-loginForm.addEventListener('submit', (e) => {
+/* Login handler */
+loginForm.onsubmit = e => {
   e.preventDefault();
-
   const email = loginEmail.value.toLowerCase().trim();
   const password = loginPassword.value;
+  const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+  const user = users.find(u => u.email === email && u.password === password);
 
-  const storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-
-  const user = storedUsers.find(u => u.email === email && u.password === password);
-  if (user) {
-    // success
-    loginNotice.style.display = 'block';
-    loginNotice.style.color = '#0b0c10';
-    loginNotice.style.backgroundColor = '#fcd535';
-    loginNotice.textContent = `Welcome back, ${user.name}!`;
-
-    // store current user
-    localStorage.setItem('loggedInUser', JSON.stringify(user));
-
-    setTimeout(() => {
-      // hide login UI
-      document.querySelector('h1').style.display = 'none';
-      document.querySelector('.logo-box').style.display = 'none';
-      loginForm.style.display = 'none';
-      loginNotice.style.display = 'none';
-
-      // show dashboard
-      dashboard.style.display = 'block';
-
-      // populate initials and hi text
-      const initials = getInitials(user.name);
-      userCircle.textContent = initials || user.name.split(' ')[0][0] || '';
-      hiText.textContent = `Hi, ${getFirstName(user.name).toUpperCase().replace(/^\w/, c => c.toUpperCase())}`;
-      // keep hiText stylized - show first name properly capitalized
-      const first = getFirstName(user.name);
-      hiText.textContent = `Hi, ${first.charAt(0).toUpperCase() + first.slice(1)}`;
-    }, 700);
-  } else {
-    // failed
+  if (!user) {
     loginNotice.style.display = 'block';
     loginNotice.style.color = '#fcd535';
-    loginNotice.style.backgroundColor = '#0b0c10';
+    loginNotice.style.background = '#0b0c10';
     loginNotice.textContent = 'Invalid email or password.';
-  }
-});
-
-/* ---------- Open profile when either circle or hiText clicked ---------- */
-function openProfile() {
-  dashboard.style.display = 'none';
-  profileSection.style.display = 'block';
-
-  const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
-  if (user && Object.keys(user).length) {
-    profileName.value = user.name || '';
-    profileEmail.value = user.email || '';
-    profilePassword.value = user.password || '';
-    profilePin.value = user.pin || '';
-    profileCircle.textContent = getInitials(user.name) || '';
-  } else {
-    // no logged-in user (safety)
-    profileName.value = '';
-    profileEmail.value = '';
-    profilePassword.value = '';
-    profilePin.value = '';
-    profileCircle.textContent = '';
-  }
-}
-userCircle.addEventListener('click', openProfile);
-hiText.addEventListener('click', openProfile);
-
-/* back */
-backToDashboard.addEventListener('click', () => {
-  profileSection.style.display = 'none';
-  dashboard.style.display = 'block';
-});
-
-/* toggles for profile password/pin (eye icons centered) */
-toggleProfilePassword.addEventListener('click', () => {
-  profilePassword.type = profilePassword.type === 'password' ? 'text' : 'password';
-});
-toggleProfilePin.addEventListener('click', () => {
-  // the pin input is readonly in UI, but we still toggle visibility
-  profilePin.type = profilePin.type === 'password' ? 'text' : 'password';
-});
-
-/* ---------- Save profile changes ---------- */
-saveProfileBtn.addEventListener('click', () => {
-  const updatedName = profileName.value.trim();
-  const updatedEmail = profileEmail.value.trim().toLowerCase();
-  const updatedPassword = profilePassword.value;
-  const updatedPin = profilePin.value;
-
-  if (!updatedName || !updatedEmail) {
-    // show error style notice
-    profileNotice.style.display = 'block';
-    profileNotice.style.backgroundColor = '#0b0c10';
-    profileNotice.style.color = '#fcd535';
-    profileNotice.textContent = 'Name and email cannot be empty.';
-    setTimeout(() => profileNotice.style.display = 'none', 2200);
     return;
   }
 
-  let storedUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-  const currentUser = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+  localStorage.setItem('loggedInUser', JSON.stringify(user));
+  document.querySelector('h1').style.display = 'none';
+  document.querySelector('.logo-box').style.display = 'none';
+  loginForm.style.display = 'none';
+  dashboard.style.display = 'block';
 
-  const index = storedUsers.findIndex(u => u.email === (currentUser.email || '___'));
-  if (index !== -1) {
-    // update the stored user object (preserve any other fields)
-    storedUsers[index] = {
-      ...storedUsers[index],
-      name: updatedName,
-      email: updatedEmail,
-      password: updatedPassword,
-      pin: updatedPin
-    };
-    // write back
-    localStorage.setItem('registeredUsers', JSON.stringify(storedUsers));
-    // update current loggedInUser
-    localStorage.setItem('loggedInUser', JSON.stringify(storedUsers[index]));
+  userCircle.textContent = getInitials(user.name);
+  const first = getFirstName(user.name);
+  hiText.textContent = `Hi, ${first.charAt(0).toUpperCase() + first.slice(1)}`;
+  hiText.style.display = 'block';
+};
 
-    // update UI circle and hi text
-    userCircle.textContent = getInitials(updatedName);
-    const first = getFirstName(updatedName);
-    hiText.textContent = `Hi, ${first.charAt(0).toUpperCase() + first.slice(1)}`;
-
-    // success notice
-    profileNotice.style.display = 'block';
-    profileNotice.style.backgroundColor = '#fcd535';
-    profileNotice.style.color = '#0b0c10';
-    profileNotice.textContent = 'Profile updated successfully!';
-    setTimeout(() => profileNotice.style.display = 'none', 2000);
-  } else {
-    // fallback - if not found, try to add or show error
-    profileNotice.style.display = 'block';
-    profileNotice.style.backgroundColor = '#0b0c10';
-    profileNotice.style.color = '#fcd535';
-    profileNotice.textContent = 'Unable to find user in storage.';
-    setTimeout(() => profileNotice.style.display = 'none', 2000);
-  }
-});
-
-/* ---------- Ensure hiText initially hidden until login ---------- */
-hiText.style.display = 'none';
-
-/* ---------- If user already logged in when page loads, show dashboard ---------- */
-(function initFromStorage() {
+/* Open and close profile */
+function openProfile() {
+  dashboard.style.display = 'none';
+  profileSection.style.display = 'block';
   const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
-  if (user && user.email) {
-    // hide login
-    document.querySelector('h1').style.display = 'none';
-    document.querySelector('.logo-box').style.display = 'none';
-    loginForm.style.display = 'none';
-    loginNotice.style.display = 'none';
+  profileName.value = user.name || '';
+  profileEmail.value = user.email || '';
+  profilePassword.value = user.password || '';
+  profilePin.value = user.pin || '';
+  profileCircle.textContent = getInitials(user.name);
+}
+userCircle.onclick = openProfile;
+hiText.onclick = openProfile;
+backToDashboard.onclick = () => {
+  profileSection.style.display = 'none';
+  dashboard.style.display = 'block';
+};
 
-    // show dashboard
-    dashboard.style.display = 'block';
-    userCircle.textContent = getInitials(user.name || '');
-    const first = getFirstName(user.name || '');
-    hiText.textContent = first ? `Hi, ${first.charAt(0).toUpperCase() + first.slice(1)}` : '';
-    hiText.style.display = 'block';
+/* Save profile */
+saveProfileBtn.onclick = () => {
+  const name = profileName.value.trim();
+  const email = profileEmail.value.trim().toLowerCase();
+  const pass = profilePassword.value;
+  const pin = profilePin.value;
+  if (!name || !email) return alert('Name and email required.');
+
+  const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+  const logged = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+  const idx = users.findIndex(u => u.email === logged.email);
+  if (idx !== -1) {
+    users[idx] = { ...users[idx], name, email, password: pass, pin };
+    localStorage.setItem('registeredUsers', JSON.stringify(users));
+    localStorage.setItem('loggedInUser', JSON.stringify(users[idx]));
+    userCircle.textContent = getInitials(name);
+    const f = getFirstName(name);
+    hiText.textContent = `Hi, ${f.charAt(0).toUpperCase() + f.slice(1)}`;
+    profileNotice.style.display = 'block';
+    profileNotice.style.color = '#0b0c10';
+    profileNotice.style.background = '#fcd535';
+    profileNotice.textContent = 'Profile updated successfully!';
+    setTimeout(()=>profileNotice.style.display='none',2000);
+  }
+};
+
+/* Logout */
+logoutBtn.onclick = () => {
+  localStorage.removeItem('loggedInUser');
+  location.reload();
+};
+
+/* Keep logged in */
+(function(){
+  const user = JSON.parse(localStorage.getItem('loggedInUser')||'{}');
+  if(user.email){
+    document.querySelector('h1').style.display='none';
+    document.querySelector('.logo-box').style.display='none';
+    loginForm.style.display='none';
+    dashboard.style.display='block';
+    userCircle.textContent=getInitials(user.name);
+    const f=getFirstName(user.name);
+    hiText.textContent=`Hi, ${f.charAt(0).toUpperCase()+f.slice(1)}`;
+    hiText.style.display='block';
   }
 })();
-
-/* When dashboard becomes visible after login, show hi text */
-const observer = new MutationObserver(() => {
-  if (dashboard.style.display === 'block') {
-    hiText.style.display = 'block';
-  }
-});
-observer.observe(dashboard, { attributes: true, attributeFilter: ['style'] });
 </script>
-
 </body>
 </html>
