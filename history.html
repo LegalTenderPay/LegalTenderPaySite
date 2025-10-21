@@ -76,6 +76,7 @@
   .date, .recipient, .serial {
     font-size: 0.85rem;
     color: #aaa;
+    margin: 2px 0;
   }
 
   .empty {
@@ -122,9 +123,10 @@
       const div = document.createElement('div');
       div.className = 'transaction';
 
-      // Display amount as negative in red if it's a Send
+      // Determine amount formatting
       const displayAmount = tx.type === 'Send' ? -Math.abs(tx.amount) : tx.amount;
       const amountClass = displayAmount < 0 ? 'negative' : 'positive';
+      const formattedAmount = displayAmount < 0 ? `-$${Math.abs(displayAmount)}` : `$${displayAmount}`;
 
       div.innerHTML = `
         <div>
@@ -134,7 +136,7 @@
           <div class="serial"><strong>Serial Code:</strong> ${tx.serial}</div>
         </div>
         <div class="amount ${amountClass}">
-          $${displayAmount}
+          ${formattedAmount}
         </div>
       `;
       historyList.appendChild(div);
