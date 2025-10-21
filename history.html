@@ -25,6 +25,11 @@
     color: #fff;
     cursor: pointer;
     user-select: none;
+    transition: color 0.2s;
+  }
+
+  .back-arrow:hover {
+    color: #fcd535;
   }
 
   h1 {
@@ -107,14 +112,15 @@
   const historyList = document.getElementById('historyList');
   const emptyNotice = document.getElementById('emptyNotice');
 
+  // BACK ARROW FUNCTIONALITY
   backBtn.onclick = () => {
-    window.location.href = "dashboard.html"; // link back to dashboard
+    window.location.replace("dashboard.html"); // redirect to dashboard
   };
 
   function loadTransactions() {
     const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
     if (!user.email) {
-      window.location.href = "login.html";
+      window.location.replace("login.html");
       return;
     }
 
