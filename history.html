@@ -107,14 +107,8 @@
   const historyList = document.getElementById('historyList');
   const emptyNotice = document.getElementById('emptyNotice');
 
-  // Back arrow goes to the post-login page
   backBtn.onclick = () => {
-      const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
-      if (user.postLoginPage) {
-          window.location.href = user.postLoginPage;
-      } else {
-          window.location.href = "index.html"; // fallback
-      }
+    window.location.href = "dashboard.html"; // link back to dashboard
   };
 
   function loadTransactions() {
@@ -136,11 +130,6 @@
     txs.forEach(tx => {
       const div = document.createElement('div');
       div.className = 'transaction';
-
-      // Amount is negative for Send, positive for others
-      const displayAmount = tx.type === 'Send' ? -Math.abs(tx.amount) : tx.amount;
-      const amountClass = displayAmount < 0 ? 'negative' : 'positive';
-
       div.innerHTML = `
         <div>
           <div class="type">${tx.type}</div>
@@ -149,8 +138,8 @@
           <div class="serial"><strong>Serial Code:</strong> ${tx.serial}</div>
           <div class="status">${tx.status || 'Pending'}</div>
         </div>
-        <div class="amount ${amountClass}">
-          ${displayAmount}
+        <div class="amount ${tx.amount >= 0 ? 'positive' : 'negative'}">
+          ${tx.amount >= 0 ? '+' : ''}${tx.amount}
         </div>
       `;
       historyList.appendChild(div);
