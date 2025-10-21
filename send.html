@@ -126,10 +126,11 @@
 const amountDisplay = document.getElementById('amountDisplay');
 let currentAmount = '';
 
+// Keypad logic
 const keypadButtons = document.querySelectorAll('.keypad button[data-num]');
 keypadButtons.forEach(btn => {
   btn.onclick = () => {
-    if (currentAmount.length < 9) { // prevent overly long amounts
+    if (currentAmount.length < 9) {
       currentAmount += btn.getAttribute('data-num');
       updateDisplay();
     }
@@ -150,19 +151,19 @@ function updateDisplay() {
   amountDisplay.textContent = currentAmount ? `$${currentAmount}` : '$0';
 }
 
-// generate serial code
+// Generate serial code
 const serialCodeEl = document.getElementById('serialCode');
 function generateSerial() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let code = '';
-  for (let i=0; i<6; i++) {
-    code += chars[Math.floor(Math.random()*chars.length)];
+  for (let i = 0; i < 6; i++) {
+    code += chars[Math.floor(Math.random() * chars.length)];
   }
   serialCodeEl.textContent = code;
 }
 generateSerial();
 
-// continue button
+// Continue button logic
 document.getElementById('continueBtn').onclick = () => {
   const recipient = document.getElementById('recipient').value.trim();
   const amount = parseFloat(currentAmount);
@@ -175,25 +176,19 @@ document.getElementById('continueBtn').onclick = () => {
   const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
   if (!user.email) return alert('No logged-in user.');
 
-  // save transaction
-  const allTransactions = JSON.parse(localStorage.getItem('transactions') || '{}');
-  const userTransactions = allTransactions[user.email] || [];
-  userTransactions.push({
-    type: 'Send',
+  // Save pending transaction and redirect to summary
+  const pendingTransaction = {
     recipient,
     amount,
     serial: serialCodeEl.textContent,
     date: new Date().toISOString()
-  });
-  allTransactions[user.email] = userTransactions;
-  localStorage.setItem('transactions', JSON.stringify(allTransactions));
+  };
+  localStorage.setItem('pendingTransaction', JSON.stringify(pendingTransaction));
 
-  // confirmation
-  const confirmation = document.getElementById('confirmation');
-  confirmation.style.display = 'block';
-  confirmation.textContent = `Successfully sent $${amount}!`;
+  // Redirect to summary page
+  window.location.href = "summary.html";
 
-  // reset
+  // Reset values locally (optional)
   currentAmount = '';
   updateDisplay();
   document.getElementById('recipient').value = '';
