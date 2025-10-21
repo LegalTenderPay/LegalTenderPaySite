@@ -50,6 +50,7 @@
     align-items: center;
     padding: 12px 10px;
     border-bottom: 1px solid #333;
+    cursor: pointer;
   }
 
   .transaction:last-child {
@@ -79,6 +80,20 @@
     margin: 2px 0;
   }
 
+  .copied {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fcd535;
+    color: #0b0c10;
+    padding: 8px 16px;
+    border-radius: 8px;
+    display: none;
+    font-weight: bold;
+    z-index: 1000;
+  }
+
   .empty {
     text-align: center;
     color: #888;
@@ -93,16 +108,24 @@
 
 <div class="history-container" id="historyList"></div>
 <div class="empty" id="emptyNotice">No transactions yet.</div>
+<div class="copied" id="copiedNotice">Copied!</div>
 
 <script>
   const backBtn = document.getElementById('backBtn');
   const historyList = document.getElementById('historyList');
   const emptyNotice = document.getElementById('emptyNotice');
+  const copiedNotice = document.getElementById('copiedNotice');
 
-  // Back arrow goes back to login page
   backBtn.onclick = () => {
     window.location.href = "login.html";
   };
+
+  function showCopied() {
+    copiedNotice.style.display = 'block';
+    setTimeout(() => {
+      copiedNotice.style.display = 'none';
+    }, 1500);
+  }
 
   function loadTransactions() {
     const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
@@ -124,19 +147,12 @@
       const div = document.createElement('div');
       div.className = 'transaction';
 
-      // Amount is negative for Send, positive for others
       const displayAmount = tx.type === 'Send' ? -Math.abs(tx.amount) : tx.amount;
       const amountClass = displayAmount < 0 ? 'negative' : 'positive';
       const formattedAmount = displayAmount < 0 ? `-$${Math.abs(displayAmount)}` : `$${displayAmount}`;
-
-      // Format date nicely
       const formattedDate = new Date(tx.date).toLocaleString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
+        year: 'numeric', month: 'short', day: 'numeric',
+        hour: '2-digit', minute: '2-digit', hour12: true
       });
 
       div.innerHTML = `
@@ -150,6 +166,13 @@
           ${formattedAmount}
         </div>
       `;
+
+      // Click to copy transaction
+      div.addEventListener('click', () => {
+        const textToCopy = `Type: ${tx.type}\nAmount: ${formattedAmount}\nRecipient: ${tx.recipient}\nSerial: ${tx.serial}\nDate: ${formattedDate}`;
+        navigator.clipboard.writeText(textToCopy).then(showCopied);
+      });
+
       historyList.appendChild(div);
     });
   }
