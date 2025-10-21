@@ -25,11 +25,6 @@
     color: #fff;
     cursor: pointer;
     user-select: none;
-    transition: color 0.2s;
-  }
-
-  .back-arrow:hover {
-    color: #fcd535;
   }
 
   h1 {
@@ -112,15 +107,15 @@
   const historyList = document.getElementById('historyList');
   const emptyNotice = document.getElementById('emptyNotice');
 
-  // BACK ARROW FUNCTIONALITY
+  // Back button goes to dashboard
   backBtn.onclick = () => {
-    window.location.replace("dashboard.html"); // redirect to dashboard
+    window.location.href = "dashboard.html";
   };
 
   function loadTransactions() {
     const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
     if (!user.email) {
-      window.location.replace("login.html");
+      window.location.href = "login.html";
       return;
     }
 
@@ -136,6 +131,11 @@
     txs.forEach(tx => {
       const div = document.createElement('div');
       div.className = 'transaction';
+
+      // Amount is negative for Send, positive for others
+      const displayAmount = tx.type === 'Send' ? -Math.abs(tx.amount) : tx.amount;
+      const amountClass = displayAmount < 0 ? 'negative' : 'positive';
+
       div.innerHTML = `
         <div>
           <div class="type">${tx.type}</div>
@@ -144,8 +144,8 @@
           <div class="serial"><strong>Serial Code:</strong> ${tx.serial}</div>
           <div class="status">${tx.status || 'Pending'}</div>
         </div>
-        <div class="amount ${tx.amount >= 0 ? 'positive' : 'negative'}">
-          ${tx.amount >= 0 ? '+' : ''}${tx.amount}
+        <div class="amount ${amountClass}">
+          ${displayAmount}
         </div>
       `;
       historyList.appendChild(div);
