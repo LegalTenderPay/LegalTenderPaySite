@@ -74,8 +74,8 @@
 
 <script src="https://js.paystack.co/v1/inline.js"></script>
 <script>
-  // Conversion rate (1 USD → NGN)
-  const USD_TO_NGN = 100;
+  // ✅ Updated conversion rate (1 USD → NGN)
+  const USD_TO_NGN = 1475;
 
   // Load pending transaction from localStorage
   const pendingTransaction = JSON.parse(localStorage.getItem('pendingTransaction') || '{}');
@@ -91,7 +91,9 @@
 
   const payButton = document.getElementById('payButton');
   payButton.onclick = () => {
-    const amountInNGN = pendingTransaction.amount * USD_TO_NGN * 100; // Paystack expects kobo
+    // Ensure amount is treated as a number before conversion
+    const usdAmount = parseFloat(pendingTransaction.amount);
+    const amountInNGN = usdAmount * USD_TO_NGN * 100; // Paystack expects kobo
 
     const handler = PaystackPop.setup({
       key: 'pk_live_05d5fe8301b202427f3d3a9b26059269ddd1c00f',
@@ -109,7 +111,7 @@
         userTransactions.push({
           type: 'Send',
           recipient: pendingTransaction.recipient,
-          amount: pendingTransaction.amount, // keep USD in history
+          amount: usdAmount, // keep USD in history
           serial: pendingTransaction.serial,
           date: new Date().toISOString(),
           status: "Transaction Successful. Ready to be Claimed.",
