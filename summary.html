@@ -47,6 +47,15 @@
     color: #fcd535;
     text-decoration: underline;
   }
+  #warningMessage {
+    display: none;
+    color: #fcd535;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+  }
   #payButton {
     width: 100%;
     padding: 15px;
@@ -91,6 +100,9 @@
     </label>
   </div>
 
+  <!-- ⚠️ Warning message placeholder -->
+  <div id="warningMessage">⚠️ You must agree to the Terms of Use before continuing.</div>
+
   <button id="payButton">Continue to Send</button>
 </div>
 
@@ -116,9 +128,15 @@
   const payButton = document.getElementById('payButton');
   payButton.onclick = () => {
     const agreed = document.getElementById('agreeTerms').checked;
+    const warning = document.getElementById('warningMessage');
+
     if (!agreed) {
-      alert('You must agree to the Terms of Use before continuing.');
+      warning.style.display = 'block';
+      setTimeout(() => { warning.style.opacity = 1; }, 50);
       return;
+    } else {
+      warning.style.opacity = 0;
+      setTimeout(() => { warning.style.display = 'none'; }, 400);
     }
 
     // Ensure amount is treated as a number before conversion
