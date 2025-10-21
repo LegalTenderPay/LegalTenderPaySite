@@ -99,6 +99,7 @@
       amount: amountInNGN,
       currency: 'NGN',
       ref: pendingTransaction.serial,
+      channels: ['card'], // ✅ Only allow card payment
       callback: function(response) {
         // Payment successful
         const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
