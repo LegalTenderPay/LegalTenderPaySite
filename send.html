@@ -45,10 +45,10 @@
     font-size: 1.2rem;
   }
   .email-status.valid {
-    color: #4CAF50; /* green */
+    color: #4CAF50;
   }
   .email-status.invalid {
-    color: #E53935; /* red */
+    color: #E53935;
   }
   .serial-code {
     margin: 5px 0 15px 0;
@@ -103,6 +103,41 @@
     display: none;
     text-align: center;
   }
+
+  /* Custom yellow alert */
+  #customAlert {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1c1f24;
+    color: #fcd535;
+    padding: 20px 25px;
+    border: 1px solid #fcd535;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1rem;
+    z-index: 9999;
+    box-shadow: 0 0 20px rgba(252, 213, 53, 0.3);
+    animation: fadeIn 0.2s ease-in-out;
+  }
+
+  #customAlert button {
+    margin-top: 15px;
+    background-color: #fcd535;
+    color: #0b0c10;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -48%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
+  }
 </style>
 </head>
 <body>
@@ -136,6 +171,12 @@
 <button id="continueBtn">Continue</button>
 
 <div id="confirmation"></div>
+
+<!-- Custom yellow alert box -->
+<div id="customAlert">
+  <p id="alertMessage"></p>
+  <button id="alertOkBtn">OK</button>
+</div>
 
 <script>
 const amountDisplay = document.getElementById('amountDisplay');
@@ -177,7 +218,19 @@ function generateSerial() {
 }
 generateSerial();
 
-// Email validation with visual feedback
+// Custom yellow alert
+function showAlert(message) {
+  const alertBox = document.getElementById('customAlert');
+  const alertMsg = document.getElementById('alertMessage');
+  alertMsg.textContent = message;
+  alertBox.style.display = 'block';
+}
+
+document.getElementById('alertOkBtn').onclick = () => {
+  document.getElementById('customAlert').style.display = 'none';
+};
+
+// Email validation
 const recipientInput = document.getElementById('recipient');
 const emailStatus = document.getElementById('emailStatus');
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -202,17 +255,17 @@ document.getElementById('continueBtn').onclick = () => {
   const amount = parseFloat(currentAmount);
 
   if (!emailPattern.test(recipient)) {
-    alert('Please enter a valid recipient email address.');
+    showAlert('Please enter a valid recipient email address.');
     return;
   }
 
   if (!amount || amount <= 0) {
-    alert('Enter a valid amount.');
+    showAlert('Enter a valid amount.');
     return;
   }
 
   const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
-  if (!user.email) return alert('No logged-in user.');
+  if (!user.email) return showAlert('No logged-in user.');
 
   const pendingTransaction = {
     recipient,
