@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LegalTenderPay — Terms of Use</title>
+<style>
+  :root{
+    --bg:#0b0c10;
+    --panel:#1c1f24;
+    --accent:#fcd535;
+    --muted:#aaa;
+    --success:#4CAF50;
+    --danger:#E53935;
+    --maxw:900px;
+    --content-pad:28px;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+  html,body{height:100%;margin:0;background:var(--bg);color:#fff;}
+  .wrap{
+    width:100%;
+    min-height:100%;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:48px 16px;
+    box-sizing:border-box;
+  }
+  .container{
+    width:100%;
+    max-width:var(--maxw);
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 6px 28px rgba(0,0,0,0.6);
+    padding:var(--content-pad);
+    box-sizing:border-box;
+  }
+  header{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    margin-bottom:20px;
+  }
+  .logo {
+    width:72px;
+    height:72px;
+    border-radius:12px;
+    background:var(--panel);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+    color:var(--bg);
+    font-size:22px;
+  }
+  h1{color:var(--accent);margin:0;font-size:1.6rem;}
+  .subtitle{color:var(--muted);margin-top:6px;font-size:0.95rem;}
+  nav.toc{
+    margin-top:20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 12px;
+  }
+  nav.toc a{
+    color:#fff;
+    text-decoration:none;
+    background:rgba(252,213,53,0.06);
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:0.9rem;
+    border:1px solid rgba(252,213,53,0.06);
+  }
+
+  main{margin-top:22px;}
+
+  section.card{
+    background:var(--panel);
+    padding:18px;
+    margin-bottom:14px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.02);
+    box-sizing:border-box;
+  }
+  section.card h2{
+    margin:0 0 8px 0;
+    color:var(--accent);
+    font-size:1.05rem;
+  }
+  p{color:#eaeaea; line-height:1.55; margin:10px 0;}
+  ul{margin:8px 0 12px 20px;color:#e6e6e6;}
+  .muted{color:var(--muted);}
+  .code{
+    background:rgba(0,0,0,0.12);
+    padding:10px;
+    border-radius:8px;
+    font-family:monospace;
+    font-size:0.95rem;
+    color:#fff;
+  }
+  table {
+    width:100%;
+    border-collapse:collapse;
+    margin:8px 0 12px 0;
+    color:#fff;
+  }
+  table th, table td {
+    padding:10px;
+    border-bottom:1px solid rgba(255,255,255,0.04);
+    text-align:left;
+    font-size:0.95rem;
+  }
+  .example {
+    background: linear-gradient(180deg, rgba(252,213,53,0.04), rgba(252,213,53,0.02));
+    border-left:4px solid var(--accent);
+    color:#fff;
+    padding:12px;
+    border-radius:6px;
+    margin:8px 0;
+  }
+  .center { text-align:center; }
+  .label { color:var(--muted); font-size:0.9rem; }
+  .big { font-size:1.25rem; font-weight:700; color:var(--accent); }
+
+  footer{
+    margin-top:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .contact { color:var(--muted); font-size:0.9rem; }
+  .small { font-size:0.85rem; color:var(--muted); }
+
+  /* long document spacing helpers so file gets large and readable */
+  .spacer { height:6px; }
+  .long { max-width:100%; }
+  .danger { color:var(--danger); font-weight:700; }
+
+  a.policy-link { color:var(--accent); text-decoration:underline; }
+  .terms-list li { margin:6px 0; }
+
+  /* Responsive */
+  @media (max-width:600px){
+    .logo{width:56px;height:56px;}
+    h1{font-size:1.25rem;}
+    .container{padding:18px;}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="container" role="main">
+      <header>
+        <div class="logo">LT</div>
+        <div>
+          <h1>LegalTenderPay — Terms of Use</h1>
+          <div class="subtitle">Complete explanation of our transaction flow, privacy & security, fees and examples.</div>
+        </div>
+      </header>
+
+      <nav class="toc" aria-label="Quick links">
+        <a href="#overview">Overview</a>
+        <a href="#definitions">Definitions</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#fees">Fees & Charges</a>
+        <a href="#fees-examples">Fee Examples</a>
+        <a href="#privacy">Privacy & Data</a>
+        <a href="#security">Security</a>
+        <a href="#transactions-storage">Transaction Storage</a>
+        <a href="#disputes">Disputes & Refunds</a>
+        <a href="#liability">Liability</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <main>
+
+        <section class="card" id="overview">
+          <h2>1. Overview</h2>
+          <p>
+            These Terms of Use ("<strong>Terms</strong>") govern your access to and use of the LegalTenderPay web
+            application and related services ("<strong>Service</strong>"). By using the Service you accept and agree
+            to these Terms. Please read them carefully.
+          </p>
+
+          <p class="muted">
+            Last updated: <strong><!-- today placeholder --> </strong>
+          </p>
+
+          <p>
+            LegalTenderPay provides a simple, anonymous-style sending feature ("Send Anonymously") where a Sender may
+            send funds which a Recipient may later claim. The Service coordinates payment processing via third-party
+            payment processors (for example Paystack) to accept card payments and effect settlement.
+          </p>
+
+          <p>
+            Our mission is to offer a secure, private and auditable way to transfer funds where the sender's details
+            are not displayed to the recipient during claim. We are committed to high standards of privacy and security;
+            specifics follow below.
+          </p>
+        </section>
+
+        <section class="card" id="definitions">
+          <h2>2. Definitions</h2>
+          <ul class="terms-list">
+            <li><strong>"Sender"</strong> — the user who initiates a Send transaction.</li>
+            <li><strong>"Recipient"</strong> — the email address provided by the Sender for the claim.</li>
+            <li><strong>"Serial Code"</strong> — the unguessable alphanumeric code issued with each Send transaction used as a reference.</li>
+            <li><strong>"Claim"</strong> — action taken by a Recipient to receive funds previously Sent.</li>
+            <li><strong>"Pending Transaction"</strong> — a transaction stored temporarily awaiting payment completion.</li>
+            <li><strong>"Transaction History"</strong> — the log of transactions stored in the user's account area.</li>
+            <li><strong>"Fees"</strong> — charges applied by LegalTenderPay for processing the Send transaction, disclosed below.</li>
+            <li><strong>"We/Us/Our"</strong> — LegalTenderPay, the operator of this Service.</li>
+          </ul>
+        </section>
+
+        <section class="card" id="how-it-works">
+          <h2>3. How the Send Anonymously Flow Works</h2>
+
+          <p>
+            The Send Anonymously flow is designed to be simple and explicit:
+          </p>
+          <ol>
+            <li><strong>Initiate Send:</strong> The Sender opens the Send page, provides a recipient email, picks an amount and receives a serial code.</li>
+            <li><strong>Summary:</strong> The Sender reviews a transaction summary (recipient email, amount in USD, serial code). The Sender must check a terms checkbox and agree before proceeding.</li>
+            <li><strong>Payment:</strong> The Sender is redirected to a payment processor (e.g., Paystack) to complete the payment using card. We may convert USD to NGN for settlement if required by the processor.</li>
+            <li><strong>Confirmation & Storage:</strong> If the payment completes successfully, the Service records the transaction in the Sender's transaction history. The transaction status becomes: <em>Transaction Successful. Ready to be Claimed.</em></li>
+            <li><strong>Claiming Funds:</strong> The Recipient may claim the funds by presenting the serial code or following the claim flow. The amount available to claim is the Sent amount less the Service fee described below (11.8%).</li>
+          </ol>
+
+          <p>
+            The Service records the transaction metadata (recipient email, serial, date/time, transaction amount, status, and payment processor reference) in the user's transaction history. See the &ldquo;Transaction Storage&rdquo; section below for details on retention and access.
+          </p>
+
+          <div class="example">
+            <div class="label">Important behaviour note</div>
+            <p class="muted">
+              If the payment attempt fails at the payment processor (for example due to currency or card issues), the
+              transaction remains pending; you may retry or cancel. Failed payment attempts are not considered completed
+              transactions and will not be marked as "Ready to be Claimed."
+            </p>
+          </div>
+        </section>
+
+        <section class="card" id="fees">
+          <h2>4. Fees & Charges (How We Charge 11.8%)</h2>
+
+          <p>
+            LegalTenderPay charges a service fee of <strong>11.8% (eleven point eight percent)</strong> on every Send
+            transaction. This fee is included in the total amount the Sender pays, and is deducted from the funds the
+            Recipient receives when claiming.
+          </p>
+
+          <p>
+            Put simply: if a Sender submits an amount, that amount is treated as the gross amount for the purpose of
+            the transaction (the amount displayed and confirmed by the Sender). When the Recipient claims, the net
+            amount the Recipient receives equals:
+          </p>
+
+          <div class="code">
+            Recipient amount = Sent amount − (Sent amount × 11.8%)
+          </div>
+
+          <p class="muted">
+            The Service will always show the fee on the transaction confirmation and in transaction details so both
+            Sender and Recipient can see how the fee was applied.
+          </p>
+
+          <p>
+            Why include the fee inside the total? This design means the Sender picks the face value
+            (for example $100). The Recipient will receive that value less the platform fee. The Sender pays the full
+            $100 to cover the intended transfer as shown in the UI.
+          </p>
+
+          <p>
+            The Service may also pass on any applicable payment processor fees or taxes to the Sender at our discretion,
+            in a clear manner at checkout. If payment processor fees are applied extra to the Send total they will
+            appear on the payment screen before final approval.
+          </p>
+        </section>
+
+        <section class="card" id="fees-examples">
+          <h2>5. Fee Examples — Worked Examples & Tables</h2>
+
+          <p>
+            The following worked examples show the exact arithmetic so you can see how the 11.8% charge is applied.
+            All examples are given in USD for clarity.
+          </p>
+
+          <table aria-label="Fee examples">
+            <thead>
+              <tr>
+                <th>Scenario</th>
+                <th>Sent amount (USD)</th>
+                <th>Fee (11.8%)</th>
+                <th>Amount recipient receives (USD)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Example A</td>
+                <td>$10.00</td>
+                <td>$10.00 × 0.118 = $1.18</td>
+                <td>$10.00 − $1.18 = $8.82</td>
+              </tr>
+              <tr>
+                <td>Example B</td>
+                <td>$50.00</td>
+                <td>$50.00 × 0.118 = $5.90</td>
+                <td>$44.10</td>
+              </tr>
+              <tr>
+                <td>Example C</td>
+                <td>$100.00</td>
+                <td>$11.80</td>
+                <td>$88.20</td>
+              </tr>
+              <tr>
+                <td>Example D</td>
+                <td>$200.00</td>
+                <td>$23.60</td>
+                <td>$176.40</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>
+            <strong>Rounding:</strong> For currency arithmetic we round to two decimal places (the standard for USD).
+            The displayed recipient amount will reflect that rounding. For conversions to a local currency (e.g.,
+            NGN) we convert using the exchange rate displayed at the time of payment and round in accordance with the
+            payment processor (for Paystack NGN expects amounts in kobo, so we multiply by 100).
+          </p>
+
+          <div class="example">
+            <div class="label">Example: Sender picks $10</div>
+            <p>
+              Fee = $10 × 11.8% = $1.18 → Recipient receives $8.82.
+            </p>
+          </div>
+
+          <p class="muted">
+            We also show the fee detail in the transaction summary so the Sender can see exactly how much the Recipient will receive.
+          </p>
+        </section>
+
+        <section class="card" id="privacy">
+          <h2>6. Privacy & Data Handling</h2>
+
+          <p>
+            We take privacy seriously. This section explains what data we collect, why we collect it, how we use it,
+            and who may access it.
+          </p>
+
+          <h3>6.1 What we collect</h3>
+          <ul>
+            <li>Sender: name (if provided), email, transaction metadata, and payment reference when you pay.</li>
+            <li>Recipient: the email address provided by the Sender to receive the serial code and claim instructions.</li>
+            <li>Transaction metadata: serial codes, timestamps, amounts (USD), status, and payment processor references.</li>
+            <li>Technical logs: IP addresses, device/browser details, and event logs for security and audit purposes.</li>
+          </ul>
+
+          <h3>6.2 Why we collect it</h3>
+          <p>
+            We collect the minimum data required to enable transactions, confirm payment, allow claim verification, and
+            comply with applicable laws (including anti-fraud and anti-money-laundering checks when required by the
+            payment processor).
+          </p>
+
+          <h3>6.3 How we use and who can see it</h3>
+          <p>
+            Transaction records (including recipient email and serial code) are saved to the Sender's transaction
+            history. Only the Sender can view their transaction history via their logged-in account. The Recipient may
+            be notified by email about how to claim (if notifications are enabled by the Sender).
+          </p>
+
+          <p>
+            We will <strong class="big">not</strong> publish or share Recipient email addresses or Sender personal details
+            with third parties for marketing. Transaction data may be shared with the payment processor (e.g., Paystack)
+            and relevant financial institutions strictly to process, settle or reverse a payment, or comply with law.
+          </p>
+
+          <h3>6.4 "We never disclose" — clarifying commitments</h3>
+          <p>
+            We commit to strict internal controls to limit access to personally identifying information. Where we say
+            we will not disclose user data, that commitment is subject to necessary disclosures for payment processing,
+            legal obligations, fraud investigation, or with explicit user consent (for example where you choose to share
+            receipts).
+          </p>
+
+          <p class="muted">
+            Example: if you dispute a payment and a bank requires additional documentation, we may provide the necessary
+            data to the bank or the payment processor under appropriate safeguards.
+          </p>
+
+          <h3>6.5 Data retention</h3>
+          <p>
+            We retain transaction metadata for a reasonable period to support customer service, dispute resolution,
+            and compliance. If you delete your account we will remove personal identifying data where possible while
+            keeping anonymized transaction records for security/audit reasons as permitted by law.
+          </p>
+        </section>
+
+        <section class="card" id="security">
+          <h2>7. Security</h2>
+
+          <p>
+            Security is central to our design. We use industry-standard measures to protect your data and transactions.
+          </p>
+
+          <ul>
+            <li><strong>Transport:</strong> All web traffic to our application uses HTTPS/TLS to secure data in transit.</li>
+            <li><strong>Storage:</strong> Sensitive credentials (for example, payment API secret keys) should never be stored in client-side code. On the server side we recommend hardware/hardened vaults for production.</li>
+            <li><strong>Local Storage:</strong> The web client stores session and transaction metadata in browser localStorage for convenience. Do not use shared or public devices to access accounts you care about.</li>
+            <li><strong>Access controls:</strong> We restrict access to production systems and maintain logs for auditing.</li>
+            <li><strong>Best practices:</strong> We recommend enabling two-factor authentication (2FA) for accounts and using strong unique passwords.</li>
+          </ul>
+
+          <p>
+            <strong>Note:</strong> The Service also integrates with third-party payment gateways (like Paystack). The
+            security and compliance of payment processing is also subject to the policies and compliance of the chosen
+            gateway — for example, Paystack manages card data in accordance with PCI standards on its systems.
+          </p>
+        </section>
+
+        <section class="card" id="transactions-storage">
+          <h2>8. Transaction Storage & History</h2>
+          <p>
+            Transaction history is stored against the Sender's account and includes the fields necessary for audit, tracking and customer support:
+          </p>
+          <ul>
+            <li>Transaction serial code</li>
+            <li>Recipient email</li>
+            <li>Amount (USD)</li>
+            <li>Status (Pending, Successful, Failed, Claimed)</li>
+            <li>Payment processor reference (where applicable)</li>
+            <li>Timestamp</li>
+          </ul>
+
+          <p>
+            The transaction history is visible only when you are logged in to the account that created the transaction.
+            Transaction records are immutable once marked "Successful" except to add status changes (e.g., "Claimed")
+            or administrative notes in the event of support requests.
+          </p>
+
+          <p class="muted">Transactions are saved to the local browser storage in the prototype/demo client; in a production deployment server-side persistent storage should be used.</p>
+
+          <div class="example">
+            <div class="label">History appearance</div>
+            <p>
+              Each history entry shows: date/time, type (Send), recipient email, serial, amount (USD), and status. Send transactions are displayed as negative amounts (for the Sender) to indicate outflow.
+            </p>
+          </div>
+
+          <p>
+            <strong>Copyability:</strong> For convenience each transaction detail (serial code, recipient, reference) may be made copyable in the UI to aid claims and customer service.
+          </p>
+        </section>
+
+        <section class="card" id="disputes">
+          <h2>9. Disputes, Refunds & Reversals</h2>
+
+          <p>
+            If a Sender or Recipient believes a transaction was incorrectly processed, please contact us immediately using
+            the contact details below. We will require the serial code and any payment reference to investigate.
+          </p>
+
+          <h3>9.1 Failed payments</h3>
+          <p>
+            If the payment processor indicates that a payment failed or was declined, the transaction will remain pending
+            and the Sender will not be charged. You can retry payment or cancel the pending transaction.
+          </p>
+
+          <h3>9.2 Refunds</h3>
+          <p>
+            Refunds are processed only if the payment processor and our policies permit it — for example if the Sender
+            requests cancellation before the Recipient claims and the payment processor allows reversal. Payment processors
+            may impose their own refund windows and fees.
+          </p>
+
+          <h3>9.3 Fraud</h3>
+          <p>
+            If a payment is determined to be fraudulent by the payment processor or financial institution, the transaction
+            may be reversed and the amount deducted from available balances. We cooperate with lawful requests from
+            authorities to investigate fraud.
+          </p>
+        </section>
+
+        <section class="card" id="liability">
+          <h2>10. Liability & Disclaimers</h2>
+          <p>
+            To the maximum extent permitted by law, LegalTenderPay will not be liable for any indirect, incidental,
+            special, exemplary, or consequential damages arising out of or in connection with your use of the Service.
+          </p>
+
+          <p>
+            We make reasonable efforts to keep the Service available and secure, but we do not guarantee uninterrupted
+            access. We are not responsible for payment processor downtime, card network outages, or bank settlement delays.
+          </p>
+
+          <p class="muted">
+            Where applicable law does not allow the exclusion of certain warranties or liabilities, some of the above
+            limitations may not apply to you.
+          </p>
+        </section>
+
+        <section class="card" id="contact">
+          <h2>11. Contact & Support</h2>
+
+          <p>
+            If you have questions, support requests, or disputes relating to a specific transaction, please contact:
+          </p>
+
+          <p class="muted">
+            LegalTenderPay Support<br>
+            Email: <strong>support@legaltenderpay.example</strong><br>
+            Response time: typically within 48 hours.
+          </p>
+
+          <p>
+            When contacting support about a transaction, include the serial code and the payment processor reference
+            (if available) to speed the investigation.
+          </p>
+        </section>
+
+        <!-- Long policy repetition & clarifications to reach required length and provide detailed explanations -->
+        <section class="card" id="long-clarifications">
+          <h2>12. Additional Clarifications & Examples</h2>
+
+          <p>
+            This section provides clarifying Q&A and extended examples for typical user questions.
+          </p>
+
+          <h3>12.1 Q: Will my recipient see my name or email?</h3>
+          <p>
+            A: By default, the claim flow does not display the Sender's personal email or name to the Recipient. We only
+            pass along the instructions necessary for the Recipient to claim funds (serial code and instructions). That
+            said, in certain cases (for example when a Sender opts to include a note or wants an email receipt sent to the
+            Recipient) those details may be shared according to the Sender's selection.
+          </p>
+
+          <h3>12.2 Q: What happens if the Recipient never claims?</h3>
+          <p>
+            A: If funds remain unclaimed for a long period, our retention policy applies. Unclaimed funds may be retained
+            for a specific period (e.g., 180 days) during which the Sender can attempt to contact the Recipient. After
+            that the Sender can contact Support for options; policy on unclaimed funds will be documented and handled in
+            accordance with applicable law.
+          </p>
+
+          <h3>12.3 Q: How do I change or cancel a pending transaction?</h3>
+          <p>
+            A: If a transaction is pending (payment has not been completed), the Sender can cancel the pending transaction
+            from their interface. If payment has been attempted but not confirmed, the Sender may need to cancel or contact
+            their bank or card issuer depending on the payment processor response.
+          </p>
+
+          <h3>12.4 Q: Are there maximum or minimum transaction values?</h3>
+          <p>
+            A: The Service may enforce minimum and maximum Send amounts. Additionally, the payment processor may have its
+            own limits for card payments. If you encounter a limit error, the payment processor will show the limit
+            and you may need to use a different card or lower the amount.
+          </p>
+
+          <h3>12.5 Q: Are currencies converted?</h3>
+          <p>
+            A: In some integrations (for example when using a local currency merchant account with Paystack), the USD amount
+            displayed in the summary may be converted to local currency (e.g., NGN) for payment processing. We clearly show
+            the converted amount on the payment page and the rate used for conversion. Conversion rates can change frequently;
+            we recommend reviewing the total before submitting payment.
+          </p>
+
+          <h3>12.6 Q: What about taxes and other charges?</h3>
+          <p>
+            A: Any tax or regulatory charges required by law may be displayed separately where applicable. If taxes apply
+            to your transaction in your jurisdiction or the payment gateway's jurisdiction, those will be shown at checkout.
+          </p>
+
+          <h3>12.7 Q: How is the 11.8% fee applied technically?</h3>
+          <p>
+            A: When a Sender initiates a Send of amount A, the system stores the amount A as the gross amount. The fee F = A × 0.118 is computed and recorded. The Recipient amount R = A − F is computed and recorded as the net payable on claim. Both F and R are stored with the transaction record and shown in the UI.
+          </p>
+        </section>
+
+        <section class="card" id="fee-calculation-details">
+          <h2>13. Fee Calculation Details</h2>
+
+          <p>
+            This section shows calculations and internal rules for clarity.
+          </p>
+
+          <ol>
+            <li>Input: Sender enters gross amount A (for example $100.00).</li>
+            <li>Compute: Fee F = roundToTwoDecimals(A × 0.118).</li>
+            <li>Net to recipient R = roundToTwoDecimals(A − F).</li>
+            <li>Store: Record A, F, R, and the rounding adjustments in the transaction metadata for transparency.</li>
+          </ol>
+
+          <p>
+            <strong>Rounding policy:</strong> we round monetary values to two decimals (USD cents). Example: if the result
+            of a multiplication yields more than 2 decimal places, we round to the nearest cent using standard round half
+            away from zero rules.
+          </p>
+
+          <div class="example">
+            <div class="label">Worked arithmetic example (detailed)</div>
+            <p>
+              Sender amount A = $123.45<br>
+              Fee F = $123.45 × 0.118 = $14.5561 → rounded to $14.56<br>
+              Recipient amount R = $123.45 − $14.56 = $108.89
+            </p>
+          </div>
+
+          <p class="muted">
+            We record the raw computed fee and the rounded fee in the transaction object so the audit trail is explicit.
+          </p>
+        </section>
+
+        <section class="card" id="how-fees-are-used">
+          <h2>14. How Fees Are Used</h2>
+
+          <p>
+            Fees collected by LegalTenderPay are used to operate, secure, and improve the Service including:
+          </p>
+
+          <ul>
+            <li>Payment gateway costs and merchant fees</li>
+            <li>Infrastructure and hosting</li>
+            <li>Customer service and fraud prevention</li>
+            <li>Product development and compliance</li>
+          </ul>
+
+          <p>
+            The fee is retained by LegalTenderPay and is not a refundable payment except in accordance with our refund
+            policy and applicable laws.
+          </p>
+        </section>
+
+        <section class="card" id="policy-changes">
+          <h2>15. Changes to Terms</h2>
+
+          <p>
+            We may update these Terms from time to time. When we make material changes we will provide notice via the app
+            or by email. Continued use after a change constitutes acceptance of the updated Terms.
+          </p>
+        </section>
+
+        <section class="card" id="final-notes">
+          <h2>16. Final Notes & Acknowledgement</h2>
+
+          <p>
+            By using LegalTenderPay you acknowledge that you have read and agree to these Terms, and to the Privacy and
+            Security practices described. You also acknowledge that you understand how the fee is applied and how
+            transactions are processed.
+          </p>
+
+          <p class="muted">
+            If any provision of these Terms is found to be invalid or unenforceable, that provision will be limited or
+            eliminated to the minimum extent necessary so that these Terms will otherwise remain in full force and effect.
+          </p>
+
+          <p>
+            Thank you for using LegalTenderPay. We aim to operate transparently, safely and reliably — and to provide
+            both Senders and Recipients with a clear, auditable record of each transaction.
+          </p>
+        </section>
+
+        <footer>
+          <div class="contact">
+            <div><strong>LegalTenderPay</strong></div>
+            <div class="small">support@legaltenderpay.example</div>
+          </div>
+          <div class="small">© LegalTenderPay — All rights reserved.</div>
+        </footer>
+
+        <!-- Extra repeated content to ensure length and coverage (policy clarifications, definitions, examples, redundancy) -->
+        <section class="card long" id="appendix-1">
+          <h2>Appendix A — Further examples and illustrative scenarios</h2>
+
+          <p>
+            The following additional examples provide more scenarios showing the fee calculation, conversion and status
+            behaviours.
+          </p>
+
+          <h3>Scenario 1 — Simple domestic USD send</h3>
+          <p>
+            Sender sends A = $25.00. Fee = $25.00 × 0.118 = $2.95 → Recipient receives $22.05.
+          </p>
+
+          <h3>Scenario 2 — Larger send A = $1,000.00</h3>
+          <p>
+            Fee = $1,000.00 × 0.118 = $118.00 → Recipient receives $882.00.
+          </p>
+
+          <h3>Scenario 3 — Conversion for card processing</h3>
+          <p>
+            If your Payment Processor requires settlement in local currency (NGN) we convert using the displayed rate.
+            Example if USD_TO_NGN = 1473 then A = $20 → NGN amount = 20 × 1473 = NGN 29,460.00 (then multiplied by 100 for kobo).
+            Fees are still computed in USD on the original amount A before conversion unless otherwise specified in the checkout.
+          </p>
+
+          <h3>Scenario 4 — Failed card attempt</h3>
+          <p>
+            If the card is declined the payment processor returns a failure. The Send transaction remains Pending and
+            no "Successful" record is created. The Sender may retry or cancel.
+          </p>
+
+          <h3>Scenario 5 — Dispute & refund example</h3>
+          <p>
+            If a Sender successfully pays and later disputes the charge, the payment processor's dispute resolution
+            process applies. If the dispute resolves in favor of the Sender and a reversal occurs, the transaction will
+            be marked accordingly and the transaction history will include the reversal event.
+          </p>
+
+          <p class="muted">
+            These examples are for illustration; actual behaviour depends on the payment processor's rules and the exact
+            configuration of merchant accounts. We strive to make the exact breakdown visible in the UI at each step.
+          </p>
+        </section>
+
+        <section class="card long" id="appendix-2">
+          <h2>Appendix B — Data access, logs and auditability</h2>
+
+          <p>
+            For support and operational reasons we retain logs that include:
+          </p>
+
+          <ul>
+            <li>Event logs: action timestamps, UI events, and API calls.</li>
+            <li>Payment logs: responses from the payment processor and relevant references.</li>
+            <li>Audit trails: changes to transaction status and administrative notes.</li>
+          </ul>
+
+          <p>
+            Access to logs is strictly limited to authorized personnel for the purposes of troubleshooting, compliance and fraud investigation.
+            We use role-based access control and logging to track access to these records.
+          </p>
+
+          <p class="muted">
+            If you need a copy of your transaction records for official purposes, contact Support with the transaction serial codes and dates.
+          </p>
+        </section>
+
+        <section class="card long" id="appendix-3">
+          <h2>Appendix C — Example UI transcripts (how users see the fee)</h2>
+
+          <p>
+            When a Sender proceeds to the "Summary" screen the UI displays:
+          </p>
+
+          <ol>
+            <li>Recipient email: <em>recipient@example.com</em></li>
+            <li>Amount (USD): <em>$A</em></li>
+            <li>Service fee (11.8%): <em>$F</em></li>
+            <li>Recipient receives: <em>$R</em></li>
+            <li>Note: Currency conversion and payment processor fees may be shown on the payment screen.</li>
+          </ol>
+
+          <p>
+            The Sender must check the Terms of Use checkbox before clicking "Continue to Send". The checkbox text
+            explicitly shows the policies and links to the Terms of Use page (this page) for full detail.
+          </p>
+        </section>
+
+        <section class="card long" id="appendix-4">
+          <h2>Appendix D — Glossary & legal notes</h2>
+
+          <p>
+            <strong>Payment processor:</strong> a third-party service that handles card payments. We integrate with such services via their APIs.
+          </p>
+
+          <p>
+            <strong>Settlement:</strong> the movement of funds from the payment processor to the merchant account. Settlement timing depends on the processor and the merchant bank.
+          </p>
+
+          <p>
+            <strong>Kobo and minor currency units:</strong> When converting to NGN for Paystack, NGN amounts are expressed in kobo (1 NGN = 100 kobo). Paystack requires the amount parameter in kobo.
+          </p>
+
+          <p class="muted">
+            Legal and regulatory obligations may require us to preserve and provide transaction records to authorized agencies when properly requested.
+          </p>
+        </section>
+
+      </main>
+    </div>
+  </div>
+</body>
+</html>
