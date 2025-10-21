@@ -107,14 +107,14 @@
   const historyList = document.getElementById('historyList');
   const emptyNotice = document.getElementById('emptyNotice');
 
-  // Back button dynamically goes to post-login landing page
+  // Back arrow goes to the post-login page
   backBtn.onclick = () => {
-    const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
-    if (user.dashboardPage) {
-      window.location.href = user.dashboardPage;
-    } else {
-      window.location.href = "index.html"; // fallback
-    }
+      const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+      if (user.postLoginPage) {
+          window.location.href = user.postLoginPage;
+      } else {
+          window.location.href = "index.html"; // fallback
+      }
   };
 
   function loadTransactions() {
