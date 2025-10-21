@@ -101,6 +101,7 @@
     </label>
   </div>
 
+  <!-- ⚠️ Warning message placeholder -->
   <div id="warningMessage">⚠️ You must agree to the Terms of Use before continuing.</div>
 
   <button id="payButton">Continue to Send</button>
@@ -110,16 +111,17 @@
 
 <script src="https://js.paystack.co/v1/inline.js"></script>
 <script>
+  // Conversion rate (1 USD → NGN)
   const USD_TO_NGN = 1473;
 
+  // Load pending transaction
   const pendingTransaction = JSON.parse(localStorage.getItem('pendingTransaction') || '{}');
-  const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
-
   if (!pendingTransaction.recipient || !pendingTransaction.amount || !pendingTransaction.serial) {
     alert("No pending transaction found.");
     window.location.href = "dashboard.html";
   }
 
+  // Fill summary fields
   document.getElementById('recipientEmail').textContent = pendingTransaction.recipient;
   document.getElementById('transactionAmount').textContent = pendingTransaction.amount;
   document.getElementById('serialCode').textContent = pendingTransaction.serial;
@@ -139,18 +141,20 @@
     }
 
     const usdAmount = parseFloat(pendingTransaction.amount);
-    const amountInNGN = usdAmount * USD_TO_NGN * 100; 
+    const amountInNGN = usdAmount * USD_TO_NGN * 100; // Paystack expects kobo
+    const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
 
     const handler = PaystackPop.setup({
       key: 'pk_live_05d5fe8301b202427f3d3a9b26059269ddd1c00f',
-      email: user.email, // ✅ Send receipt to logged-in user
+      email: user.email, // user receives the receipt
       amount: amountInNGN,
       currency: 'NGN',
       ref: pendingTransaction.serial,
       channels: ['card'],
       metadata: {
         recipientEmail: pendingTransaction.recipient,
-        serialCode: pendingTransaction.serial
+        serialCode: pendingTransaction.serial,
+        companyEmail: "legaltenderpay@gmail.com" // for internal copy via webhook
       },
       callback: function(response) {
         const allTransactions = JSON.parse(localStorage.getItem('transactions') || '{}');
