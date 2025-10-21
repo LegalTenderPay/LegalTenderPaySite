@@ -37,7 +37,7 @@
 
   .history-container {
     width: 90%;
-    max-width: 500px;
+    max-width: 600px;
     background: #1c1f24;
     border-radius: 12px;
     padding: 15px;
@@ -47,9 +47,10 @@
   .transaction {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     padding: 12px 10px;
     border-bottom: 1px solid #333;
+    flex-wrap: wrap;
   }
 
   .transaction:last-child {
@@ -59,10 +60,12 @@
   .type {
     color: #fcd535;
     font-weight: 600;
+    margin-bottom: 5px;
   }
 
   .amount {
     font-weight: 700;
+    margin-left: 10px;
   }
 
   .amount.positive {
@@ -73,9 +76,15 @@
     color: #E53935;
   }
 
-  .date {
+  .date, .recipient, .serial, .status {
     font-size: 0.85rem;
     color: #aaa;
+    margin: 2px 0;
+  }
+
+  .status {
+    color: #fcd535;
+    font-weight: bold;
   }
 
   .empty {
@@ -99,7 +108,7 @@
   const emptyNotice = document.getElementById('emptyNotice');
 
   backBtn.onclick = () => {
-    window.location.href = "login.html"; // or dashboard if inside same file
+    window.location.href = "dashboard.html"; // link back to dashboard
   };
 
   function loadTransactions() {
@@ -124,7 +133,10 @@
       div.innerHTML = `
         <div>
           <div class="type">${tx.type}</div>
-          <div class="date">${tx.date}</div>
+          <div class="date">${new Date(tx.date).toLocaleString()}</div>
+          <div class="recipient"><strong>Recipient:</strong> ${tx.recipient}</div>
+          <div class="serial"><strong>Serial Code:</strong> ${tx.serial}</div>
+          <div class="status">${tx.status || 'Pending'}</div>
         </div>
         <div class="amount ${tx.amount >= 0 ? 'positive' : 'negative'}">
           ${tx.amount >= 0 ? '+' : ''}${tx.amount}
