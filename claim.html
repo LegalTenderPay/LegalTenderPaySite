@@ -9,7 +9,6 @@
     font-family: system-ui, sans-serif;
     background-color: #0b0c10;
     color: #fff;
-    text-align: center;
     margin: 0;
     padding: 0;
     display: flex;
@@ -21,28 +20,51 @@
   h1 {
     color: #fcd535;
     font-size: 2rem;
-    margin: 40px 0 30px 0;
+    margin: 40px 0 20px 0;
     font-weight: 700;
+  }
+
+  .logo-box {
+    width: 180px;
+    height: 180px;
+    margin-bottom: 30px;
+  }
+  .logo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   form {
     display: flex;
     flex-direction: column;
     width: 90%;
-    max-width: 400px;
-    gap: 20px;
+    max-width: 450px;
+    gap: 15px;
     margin-bottom: 20px;
   }
 
+  .form-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  label {
+    width: 130px;
+    text-align: left;
+    font-weight: 600;
+    color: #fcd535;
+  }
+
   input {
-    padding: 14px 12px;
+    padding: 12px;
     border-radius: 8px;
     border: 1px solid #333;
     background: #1c1f24;
     color: #fff;
     font-size: 1rem;
-    width: 100%;
-    box-sizing: border-box;
+    flex: 1;
   }
 
   button {
@@ -55,6 +77,7 @@
     color: #0b0c10;
     cursor: pointer;
     transition: background 0.3s;
+    margin-top: 10px;
   }
   button:hover { background-color: #ffd84d; }
 
@@ -65,10 +88,11 @@
     padding: 10px;
     border-radius: 5px;
     font-weight: 600;
+    margin-bottom: 15px;
   }
 
   #claimedAmount {
-    margin: 10px 0;
+    margin-top: 15px;
     font-size: 1.2rem;
     font-weight: 700;
     color: #fcd535;
@@ -79,27 +103,30 @@
 
 <h1>Claim Anonymously</h1>
 
+<!-- Big logo under header -->
+<div class="logo-box">
+  <img src="B2D59B97-6D06-435F-B772-91BF7F4FB630.png" alt="Logo">
+</div>
+
 <div id="claimNotice"></div>
 
 <form id="claimForm">
-  <input type="email" id="claimEmail" placeholder="Email for claiming" required>
+  <div class="form-row">
+    <label for="claimEmail">Email for claiming:</label>
+    <input type="email" id="claimEmail" placeholder="Enter your email" required>
+  </div>
+
+  <label for="serialCode">Serial Code:</label>
   <input type="text" id="serialCode" placeholder="Enter Serial Code" required>
+
   <button type="submit">Check Claim</button>
 </form>
 
 <div id="claimedAmount"></div>
 
 <script>
-/* Example data: registered users and claimable transactions */
 const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
 const claimTransactions = JSON.parse(localStorage.getItem('claimTransactions') || '[]');
-/*
-claimTransactions format example:
-[
-  { email: 'user1@example.com', serial: 'ABC123', amount: 50, claimed: false },
-  { email: 'user2@example.com', serial: 'XYZ456', amount: 100, claimed: true }
-]
-*/
 
 const claimForm = document.getElementById('claimForm');
 const claimEmail = document.getElementById('claimEmail');
