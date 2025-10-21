@@ -33,6 +33,20 @@
     font-size: 1.1rem;
     margin: 10px 0;
   }
+  .terms {
+    font-size: 0.9rem;
+    color: #fcd535;
+    margin-top: 15px;
+    text-align: left;
+  }
+  .terms input {
+    margin-right: 8px;
+    transform: scale(1.2);
+  }
+  .terms a {
+    color: #fcd535;
+    text-decoration: underline;
+  }
   #payButton {
     width: 100%;
     padding: 15px;
@@ -67,6 +81,16 @@
   <p><strong>Amount:</strong> $<span id="transactionAmount"></span></p>
   <p><strong>Serial Code:</strong> <span id="serialCode"></span></p>
   <p><em>You will be redirected to Paystack to complete the payment via card.</em></p>
+
+  <div class="terms">
+    <label>
+      <input type="checkbox" id="agreeTerms">
+      ☑️ I am over 18 years old and I have read, understand and agree to the 
+      <a href="terms.html" target="_blank">LegalTenderPay Terms of Use</a>, 
+      Privacy Policy, and Biometric Data Policy.
+    </label>
+  </div>
+
   <button id="payButton">Continue to Send</button>
 </div>
 
@@ -91,6 +115,12 @@
 
   const payButton = document.getElementById('payButton');
   payButton.onclick = () => {
+    const agreed = document.getElementById('agreeTerms').checked;
+    if (!agreed) {
+      alert('You must agree to the Terms of Use before continuing.');
+      return;
+    }
+
     // Ensure amount is treated as a number before conversion
     const usdAmount = parseFloat(pendingTransaction.amount);
     const amountInNGN = usdAmount * USD_TO_NGN * 100; // Paystack expects kobo
@@ -111,7 +141,7 @@
         userTransactions.push({
           type: 'Send',
           recipient: pendingTransaction.recipient,
-          amount: usdAmount, // keep USD in history
+          amount: usdAmount,
           serial: pendingTransaction.serial,
           date: new Date().toISOString(),
           status: "Transaction Successful. Ready to be Claimed.",
