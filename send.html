@@ -25,16 +25,30 @@
     width: 90%;
     max-width: 360px;
     margin-bottom: 10px;
+    position: relative;
   }
   input {
     width: 100%;
-    padding: 14px;
+    padding: 14px 40px 14px 14px;
     border-radius: 8px;
     border: 1px solid #333;
     background: #1c1f24;
     color: #fff;
     font-size: 1rem;
     box-sizing: border-box;
+  }
+  .email-status {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+  }
+  .email-status.valid {
+    color: #4CAF50; /* green */
+  }
+  .email-status.invalid {
+    color: #E53935; /* red */
   }
   .serial-code {
     margin: 5px 0 15px 0;
@@ -97,6 +111,7 @@
 
 <div class="input-group">
   <input type="email" id="recipient" placeholder="Recipient Email">
+  <span id="emailStatus" class="email-status"></span>
 </div>
 
 <div class="serial-code" id="serialCode">ABC123</div>
@@ -126,7 +141,6 @@
 const amountDisplay = document.getElementById('amountDisplay');
 let currentAmount = '';
 
-// Keypad logic
 const keypadButtons = document.querySelectorAll('.keypad button[data-num]');
 keypadButtons.forEach(btn => {
   btn.onclick = () => {
@@ -134,7 +148,7 @@ keypadButtons.forEach(btn => {
       currentAmount += btn.getAttribute('data-num');
       updateDisplay();
     }
-  }
+  };
 });
 
 document.getElementById('clear').onclick = () => {
@@ -151,7 +165,7 @@ function updateDisplay() {
   amountDisplay.textContent = currentAmount ? `$${currentAmount}` : '$0';
 }
 
-// Generate serial code
+// Serial code generator
 const serialCodeEl = document.getElementById('serialCode');
 function generateSerial() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -163,10 +177,34 @@ function generateSerial() {
 }
 generateSerial();
 
-// Continue button logic
+// Email validation with visual feedback
+const recipientInput = document.getElementById('recipient');
+const emailStatus = document.getElementById('emailStatus');
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+recipientInput.addEventListener('input', () => {
+  const value = recipientInput.value.trim();
+  if (value === '') {
+    emailStatus.textContent = '';
+    return;
+  }
+  if (emailPattern.test(value)) {
+    emailStatus.textContent = '✅';
+    emailStatus.className = 'email-status valid';
+  } else {
+    emailStatus.textContent = '❌';
+    emailStatus.className = 'email-status invalid';
+  }
+});
+
 document.getElementById('continueBtn').onclick = () => {
-  const recipient = document.getElementById('recipient').value.trim();
+  const recipient = recipientInput.value.trim();
   const amount = parseFloat(currentAmount);
+
+  if (!emailPattern.test(recipient)) {
+    alert('Please enter a valid recipient email address.');
+    return;
+  }
 
   if (!amount || amount <= 0) {
     alert('Enter a valid amount.');
@@ -176,7 +214,6 @@ document.getElementById('continueBtn').onclick = () => {
   const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
   if (!user.email) return alert('No logged-in user.');
 
-  // Save pending transaction and redirect to summary
   const pendingTransaction = {
     recipient,
     amount,
@@ -185,13 +222,12 @@ document.getElementById('continueBtn').onclick = () => {
   };
   localStorage.setItem('pendingTransaction', JSON.stringify(pendingTransaction));
 
-  // Redirect to summary page
   window.location.href = "summary.html";
 
-  // Reset values locally (optional)
   currentAmount = '';
   updateDisplay();
-  document.getElementById('recipient').value = '';
+  recipientInput.value = '';
+  emailStatus.textContent = '';
   generateSerial();
 };
 </script>
