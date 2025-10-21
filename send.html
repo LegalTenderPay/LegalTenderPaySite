@@ -21,7 +21,7 @@
     color: #fcd535;
     margin: 20px 0;
   }
-  .input-group, .summary-group {
+  .input-group {
     width: 90%;
     max-width: 360px;
     margin-bottom: 10px;
@@ -36,13 +36,13 @@
     font-size: 1rem;
     box-sizing: border-box;
   }
-  .serial-code, .summary-text {
+  .serial-code {
     margin: 5px 0 15px 0;
     font-size: 1.1rem;
     color: #fcd535;
     text-align: center;
   }
-  .amount-display, .summary-amount {
+  .amount-display {
     font-size: 2rem;
     color: #fcd535;
     text-align: right;
@@ -72,7 +72,7 @@
   .keypad button:hover {
     background-color: #333;
   }
-  button.main-btn {
+  #continueBtn {
     width: 90%;
     max-width: 360px;
     padding: 15px;
@@ -82,7 +82,6 @@
     color: #0b0c10;
     font-size: 1.2rem;
     cursor: pointer;
-    margin-bottom: 10px;
   }
   #confirmation {
     color: #fcd535;
@@ -94,47 +93,32 @@
 </head>
 <body>
 
-<!-- Step 1: Send Input -->
-<div id="sendView">
-  <h1>Send Anonymously</h1>
+<h1>Send Anonymously</h1>
 
-  <div class="input-group">
-    <input type="email" id="recipient" placeholder="Recipient Email">
-  </div>
-
-  <div class="serial-code" id="serialCode">ABC123</div>
-
-  <div class="amount-display" id="amountDisplay">$0</div>
-
-  <div class="keypad">
-    <button data-num="1">1</button>
-    <button data-num="2">2</button>
-    <button data-num="3">3</button>
-    <button data-num="4">4</button>
-    <button data-num="5">5</button>
-    <button data-num="6">6</button>
-    <button data-num="7">7</button>
-    <button data-num="8">8</button>
-    <button data-num="9">9</button>
-    <button data-num="0">0</button>
-    <button id="clear">C</button>
-    <button id="backspace">⌫</button>
-  </div>
-
-  <button id="continueBtn" class="main-btn">Continue</button>
+<div class="input-group">
+  <input type="email" id="recipient" placeholder="Recipient Email">
 </div>
 
-<!-- Step 2: Summary View -->
-<div id="summaryView" style="display:none;">
-  <h1>Summary</h1>
-  <div class="summary-group">
-    <div class="summary-text" id="summaryRecipient">Recipient: </div>
-    <div class="summary-text" id="summarySerial">Serial Code: </div>
-    <div class="summary-amount" id="summaryAmount">$0</div>
-  </div>
-  <button id="sendNowBtn" class="main-btn">Continue to Send</button>
-  <button id="backBtn" class="main-btn">Back</button>
+<div class="serial-code" id="serialCode">ABC123</div>
+
+<div class="amount-display" id="amountDisplay">$0</div>
+
+<div class="keypad">
+  <button data-num="1">1</button>
+  <button data-num="2">2</button>
+  <button data-num="3">3</button>
+  <button data-num="4">4</button>
+  <button data-num="5">5</button>
+  <button data-num="6">6</button>
+  <button data-num="7">7</button>
+  <button data-num="8">8</button>
+  <button data-num="9">9</button>
+  <button data-num="0">0</button>
+  <button id="clear">C</button>
+  <button id="backspace">⌫</button>
 </div>
+
+<button id="continueBtn">Continue</button>
 
 <div id="confirmation"></div>
 
@@ -145,7 +129,7 @@ let currentAmount = '';
 const keypadButtons = document.querySelectorAll('.keypad button[data-num]');
 keypadButtons.forEach(btn => {
   btn.onclick = () => {
-    if (currentAmount.length < 9) {
+    if (currentAmount.length < 9) { // prevent overly long amounts
       currentAmount += btn.getAttribute('data-num');
       updateDisplay();
     }
@@ -178,38 +162,20 @@ function generateSerial() {
 }
 generateSerial();
 
-// Step 1 Continue
+// continue button
 document.getElementById('continueBtn').onclick = () => {
   const recipient = document.getElementById('recipient').value.trim();
   const amount = parseFloat(currentAmount);
-  if (!amount || amount <= 0) return alert('Enter a valid amount.');
-  if (!recipient) return alert('Enter recipient email.');
 
-  // populate summary
-  document.getElementById('summaryRecipient').textContent = `Recipient: ${recipient}`;
-  document.getElementById('summarySerial').textContent = `Serial Code: ${serialCodeEl.textContent}`;
-  document.getElementById('summaryAmount').textContent = `$${amount}`;
-
-  // switch view
-  document.getElementById('sendView').style.display = 'none';
-  document.getElementById('summaryView').style.display = 'flex';
-};
-
-// Back button
-document.getElementById('backBtn').onclick = () => {
-  document.getElementById('sendView').style.display = 'flex';
-  document.getElementById('summaryView').style.display = 'none';
-};
-
-// Step 2 Send
-document.getElementById('sendNowBtn').onclick = () => {
-  const recipient = document.getElementById('recipient').value.trim();
-  const amount = parseFloat(currentAmount);
+  if (!amount || amount <= 0) {
+    alert('Enter a valid amount.');
+    return;
+  }
 
   const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
   if (!user.email) return alert('No logged-in user.');
 
-  // save transaction after successful payment (here we simulate success)
+  // save transaction
   const allTransactions = JSON.parse(localStorage.getItem('transactions') || '{}');
   const userTransactions = allTransactions[user.email] || [];
   userTransactions.push({
@@ -227,14 +193,11 @@ document.getElementById('sendNowBtn').onclick = () => {
   confirmation.style.display = 'block';
   confirmation.textContent = `Successfully sent $${amount}!`;
 
-  // reset for new send
+  // reset
   currentAmount = '';
   updateDisplay();
   document.getElementById('recipient').value = '';
   generateSerial();
-
-  document.getElementById('sendView').style.display = 'flex';
-  document.getElementById('summaryView').style.display = 'none';
 };
 </script>
 
