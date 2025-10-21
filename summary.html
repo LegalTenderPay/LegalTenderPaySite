@@ -74,6 +74,9 @@
 
 <script src="https://js.paystack.co/v1/inline.js"></script>
 <script>
+  // Conversion rate (1 USD → NGN)
+  const USD_TO_NGN = 100;
+
   // Load pending transaction from localStorage
   const pendingTransaction = JSON.parse(localStorage.getItem('pendingTransaction') || '{}');
   if (!pendingTransaction.recipient || !pendingTransaction.amount || !pendingTransaction.serial) {
@@ -81,19 +84,21 @@
     window.location.href = "dashboard.html";
   }
 
-  // Fill in summary
+  // Fill summary fields
   document.getElementById('recipientEmail').textContent = pendingTransaction.recipient;
   document.getElementById('transactionAmount').textContent = pendingTransaction.amount;
   document.getElementById('serialCode').textContent = pendingTransaction.serial;
 
   const payButton = document.getElementById('payButton');
   payButton.onclick = () => {
+    const amountInNGN = pendingTransaction.amount * USD_TO_NGN * 100; // Paystack expects kobo
+
     const handler = PaystackPop.setup({
-      key: 'pk_live_05d5fe8301b202427f3d3a9b26059269ddd1c00f', // your live public key
+      key: 'pk_live_05d5fe8301b202427f3d3a9b26059269ddd1c00f',
       email: pendingTransaction.recipient,
-      amount: pendingTransaction.amount * 100, // Paystack expects kobo
-      currency: 'USD',
-      ref: pendingTransaction.serial, // use serial as reference
+      amount: amountInNGN,
+      currency: 'NGN',
+      ref: pendingTransaction.serial,
       callback: function(response) {
         // Payment successful
         const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
@@ -103,7 +108,7 @@
         userTransactions.push({
           type: 'Send',
           recipient: pendingTransaction.recipient,
-          amount: pendingTransaction.amount,
+          amount: pendingTransaction.amount, // keep USD in history
           serial: pendingTransaction.serial,
           date: new Date().toISOString(),
           status: "Transaction Successful. Ready to be Claimed.",
@@ -119,7 +124,6 @@
         confirmation.className = 'success';
         confirmation.textContent = "Transaction Successful! Transaction is now Ready to be Claimed.";
 
-        // Redirect to dashboard after short delay
         setTimeout(() => {
           window.location.href = "dashboard.html";
         }, 3000);
