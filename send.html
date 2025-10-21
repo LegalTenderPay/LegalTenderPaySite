@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Send Anonymously</title>
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    background-color: #0b0c10;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+  }
+  h1 {
+    color: #fcd535;
+    margin: 20px 0;
+  }
+  .input-group {
+    width: 90%;
+    max-width: 360px;
+    margin-bottom: 10px;
+  }
+  input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #1c1f24;
+    color: #fff;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  .serial-code {
+    margin: 5px 0 15px 0;
+    font-size: 1.1rem;
+    color: #fcd535;
+    text-align: center;
+  }
+  .amount-display {
+    font-size: 2rem;
+    color: #fcd535;
+    text-align: right;
+    width: 90%;
+    max-width: 360px;
+    margin-bottom: 10px;
+    min-height: 40px;
+  }
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 90%;
+    max-width: 360px;
+    margin-bottom: 20px;
+  }
+  .keypad button {
+    padding: 20px 0;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    border: none;
+    background-color: #1c1f24;
+    color: #fcd535;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .keypad button:hover {
+    background-color: #333;
+  }
+  #continueBtn {
+    width: 90%;
+    max-width: 360px;
+    padding: 15px;
+    border: none;
+    border-radius: 40px;
+    background-color: #fcd535;
+    color: #0b0c10;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  #confirmation {
+    color: #fcd535;
+    margin-top: 15px;
+    display: none;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<h1>Send Anonymously</h1>
+
+<div class="input-group">
+  <input type="email" id="recipient" placeholder="Recipient Email">
+</div>
+
+<div class="serial-code" id="serialCode">ABC123</div>
+
+<div class="amount-display" id="amountDisplay">$0</div>
+
+<div class="keypad">
+  <button data-num="1">1</button>
+  <button data-num="2">2</button>
+  <button data-num="3">3</button>
+  <button data-num="4">4</button>
+  <button data-num="5">5</button>
+  <button data-num="6">6</button>
+  <button data-num="7">7</button>
+  <button data-num="8">8</button>
+  <button data-num="9">9</button>
+  <button data-num="0">0</button>
+  <button id="clear">C</button>
+  <button id="backspace">⌫</button>
+</div>
+
+<button id="continueBtn">Continue</button>
+
+<div id="confirmation"></div>
+
+<script>
+const amountDisplay = document.getElementById('amountDisplay');
+let currentAmount = '';
+
+const keypadButtons = document.querySelectorAll('.keypad button[data-num]');
+keypadButtons.forEach(btn => {
+  btn.onclick = () => {
+    if (currentAmount.length < 9) { // prevent overly long amounts
+      currentAmount += btn.getAttribute('data-num');
+      updateDisplay();
+    }
+  }
+});
+
+document.getElementById('clear').onclick = () => {
+  currentAmount = '';
+  updateDisplay();
+};
+
+document.getElementById('backspace').onclick = () => {
+  currentAmount = currentAmount.slice(0, -1);
+  updateDisplay();
+};
+
+function updateDisplay() {
+  amountDisplay.textContent = currentAmount ? `$${currentAmount}` : '$0';
+}
+
+// generate serial code
+const serialCodeEl = document.getElementById('serialCode');
+function generateSerial() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let code = '';
+  for (let i=0; i<6; i++) {
+    code += chars[Math.floor(Math.random()*chars.length)];
+  }
+  serialCodeEl.textContent = code;
+}
+generateSerial();
+
+// continue button
+document.getElementById('continueBtn').onclick = () => {
+  const recipient = document.getElementById('recipient').value.trim();
+  const amount = parseFloat(currentAmount);
+
+  if (!amount || amount <= 0) {
+    alert('Enter a valid amount.');
+    return;
+  }
+
+  const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+  if (!user.email) return alert('No logged-in user.');
+
+  // save transaction
+  const allTransactions = JSON.parse(localStorage.getItem('transactions') || '{}');
+  const userTransactions = allTransactions[user.email] || [];
+  userTransactions.push({
+    type: 'Send',
+    recipient,
+    amount,
+    serial: serialCodeEl.textContent,
+    date: new Date().toISOString()
+  });
+  allTransactions[user.email] = userTransactions;
+  localStorage.setItem('transactions', JSON.stringify(allTransactions));
+
+  // confirmation
+  const confirmation = document.getElementById('confirmation');
+  confirmation.style.display = 'block';
+  confirmation.textContent = `Successfully sent $${amount}!`;
+
+  // reset
+  currentAmount = '';
+  updateDisplay();
+  document.getElementById('recipient').value = '';
+  generateSerial();
+};
+</script>
+
+</body>
+</html>
