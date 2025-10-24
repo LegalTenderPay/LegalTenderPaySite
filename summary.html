@@ -90,7 +90,7 @@
   <p><strong>Recipient Email:</strong> <span id="recipientEmail"></span></p>
   <p><strong>Amount:</strong> $<span id="transactionAmount"></span></p>
   <p><strong>Serial Code:</strong> <span id="serialCode"></span></p>
-  <p><em>You will be redirected to Paystack to complete the payment via card.</em></p>
+  <p><em>You will complete your payment securely through Flutterwave.</em></p>
 
   <div class="terms">
     <label>
@@ -101,7 +101,6 @@
     </label>
   </div>
 
-  <!-- ⚠️ Warning message placeholder -->
   <div id="warningMessage">⚠️ You must agree to the Terms of Use before continuing.</div>
 
   <button id="payButton">Continue to Send</button>
@@ -109,11 +108,10 @@
 
 <div id="confirmation"></div>
 
-<script src="https://js.paystack.co/v1/inline.js"></script>
-<script>
-  // Conversion rate (1 USD → NGN)
-  const USD_TO_NGN = 1473;
+<!-- ✅ Flutterwave Inline Script -->
+<script src="https://checkout.flutterwave.com/v3.js"></script>
 
+<script>
   // Load pending transaction
   const pendingTransaction = JSON.parse(localStorage.getItem('pendingTransaction') || '{}');
   if (!pendingTransaction.recipient || !pendingTransaction.amount || !pendingTransaction.serial) {
@@ -121,7 +119,7 @@
     window.location.href = "dashboard.html";
   }
 
-  // Fill summary fields
+  // Fill transaction details
   document.getElementById('recipientEmail').textContent = pendingTransaction.recipient;
   document.getElementById('transactionAmount').textContent = pendingTransaction.amount;
   document.getElementById('serialCode').textContent = pendingTransaction.serial;
@@ -140,54 +138,37 @@
       setTimeout(() => { warning.style.display = 'none'; }, 400);
     }
 
-    const usdAmount = parseFloat(pendingTransaction.amount);
-    const amountInNGN = usdAmount * USD_TO_NGN * 100; // Paystack expects kobo
     const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
 
-    const handler = PaystackPop.setup({
-      key: 'pk_live_05d5fe8301b202427f3d3a9b26059269ddd1c00f',
-      email: user.email, // user receives the receipt
-      amount: amountInNGN,
-      currency: 'NGN',
-      ref: pendingTransaction.serial,
-      channels: ['card'],
-      metadata: {
-        recipientEmail: pendingTransaction.recipient,
-        serialCode: pendingTransaction.serial,
-        companyEmail: "legaltenderpay@gmail.com" // for internal copy via webhook
+    FlutterwaveCheckout({
+      public_key: "FLWPUBK_TEST-xxxxxxxxxxxxxxxxxxxxx-X",
+      tx_ref: pendingTransaction.serial,
+      amount: parseFloat(pendingTransaction.amount),
+      currency: "USD",
+      payment_options: "card, banktransfer, ussd",
+      customer: {
+        email: user.email || "customer@example.com",
+        name: "LegalTenderPay User",
       },
-      callback: function(response) {
-        const allTransactions = JSON.parse(localStorage.getItem('transactions') || '{}');
-        const userTransactions = allTransactions[user.email] || [];
-
-        userTransactions.push({
-          type: 'Send',
-          recipient: pendingTransaction.recipient,
-          amount: usdAmount,
-          serial: pendingTransaction.serial,
-          date: new Date().toISOString(),
-          status: "Transaction Successful. Ready to be Claimed.",
-          paystackRef: response.reference
-        });
-
-        allTransactions[user.email] = userTransactions;
-        localStorage.setItem('transactions', JSON.stringify(allTransactions));
+      customizations: {
+        title: "LegalTenderPay Transaction",
+        description: "Payment to " + pendingTransaction.recipient,
+        logo: "https://yourwebsite.com/logo.png"
+      },
+      callback: function(data) {
+        console.log(data);
+        document.getElementById('confirmation').style.display = 'block';
+        document.getElementById('confirmation').className = 'success';
+        document.getElementById('confirmation').textContent = "✅ Transaction Successful!";
         localStorage.removeItem('pendingTransaction');
-
-        const confirmation = document.getElementById('confirmation');
-        confirmation.style.display = 'block';
-        confirmation.className = 'success';
-        confirmation.textContent = "Transaction Successful! Transaction is now Ready to be Claimed.";
-
         setTimeout(() => {
           window.location.href = "dashboard.html";
         }, 3000);
       },
-      onClose: function() {
-        alert('Payment was not completed. You can retry from the dashboard.');
+      onclose: function() {
+        alert('Payment was not completed. You can retry.');
       }
     });
-    handler.openIframe();
   };
 </script>
 
