@@ -153,7 +153,7 @@
     const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
 
     FlutterwaveCheckout({
-      public_key: "FLWPUBK_TEST-xxxxxxxxxxxxxxxxxxxxx-X", // Replace with your Flutterwave public key
+      public_key: "FLWPUBK-e5e8f409de28c310d55621ed564ad552-X", // Replace with your Flutterwave public key
       tx_ref: pendingTransaction.serial,
       amount: parseFloat(pendingTransaction.amount),
       currency: userCurrency,
