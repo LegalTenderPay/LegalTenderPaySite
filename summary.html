@@ -125,6 +125,18 @@
   document.getElementById('serialCode').textContent = pendingTransaction.serial;
 
   const payButton = document.getElementById('payButton');
+
+  // 🌍 Detect user country via free API (for automatic currency selection)
+  let userCurrency = "USD";
+  fetch("https://ipapi.co/country/")
+    .then(res => res.text())
+    .then(countryCode => {
+      if (countryCode === "NG" || countryCode === "GH" || countryCode === "KE") {
+        userCurrency = "NGN"; // For African users
+      }
+    })
+    .catch(() => userCurrency = "USD");
+
   payButton.onclick = () => {
     const agreed = document.getElementById('agreeTerms').checked;
     const warning = document.getElementById('warningMessage');
@@ -141,11 +153,11 @@
     const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
 
     FlutterwaveCheckout({
-      public_key: "FLWPUBK_TEST-xxxxxxxxxxxxxxxxxxxxx-X",
+      public_key: "FLWPUBK_TEST-xxxxxxxxxxxxxxxxxxxxx-X", // Replace with your Flutterwave public key
       tx_ref: pendingTransaction.serial,
       amount: parseFloat(pendingTransaction.amount),
-      currency: "USD",
-      payment_options: "card, banktransfer, ussd",
+      currency: userCurrency,
+      payment_options: "card, banktransfer, ussd, mobilemoney, paypal",
       customer: {
         email: user.email || "customer@example.com",
         name: "LegalTenderPay User",
