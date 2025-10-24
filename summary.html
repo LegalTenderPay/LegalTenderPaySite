@@ -89,6 +89,7 @@
 <div class="summary-box">
   <p><strong>Recipient Email:</strong> <span id="recipientEmail"></span></p>
   <p><strong>Amount:</strong> $<span id="transactionAmount"></span></p>
+  <p><strong>Serial Code:</strong> <span id="serialCode"></span></p>
   <p id="convertedAmount"></p>
   <p><em>You will complete your payment securely through Flutterwave.</em></p>
 
@@ -108,12 +109,14 @@
 
 <div id="confirmation"></div>
 
+<script src="https://checkout.flutterwave.com/v3.js"></script>
+
 <script>
   const USD_TO_NGN = 1475; // 1 USD = ₦1475
 
-  // Load pending transaction from localStorage
+  // Load pending transaction
   const pendingTransaction = JSON.parse(localStorage.getItem('pendingTransaction') || '{}');
-  if (!pendingTransaction.recipient || !pendingTransaction.amount) {
+  if (!pendingTransaction.recipient || !pendingTransaction.amount || !pendingTransaction.serial) {
     alert("No pending transaction found.");
     window.location.href = "dashboard.html";
   }
@@ -121,6 +124,7 @@
   // Fill summary fields
   document.getElementById('recipientEmail').textContent = pendingTransaction.recipient;
   document.getElementById('transactionAmount').textContent = pendingTransaction.amount;
+  document.getElementById('serialCode').textContent = pendingTransaction.serial;
 
   const payButton = document.getElementById('payButton');
   const convertedAmountEl = document.getElementById('convertedAmount');
@@ -130,41 +134,70 @@
   fetch("https://ipapi.co/country/")
     .then(res => res.text())
     .then(countryCode => {
-      if (countryCode === "NG" || countryCode === "GH" || countryCode === "KE") userCurrency = "NGN";
+      if (countryCode === "NG" || countryCode === "GH" || countryCode === "KE") {
+        userCurrency = "NGN";
+      }
     })
     .catch(() => userCurrency = "USD");
 
   payButton.onclick = () => {
     const agreed = document.getElementById('agreeTerms').checked;
     const warning = document.getElementById('warningMessage');
+
     if (!agreed) {
       warning.style.display = 'block';
-      setTimeout(() => warning.style.opacity = 1, 50);
+      setTimeout(() => { warning.style.opacity = 1; }, 50);
       return;
     } else {
       warning.style.opacity = 0;
-      setTimeout(() => warning.style.display = 'none', 400);
+      setTimeout(() => { warning.style.display = 'none'; }, 400);
     }
 
+    const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+
+    // Prepare amount & display
     let amountToCharge = parseFloat(pendingTransaction.amount);
     let displayConverted = "";
     if (userCurrency === "NGN") {
-      amountToCharge *= USD_TO_NGN;
+      amountToCharge = amountToCharge * USD_TO_NGN;
       displayConverted = `Converted Amount: ₦${amountToCharge.toLocaleString()}`;
     } else {
       displayConverted = `Converted Amount: $${amountToCharge}`;
     }
     convertedAmountEl.textContent = displayConverted;
 
-    // Construct Flutterwave payment link dynamically
-    const paymentLink = `https://flutterwave.com/pay/lecl3t1xyms8?amount=${amountToCharge}&email=${encodeURIComponent(pendingTransaction.recipient)}`;
+    // Regional payment options
+    let paymentOptions = (userCurrency === "NGN") ? "card, banktransfer, ussd, mobilemoney" : "card, paypal, applepay, googlepay";
 
-    // Open Flutterwave payment page
-    window.open(paymentLink, "_blank");
-
-    document.getElementById('confirmation').style.display = 'block';
-    document.getElementById('confirmation').className = 'success';
-    document.getElementById('confirmation').textContent = "🔗 Payment link opened! Complete the payment in the new tab.";
+    FlutterwaveCheckout({
+      public_key: "FLWPUBK-e5e8f409de28c310d55621ed564ad552-X",
+      tx_ref: pendingTransaction.serial || "TX-" + Date.now(),
+      amount: amountToCharge,
+      currency: userCurrency,
+      payment_options: paymentOptions,
+      customer: {
+        email: user.email || prompt("Enter your email for receipt:"),
+        name: user.name || "Guest User",
+      },
+      customizations: {
+        title: "LegalTenderPay Transaction",
+        description: "Payment to " + pendingTransaction.recipient,
+        logo: "https://yourwebsite.com/logo.png"
+      },
+      callback: function(data) {
+        console.log(data);
+        document.getElementById('confirmation').style.display = 'block';
+        document.getElementById('confirmation').className = 'success';
+        document.getElementById('confirmation').textContent = "✅ Transaction Successful!";
+        localStorage.removeItem('pendingTransaction');
+        setTimeout(() => {
+          window.location.href = "dashboard.html";
+        }, 3000);
+      },
+      onclose: function() {
+        alert('Payment was not completed. You can retry.');
+      }
+    });
   };
 </script>
 
