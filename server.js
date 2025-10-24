@@ -9,10 +9,10 @@ const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
-// In-memory storage for demo purposes (use DB in production)
+// In-memory storage for demo purposes
 let transactions = {};
 
-// Create transaction endpoint
+// 1️⃣ Create transaction
 app.post('/create-transaction', (req, res) => {
   const { amount, recipientEmail, currency } = req.body;
 
@@ -26,10 +26,11 @@ app.post('/create-transaction', (req, res) => {
   // Save transaction temporarily
   transactions[tx_ref] = { recipientEmail, amount, currency, status: 'pending' };
 
+  // Return tx_ref to client to use in FlutterwaveCheckout
   res.json({ tx_ref, recipientEmail });
 });
 
-// Confirm transaction endpoint
+// 2️⃣ Confirm transaction (after successful payment)
 app.post('/confirm-transaction', async (req, res) => {
   const { tx_ref, status } = req.body;
 
@@ -37,7 +38,6 @@ app.post('/confirm-transaction', async (req, res) => {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
-  // Update status in memory
   if (transactions[tx_ref]) {
     transactions[tx_ref].status = status;
   }
@@ -45,20 +45,23 @@ app.post('/confirm-transaction', async (req, res) => {
   res.json({ success: true });
 });
 
-// Optional: Endpoint to verify transaction from Flutterwave server-side
+// 3️⃣ Optional: Verify transaction with Flutterwave server
 app.post('/verify-transaction', async (req, res) => {
   const { tx_ref } = req.body;
 
   if (!tx_ref) return res.status(400).json({ error: 'Missing tx_ref' });
 
   try {
-    const response = await fetch(`https://api.flutterwave.com/v3/transactions/verify_by_reference?tx_ref=${tx_ref}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${process.env.FLW_SECRET_KEY}`,
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await fetch(
+      `https://api.flutterwave.com/v3/transactions/verify_by_reference?tx_ref=${tx_ref}`,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${process.env.FLW_SECRET_KEY}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
 
     const data = await response.json();
     res.json(data);
@@ -67,6 +70,7 @@ app.post('/verify-transaction', async (req, res) => {
   }
 });
 
+// 4️⃣ Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
