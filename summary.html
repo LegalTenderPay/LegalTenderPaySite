@@ -109,10 +109,11 @@
 
 <div id="confirmation"></div>
 
-<!-- ✅ Flutterwave Inline Script -->
 <script src="https://checkout.flutterwave.com/v3.js"></script>
 
 <script>
+  const USD_TO_NGN = 1475; // 1 USD = ₦1475
+
   // Load pending transaction
   const pendingTransaction = JSON.parse(localStorage.getItem('pendingTransaction') || '{}');
   if (!pendingTransaction.recipient || !pendingTransaction.amount || !pendingTransaction.serial) {
@@ -120,7 +121,7 @@
     window.location.href = "dashboard.html";
   }
 
-  // Fill transaction details
+  // Fill summary fields
   document.getElementById('recipientEmail').textContent = pendingTransaction.recipient;
   document.getElementById('transactionAmount').textContent = pendingTransaction.amount;
   document.getElementById('serialCode').textContent = pendingTransaction.serial;
@@ -128,13 +129,13 @@
   const payButton = document.getElementById('payButton');
   const convertedAmountEl = document.getElementById('convertedAmount');
 
-  // 🌍 Detect user country via API to pick right currency
+  // Detect user country for currency
   let userCurrency = "USD";
   fetch("https://ipapi.co/country/")
     .then(res => res.text())
     .then(countryCode => {
       if (countryCode === "NG" || countryCode === "GH" || countryCode === "KE") {
-        userCurrency = "NGN"; // For African users
+        userCurrency = "NGN";
       }
     })
     .catch(() => userCurrency = "USD");
@@ -154,29 +155,29 @@
 
     const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
 
-    // 💵 Conversion logic
-    const USD_TO_NGN = 1475; // 1 USD = ₦1475
+    // Prepare amount & display
     let amountToCharge = parseFloat(pendingTransaction.amount);
     let displayConverted = "";
-
     if (userCurrency === "NGN") {
-      amountToCharge = amountToCharge * USD_TO_NGN; // Convert USD → NGN
+      amountToCharge = amountToCharge * USD_TO_NGN;
       displayConverted = `Converted Amount: ₦${amountToCharge.toLocaleString()}`;
     } else {
       displayConverted = `Converted Amount: $${amountToCharge}`;
     }
-
     convertedAmountEl.textContent = displayConverted;
+
+    // Regional payment options
+    let paymentOptions = (userCurrency === "NGN") ? "card, banktransfer, ussd, mobilemoney" : "card, paypal, applepay, googlepay";
 
     FlutterwaveCheckout({
       public_key: "FLWPUBK-e5e8f409de28c310d55621ed564ad552-X",
-      tx_ref: pendingTransaction.serial,
+      tx_ref: pendingTransaction.serial || "TX-" + Date.now(),
       amount: amountToCharge,
       currency: userCurrency,
-      payment_options: "card, banktransfer, ussd, mobilemoney, paypal",
+      payment_options: paymentOptions,
       customer: {
-        email: user.email || "customer@example.com",
-        name: "LegalTenderPay User",
+        email: user.email || prompt("Enter your email for receipt:"),
+        name: user.name || "Guest User",
       },
       customizations: {
         title: "LegalTenderPay Transaction",
