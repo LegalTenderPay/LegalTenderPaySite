@@ -90,6 +90,7 @@
   <p><strong>Recipient Email:</strong> <span id="recipientEmail"></span></p>
   <p><strong>Amount:</strong> $<span id="transactionAmount"></span></p>
   <p><strong>Serial Code:</strong> <span id="serialCode"></span></p>
+  <p id="convertedAmount"></p>
   <p><em>You will complete your payment securely through Flutterwave.</em></p>
 
   <div class="terms">
@@ -125,8 +126,9 @@
   document.getElementById('serialCode').textContent = pendingTransaction.serial;
 
   const payButton = document.getElementById('payButton');
+  const convertedAmountEl = document.getElementById('convertedAmount');
 
-  // 🌍 Detect user country via free API (for automatic currency selection)
+  // 🌍 Detect user country via API to pick right currency
   let userCurrency = "USD";
   fetch("https://ipapi.co/country/")
     .then(res => res.text())
@@ -152,10 +154,24 @@
 
     const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
 
+    // 💵 Conversion logic
+    const USD_TO_NGN = 1475; // 1 USD = ₦1475
+    let amountToCharge = parseFloat(pendingTransaction.amount);
+    let displayConverted = "";
+
+    if (userCurrency === "NGN") {
+      amountToCharge = amountToCharge * USD_TO_NGN; // Convert USD → NGN
+      displayConverted = `Converted Amount: ₦${amountToCharge.toLocaleString()}`;
+    } else {
+      displayConverted = `Converted Amount: $${amountToCharge}`;
+    }
+
+    convertedAmountEl.textContent = displayConverted;
+
     FlutterwaveCheckout({
-      public_key: "FLWPUBK-e5e8f409de28c310d55621ed564ad552-X", // Replace with your Flutterwave public key
+      public_key: "FLWPUBK-e5e8f409de28c310d55621ed564ad552-X",
       tx_ref: pendingTransaction.serial,
-      amount: parseFloat(pendingTransaction.amount),
+      amount: amountToCharge,
       currency: userCurrency,
       payment_options: "card, banktransfer, ussd, mobilemoney, paypal",
       customer: {
