@@ -109,8 +109,6 @@
 
 <div id="confirmation"></div>
 
-<script src="https://checkout.flutterwave.com/v3.js"></script>
-
 <script>
   const USD_TO_NGN = 1475; // 1 USD = ₦1475
 
@@ -166,38 +164,33 @@
     }
     convertedAmountEl.textContent = displayConverted;
 
-    // Regional payment options
-    let paymentOptions = (userCurrency === "NGN") ? "card, banktransfer, ussd, mobilemoney" : "card, paypal, applepay, googlepay";
-
-    FlutterwaveCheckout({
-      public_key: "FLWPUBK-e5e8f409de28c310d55621ed564ad552-X",
-      tx_ref: pendingTransaction.serial || "TX-" + Date.now(),
-      amount: amountToCharge,
-      currency: userCurrency,
-      payment_options: paymentOptions,
-      customer: {
+    // ✅ Send payment request to your backend (not directly to Flutterwave)
+    fetch("https://legal-tender-backend-3kuk.onrender.com/create-transaction", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         email: user.email || prompt("Enter your email for receipt:"),
         name: user.name || "Guest User",
-      },
-      customizations: {
-        title: "LegalTenderPay Transaction",
-        description: "Payment to " + pendingTransaction.recipient,
-        logo: "https://yourwebsite.com/logo.png"
-      },
-      callback: function(data) {
-        console.log(data);
-        document.getElementById('confirmation').style.display = 'block';
-        document.getElementById('confirmation').className = 'success';
-        document.getElementById('confirmation').textContent = "✅ Transaction Successful!";
-        localStorage.removeItem('pendingTransaction');
-        setTimeout(() => {
-          window.location.href = "dashboard.html";
-        }, 3000);
-      },
-      onclose: function() {
-        alert('Payment was not completed. You can retry.');
-      }
-    });
+        amount: amountToCharge,
+        currency: userCurrency,
+        tx_ref: pendingTransaction.serial || "TX-" + Date.now(),
+        recipient: pendingTransaction.recipient
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (!data || !data.link) {
+          alert("Error initiating payment. Please try again.");
+          console.error("Backend response:", data);
+          return;
+        }
+        // Redirect to Flutterwave payment link
+        window.location.href = data.link;
+      })
+      .catch(err => {
+        console.error("Network error:", err);
+        alert("Network error while starting payment.");
+      });
   };
 </script>
 
