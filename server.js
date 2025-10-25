@@ -2,17 +2,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch'); // npm install node-fetch@2
+const cors = require('cors'); // npm install cors
 require('dotenv').config(); // Load .env for secret key
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors()); // ✅ Enable CORS for all routes
 app.use(bodyParser.json());
 
 // In-memory transaction storage (for demo/testing)
 let transactions = {};
 
-// ✅ 1️⃣ Create Flutterwave transaction
+// ✅ GET / route for backend wake-up
+app.get('/', (req, res) => {
+  res.send('Backend awake and ready ✅');
+});
+
+// ✅ Create Flutterwave transaction
 app.post('/create-transaction', async (req, res) => {
   const { email, name, amount, currency, tx_ref, recipient } = req.body;
 
@@ -31,15 +38,12 @@ app.post('/create-transaction', async (req, res) => {
         tx_ref,
         amount,
         currency,
-        redirect_url: "https://yourfrontenddomain.com/payment-success.html", // ✅ change this to your frontend success page
-        customer: {
-          email,
-          name,
-        },
+        redirect_url: "https://yourfrontenddomain.com/payment-success.html", // change this
+        customer: { email, name },
         customizations: {
           title: "LegalTenderPay Transaction",
           description: `Payment to ${recipient}`,
-          logo: "https://yourwebsite.com/logo.png", // optional logo
+          logo: "https://yourwebsite.com/logo.png",
         },
       }),
     });
@@ -52,16 +56,8 @@ app.post('/create-transaction', async (req, res) => {
     }
 
     // Save transaction temporarily
-    transactions[tx_ref] = {
-      email,
-      name,
-      amount,
-      currency,
-      recipient,
-      status: "pending",
-    };
+    transactions[tx_ref] = { email, name, amount, currency, recipient, status: "pending" };
 
-    // Send link to frontend
     res.json({ link: data.data.link });
   } catch (err) {
     console.error("Server error:", err);
@@ -69,7 +65,7 @@ app.post('/create-transaction', async (req, res) => {
   }
 });
 
-// ✅ 2️⃣ Confirm transaction after successful payment (optional)
+// ✅ Confirm transaction after payment
 app.post('/confirm-transaction', (req, res) => {
   const { tx_ref, status } = req.body;
 
@@ -84,7 +80,7 @@ app.post('/confirm-transaction', (req, res) => {
   res.json({ success: true });
 });
 
-// ✅ 3️⃣ Verify transaction directly with Flutterwave API
+// ✅ Verify transaction with Flutterwave API
 app.post('/verify-transaction', async (req, res) => {
   const { tx_ref } = req.body;
   if (!tx_ref) return res.status(400).json({ error: 'Missing tx_ref' });
@@ -108,7 +104,7 @@ app.post('/verify-transaction', async (req, res) => {
   }
 });
 
-// ✅ 4️⃣ Start server
+// ✅ Start server
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
