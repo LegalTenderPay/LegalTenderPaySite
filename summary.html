@@ -110,12 +110,12 @@
 <div id="confirmation"></div>
 
 <script>
-  const USD_TO_NGN = 1475; // 1 USD = ₦1475
+  const USD_TO_NGN = 1475;
 
-  // ✅ Wake up backend (important for Render free plan)
+  // Wake up backend
   fetch("https://legal-tender-backend-3kuk.onrender.com/")
     .then(() => console.log("🟢 Backend awake and ready"))
-    .catch(() => console.log("⚠️ Could not wake backend, will continue anyway"));
+    .catch(() => console.log("⚠️ Backend not awake"));
 
   // Load pending transaction
   const pendingTransaction = JSON.parse(localStorage.getItem('pendingTransaction') || '{}');
@@ -132,18 +132,16 @@
   const payButton = document.getElementById('payButton');
   const convertedAmountEl = document.getElementById('convertedAmount');
 
-  // Detect user country for currency
+  // Detect user currency
   let userCurrency = "USD";
   fetch("https://ipapi.co/country/")
     .then(res => res.text())
     .then(countryCode => {
-      if (countryCode === "NG" || countryCode === "GH" || countryCode === "KE") {
-        userCurrency = "NGN";
-      }
+      if (countryCode === "NG" || countryCode === "GH" || countryCode === "KE") userCurrency = "NGN";
     })
     .catch(() => userCurrency = "USD");
 
-  payButton.onclick = () => {
+  payButton.onclick = async () => {
     const agreed = document.getElementById('agreeTerms').checked;
     const warning = document.getElementById('warningMessage');
 
@@ -158,44 +156,42 @@
 
     const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
 
-    // Prepare amount & display
     let amountToCharge = parseFloat(pendingTransaction.amount);
-    let displayConverted = "";
-    if (userCurrency === "NGN") {
-      amountToCharge = amountToCharge * USD_TO_NGN;
-      displayConverted = `Converted Amount: ₦${amountToCharge.toLocaleString()}`;
-    } else {
-      displayConverted = `Converted Amount: $${amountToCharge}`;
-    }
-    convertedAmountEl.textContent = displayConverted;
+    if (userCurrency === "NGN") amountToCharge = amountToCharge * USD_TO_NGN;
 
-    // ✅ Send payment request to your backend (not directly to Flutterwave)
-    fetch("https://legal-tender-backend-3kuk.onrender.com/create-transaction", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: user.email || prompt("Enter your email for receipt:"),
-        name: user.name || "Guest User",
-        amount: amountToCharge,
-        currency: userCurrency,
-        tx_ref: pendingTransaction.serial || "TX-" + Date.now(),
-        recipient: pendingTransaction.recipient
-      })
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (!data || !data.link) {
-          alert("Error initiating payment. Please try again.");
-          console.error("Backend response:", data);
-          return;
-        }
-        // Redirect to Flutterwave payment link
-        window.location.href = data.link;
-      })
-      .catch(err => {
-        console.error("Network error:", err);
-        alert("Network error while starting payment.");
+    convertedAmountEl.textContent = userCurrency === "NGN" ?
+      `Converted Amount: ₦${amountToCharge.toLocaleString()}` :
+      `Converted Amount: $${amountToCharge}`;
+
+    try {
+      const res = await fetch("https://legal-tender-backend-3kuk.onrender.com/create-transaction", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: user.email || prompt("Enter your email for receipt:"),
+          name: user.name || "Guest User",
+          amount: amountToCharge,
+          currency: userCurrency,
+          tx_ref: pendingTransaction.serial || "TX-" + Date.now(),
+          recipient: pendingTransaction.recipient
+        })
       });
+
+      const data = await res.json();
+      console.log("Server response:", data);
+
+      if (!data || !data.link) {
+        alert("Error initiating payment. Check console.");
+        return;
+      }
+
+      // Redirect user to Flutterwave
+      window.location.href = data.link;
+
+    } catch (err) {
+      console.error("Network error:", err);
+      alert("Network error while starting payment.");
+    }
   };
 </script>
 
