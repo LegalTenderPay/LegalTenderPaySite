@@ -17,7 +17,10 @@
     justify-content: flex-start;
     height: 100vh;
   }
-  h1 { color: #fcd535; margin: 20px 0; }
+  h1 {
+    color: #fcd535;
+    margin: 20px 0;
+  }
   .summary-box {
     background: #1c1f24;
     padding: 20px;
@@ -26,14 +29,57 @@
     max-width: 400px;
     margin-top: 20px;
   }
-  .summary-box p { font-size: 1.1rem; margin: 10px 0; }
-  .terms { font-size: 0.9rem; color: #fcd535; margin-top: 15px; text-align: left; }
-  .terms input { margin-right: 8px; transform: scale(1.2); vertical-align: middle; }
-  .terms a { color: #fcd535; text-decoration: underline; }
-  #warningMessage { display: none; color: #fcd535; margin-top: 10px; text-align: center; font-weight: 500; opacity: 0; transition: opacity 0.4s ease-in-out; }
-  #payButton { width: 100%; padding: 15px; border: none; border-radius: 40px; background-color: #fcd535; color: #0b0c10; font-size: 1.2rem; cursor: not-allowed; margin-top: 20px; opacity: 0.6; }
-  #confirmation { margin-top: 20px; text-align: center; font-weight: bold; padding: 15px; display: none; border-radius: 10px; }
-  .success { background-color: #fcd535; color: #0b0c10; }
+  .summary-box p {
+    font-size: 1.1rem;
+    margin: 10px 0;
+  }
+  .terms {
+    font-size: 0.9rem;
+    color: #fcd535;
+    margin-top: 15px;
+    text-align: left;
+  }
+  .terms input {
+    margin-right: 8px;
+    transform: scale(1.2);
+    vertical-align: middle;
+  }
+  .terms a {
+    color: #fcd535;
+    text-decoration: underline;
+  }
+  #warningMessage {
+    display: none;
+    color: #fcd535;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+  }
+  #payButton {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 40px;
+    background-color: #fcd535;
+    color: #0b0c10;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  #confirmation {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+    padding: 15px;
+    display: none;
+    border-radius: 10px;
+  }
+  .success {
+    background-color: #fcd535;
+    color: #0b0c10;
+  }
 </style>
 </head>
 <body>
@@ -64,13 +110,12 @@
 <div id="confirmation"></div>
 
 <script>
-  const USD_TO_NGN = 1475;
-  const payButton = document.getElementById('payButton');
-  const convertedAmountEl = document.getElementById('convertedAmount');
+  const USD_TO_NGN = 1475; // 1 USD = ₦1475
 
-  // Disable the button initially
-  payButton.disabled = true;
-  payButton.style.cursor = "not-allowed";
+  // ✅ Wake up backend (important for Render free plan)
+  fetch("https://legal-tender-backend-3kuk.onrender.com/")
+    .then(() => console.log("🟢 Backend awake and ready"))
+    .catch(() => console.log("⚠️ Could not wake backend, will continue anyway"));
 
   // Load pending transaction
   const pendingTransaction = JSON.parse(localStorage.getItem('pendingTransaction') || '{}');
@@ -79,9 +124,13 @@
     window.location.href = "dashboard.html";
   }
 
+  // Fill summary fields
   document.getElementById('recipientEmail').textContent = pendingTransaction.recipient;
   document.getElementById('transactionAmount').textContent = pendingTransaction.amount;
   document.getElementById('serialCode').textContent = pendingTransaction.serial;
+
+  const payButton = document.getElementById('payButton');
+  const convertedAmountEl = document.getElementById('convertedAmount');
 
   // Detect user country for currency
   let userCurrency = "USD";
@@ -93,22 +142,6 @@
       }
     })
     .catch(() => userCurrency = "USD");
-
-  // ✅ Wake up backend first
-  fetch("https://legal-tender-backend-3kuk.onrender.com/")
-    .then(() => {
-      console.log("🟢 Backend awake");
-      // Enable pay button after backend is awake
-      payButton.disabled = false;
-      payButton.style.cursor = "pointer";
-      payButton.style.opacity = 1;
-    })
-    .catch(() => {
-      console.log("⚠️ Could not wake backend, allowing payment anyway");
-      payButton.disabled = false;
-      payButton.style.cursor = "pointer";
-      payButton.style.opacity = 1;
-    });
 
   payButton.onclick = () => {
     const agreed = document.getElementById('agreeTerms').checked;
@@ -124,6 +157,8 @@
     }
 
     const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+
+    // Prepare amount & display
     let amountToCharge = parseFloat(pendingTransaction.amount);
     let displayConverted = "";
     if (userCurrency === "NGN") {
@@ -134,7 +169,7 @@
     }
     convertedAmountEl.textContent = displayConverted;
 
-    // Send payment request
+    // ✅ Send payment request to your backend (not directly to Flutterwave)
     fetch("https://legal-tender-backend-3kuk.onrender.com/create-transaction", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -147,19 +182,20 @@
         recipient: pendingTransaction.recipient
       })
     })
-    .then(res => res.json())
-    .then(data => {
-      if (!data || !data.link) {
-        alert("Error initiating payment. Please try again.");
-        console.error("Backend response:", data);
-        return;
-      }
-      window.location.href = data.link;
-    })
-    .catch(err => {
-      console.error("Network error:", err);
-      alert("Network error while starting payment.");
-    });
+      .then(res => res.json())
+      .then(data => {
+        if (!data || !data.link) {
+          alert("Error initiating payment. Please try again.");
+          console.error("Backend response:", data);
+          return;
+        }
+        // Redirect to Flutterwave payment link
+        window.location.href = data.link;
+      })
+      .catch(err => {
+        console.error("Network error:", err);
+        alert("Network error while starting payment.");
+      });
   };
 </script>
 
