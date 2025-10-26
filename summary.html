@@ -88,9 +88,9 @@
 
 <div class="summary-box">
   <p><strong>Recipient Email:</strong> <span id="recipientEmail"></span></p>
-  <p><strong>Amount:</strong> $<span id="transactionAmount"></span></p>
+  <p><strong>Amount (USD):</strong> $<span id="transactionAmount"></span></p>
   <p><strong>Serial Code:</strong> <span id="serialCode"></span></p>
-  <p id="convertedAmount"></p>
+  <p id="convertedAmount" style="color:#fcd535; font-weight:500;"></p>
   <p><em>You will complete your payment securely through Flutterwave.</em></p>
 
   <div class="terms">
@@ -117,14 +117,13 @@
     .then(() => console.log("🟢 Backend awake and ready"))
     .catch(() => console.log("⚠️ Backend not awake"));
 
-  // Load pending transaction
+  // Load transaction
   const pendingTransaction = JSON.parse(localStorage.getItem('pendingTransaction') || '{}');
   if (!pendingTransaction.recipient || !pendingTransaction.amount || !pendingTransaction.serial) {
     alert("No pending transaction found.");
     window.location.href = "dashboard.html";
   }
 
-  // Fill summary fields
   document.getElementById('recipientEmail').textContent = pendingTransaction.recipient;
   document.getElementById('transactionAmount').textContent = pendingTransaction.amount;
   document.getElementById('serialCode').textContent = pendingTransaction.serial;
@@ -132,19 +131,14 @@
   const payButton = document.getElementById('payButton');
   const convertedAmountEl = document.getElementById('convertedAmount');
 
-  // Detect user currency
-  let userCurrency = "USD";
-  fetch("https://ipapi.co/country/")
-    .then(res => res.text())
-    .then(countryCode => {
-      if (countryCode === "NG" || countryCode === "GH" || countryCode === "KE") userCurrency = "NGN";
-    })
-    .catch(() => userCurrency = "USD");
+  // Always show NGN equivalent (you only accept Naira)
+  const amountUSD = parseFloat(pendingTransaction.amount);
+  const amountNGN = amountUSD * USD_TO_NGN;
+  convertedAmountEl.textContent = `Equivalent in Naira: ₦${amountNGN.toLocaleString()} (₦${USD_TO_NGN} per $1)`;
 
   payButton.onclick = async () => {
     const agreed = document.getElementById('agreeTerms').checked;
     const warning = document.getElementById('warningMessage');
-
     if (!agreed) {
       warning.style.display = 'block';
       setTimeout(() => { warning.style.opacity = 1; }, 50);
@@ -156,13 +150,6 @@
 
     const user = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
 
-    let amountToCharge = parseFloat(pendingTransaction.amount);
-    if (userCurrency === "NGN") amountToCharge = amountToCharge * USD_TO_NGN;
-
-    convertedAmountEl.textContent = userCurrency === "NGN" ?
-      `Converted Amount: ₦${amountToCharge.toLocaleString()}` :
-      `Converted Amount: $${amountToCharge}`;
-
     try {
       const res = await fetch("https://legal-tender-backend-3kuk.onrender.com/create-transaction", {
         method: "POST",
@@ -170,8 +157,8 @@
         body: JSON.stringify({
           email: user.email || prompt("Enter your email for receipt:"),
           name: user.name || "Guest User",
-          amount: amountToCharge,
-          currency: userCurrency,
+          amount: amountNGN, // always send NGN
+          currency: "NGN",
           tx_ref: pendingTransaction.serial || "TX-" + Date.now(),
           recipient: pendingTransaction.recipient
         })
@@ -181,11 +168,12 @@
       console.log("Server response:", data);
 
       if (!data || !data.link) {
-        alert("Error initiating payment. Check console.");
+        alert("Error initiating payment. Please try again.");
+        console.error("Backend response:", data);
         return;
       }
 
-      // Redirect user to Flutterwave
+      // Redirect to Flutterwave payment link
       window.location.href = data.link;
 
     } catch (err) {
