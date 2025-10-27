@@ -1,110 +1,73 @@
-// server.js
-const express = require('express');
-const bodyParser = require('body-parser');
-const fetch = require('node-fetch'); // npm install node-fetch@2
-const cors = require('cors'); // npm install cors
-require('dotenv').config(); // Load .env for secret key
+// ==========================
+// LegalTenderPay Backend
+// ==========================
+
+const express = require("express");
+const fetch = require("node-fetch");
+const cors = require("cors");
+require("dotenv").config(); // ✅ Load secret key from .env file
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+app.use(express.json());
+app.use(cors());
 
-app.use(cors()); // ✅ Enable CORS for all routes
-app.use(bodyParser.json());
+// ✅ Get secret key from environment variables
+const FLW_SECRET_KEY = process.env.FLW_SECRET_KEY;
 
-// In-memory transaction storage (for demo/testing)
-let transactions = {};
-
-// ✅ GET / route for backend wake-up
-app.get('/', (req, res) => {
-  res.send('Backend awake and ready ✅');
+// ✅ Root route (check server status)
+app.get("/", (req, res) => {
+  res.send("✅ LegalTenderPay backend is active and running!");
 });
 
-// ✅ Create Flutterwave transaction
-app.post('/create-transaction', async (req, res) => {
-  const { email, name, amount, currency, tx_ref, recipient } = req.body;
-
-  if (!email || !amount || !currency || !tx_ref) {
-    return res.status(400).json({ error: 'Missing required fields' });
-  }
-
+// ✅ Create transaction endpoint
+app.post("/create-transaction", async (req, res) => {
   try {
-    const response = await fetch('https://api.flutterwave.com/v3/payments', {
-      method: 'POST',
+    const { email, name, amount, currency, tx_ref, recipient } = req.body;
+
+    if (!email || !amount || !currency) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    // Send payment request to Flutterwave
+    const response = await fetch("https://api.flutterwave.com/v3/payments", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${process.env.FLW_SECRET_KEY}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${FLW_SECRET_KEY}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         tx_ref,
         amount,
         currency,
-        redirect_url: "https://yourfrontenddomain.com/payment-success.html", // change this
+        redirect_url: "https://your-frontend.com/payment-success.html", // Change this later
         customer: { email, name },
         customizations: {
           title: "LegalTenderPay Transaction",
-          description: `Payment to ${recipient}`,
-          logo: "https://yourwebsite.com/logo.png",
+          description: `Payment to ${recipient || "LegalTenderPay user"}`,
+          logo: "https://your-frontend.com/logo.png",
         },
       }),
     });
 
     const data = await response.json();
+    console.log("🔹 Flutterwave response:", data);
 
-    if (!data || !data.status || data.status !== "success") {
-      console.error("Flutterwave API error:", data);
-      return res.status(500).json({ error: "Failed to create payment link", details: data });
+    if (data.status === "success" && data.data && data.data.link) {
+      res.json({ link: data.data.link });
+    } else {
+      res.status(400).json({
+        error: data.message || "Failed to create payment link",
+        fullResponse: data,
+      });
     }
-
-    // Save transaction temporarily
-    transactions[tx_ref] = { email, name, amount, currency, recipient, status: "pending" };
-
-    res.json({ link: data.data.link });
   } catch (err) {
-    console.error("Server error:", err);
-    res.status(500).json({ error: "Server error", details: err.message });
+    console.error("❌ Error creating transaction:", err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// ✅ Confirm transaction after payment
-app.post('/confirm-transaction', (req, res) => {
-  const { tx_ref, status } = req.body;
-
-  if (!tx_ref || !status) {
-    return res.status(400).json({ error: 'Missing required fields' });
-  }
-
-  if (transactions[tx_ref]) {
-    transactions[tx_ref].status = status;
-  }
-
-  res.json({ success: true });
-});
-
-// ✅ Verify transaction with Flutterwave API
-app.post('/verify-transaction', async (req, res) => {
-  const { tx_ref } = req.body;
-  if (!tx_ref) return res.status(400).json({ error: 'Missing tx_ref' });
-
-  try {
-    const response = await fetch(
-      `https://api.flutterwave.com/v3/transactions/verify_by_reference?tx_ref=${tx_ref}`,
-      {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${process.env.FLW_SECRET_KEY}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
-    const data = await response.json();
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to verify transaction', details: err.message });
-  }
-});
-
-// ✅ Start server
-app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
-});
+// ✅ Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () =>
+  console.log(`🚀 LegalTenderPay backend running on port ${PORT}`)
+);
