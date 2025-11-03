@@ -693,7 +693,7 @@ function closeOrderSummary() {
    ------------------------- */
 function payWithPaystack() {
   const usernameVal = document.getElementById('usernameInput').value.trim() || 'blesss';
-  // IMPORTANT: use the email the user typed in the login modal as the paystack email
+  const serialPassVal = document.getElementById('serialPassInput').value.trim() || '—'; // ✅ Add this line
   const paystackEmail = document.getElementById('emailInput').value.trim() || '';
   const coins = selectedCoins > 0 ? selectedCoins : 0;
 
@@ -702,34 +702,27 @@ function payWithPaystack() {
     return;
   }
 
-  // USD amount for display / calculation
   const amountUSD = (coins === 70) ? 1.25 : (coins * coinRateUSD);
-
-  // Convert to NGN using your fixed rate (₦1550 per $1)
   const amountNGN = amountUSD * USD_TO_NGN;
-
-  // Paystack needs amount in kobo (NGN * 100)
   const amountKobo = Math.round(amountNGN * 100);
 
-  // If for some reason email is empty, still send to Paystack but warn
   if (!paystackEmail) {
     console.warn('User did not enter an email — Paystack email will be empty.');
   }
 
-  // Update order summary total to show NGN as well for clarity (user asked to keep rate hidden; we show only NGN total along with USD)
-  document.getElementById('summaryTotal').textContent = formatCurrencyUSD(amountUSD) + ' (' + formatCurrencyNGN(amountNGN) + ')';
+  document.getElementById('summaryTotal').textContent =
+    formatCurrencyUSD(amountUSD) + ' (' + formatCurrencyNGN(amountNGN) + ')';
   document.getElementById('summaryAmount').textContent = formatCurrencyUSD(amountUSD);
 
-  // Setup Paystack inline
   const handler = PaystackPop.setup({
     key: PAYSTACK_PUBLIC_KEY,
-    email: paystackEmail,           // using user's provided email as recipient
-    amount: amountKobo,             // amount in kobo (NGN)
-    currency: 'NGN',                // charge in NGN
+    email: paystackEmail,
+    amount: amountKobo,
+    currency: 'NGN',
     metadata: {
       custom_fields: [
         { display_name: "TikTok username", variable_name: "username", value: '@' + usernameVal },
-       { display_name: "SerialPass", variable_name: "SerialPass", value: serialPassVal },
+        { display_name: "SerialPass", variable_name: "SerialPass", value: serialPassVal }, // ✅ Now works
         { display_name: "Customer email", variable_name: "customer_email", value: paystackEmail },
         { display_name: "Coins", variable_name: "coins", value: coins.toString() },
         { display_name: "Amount USD", variable_name: "amount_usd", value: amountUSD.toFixed(2) },
@@ -737,21 +730,16 @@ function payWithPaystack() {
       ]
     },
     callback: function(response) {
-      // On success
       document.getElementById('orderSummary').style.display = 'none';
       showSuccessToast();
-      // NOTE: In production ALWAYS verify transaction server-side with response.reference:
-      // POST https://api.paystack.co/transaction/verify/:reference (use secret key on server)
       console.log('Paystack success reference:', response.reference);
     },
     onClose: function() {
-      // Keep order summary so user can retry
       console.log('Paystack popup closed by user');
     }
   });
 
-  // Open Paystack payment iframe
-  handler.openIframe();
+  handler.openIframe(); // ✅ will now open correctly
 }
 
 /* -------------------------
