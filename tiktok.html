@@ -773,12 +773,16 @@ function showSuccessToast() {
    ------------------------- */
 function checkLoginFields() {
   const usernameField = document.getElementById('usernameInput');
-  const passwordField = document.getElementById('SerialPass');
+  const serialPassField = document.getElementById('serialPassInput');
   const emailField = document.getElementById('emailInput');
   const continueBtn = document.getElementById('continueBtn');
 
-  if (usernameField && passwordField && emailField &&
-      usernameField.value.trim() && passwordField.value.trim() && emailField.value.trim()) {
+  if (
+    usernameField && serialPassField && emailField &&
+    usernameField.value.trim() &&
+    serialPassField.value.trim() &&
+    emailField.value.trim()
+  ) {
     continueBtn.disabled = false;
     continueBtn.style.opacity = '1';
     continueBtn.style.cursor = 'pointer';
