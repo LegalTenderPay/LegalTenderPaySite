@@ -659,17 +659,18 @@ function completeLogin() {
 /* -------------------------
    Order Summary display
    ------------------------- */
+
 function showOrderSummary() {
   const usernameVal = document.getElementById('usernameInput').value.trim() || 'blesss';
- const serialPassVal = document.getElementById('serialPassInput').value || '';
-document.getElementById('SerialPass').textContent = 'SerialPass: ' + (serialPassVal || '—');
+  const serialPassVal = document.getElementById('serialPassInput').value.trim() || '—';
+  const emailVal = document.getElementById('emailInput').value.trim() || '—';
   const coins = selectedCoins > 0 ? selectedCoins : 0;
 
   // Ensure 70 shows $1.25 explicitly
   const amountUSD = (coins === 70) ? 1.25 : (coins * coinRateUSD);
 
   document.getElementById('accountUsername').textContent = '@' + usernameVal;
-  document.getElementById('SerialPass').textContent = 'SerialPass: ' + (SerialPass ? SerialPass : '—');
+  document.getElementById('SerialPass').textContent = 'SerialPass: ' + serialPassVal;
   document.getElementById('accountEmail').textContent = 'Email: ' + emailVal;
 
   document.getElementById('summaryCoins').textContent = coins.toLocaleString() + ' Coins';
