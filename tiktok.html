@@ -790,26 +790,26 @@ function checkLoginFields() {
 }
 
 /* Attach listeners after DOM is ready */
+
 document.addEventListener('DOMContentLoaded', function() {
   // wire login fields
   const usernameField = document.getElementById('usernameInput');
-  const passwordField = document.getElementById('SerialPass');
+  const serialPassField = document.getElementById('serialPassInput');
   const emailField = document.getElementById('emailInput');
 
-  if (usernameField && serialpassField && emailField) {
+  if (usernameField && serialPassField && emailField) {
     usernameField.addEventListener('input', checkLoginFields);
-    passwordField.addEventListener('input', checkLoginFields);
+    serialPassField.addEventListener('input', checkLoginFields);
     emailField.addEventListener('input', checkLoginFields);
   }
 
   // initialize UI
   (function init() {
-    // pre-select 70 by default
     document.querySelectorAll('.coin-box').forEach(b => {
       if (b.getAttribute('data-coins') === '70') b.classList.add('active');
     });
     selectedCoins = 70;
-    updateGridPrices();
+    updateGridPrices();   // now runs successfully
     updateMainButton();
   })();
 });
